@@ -5,12 +5,17 @@
 	"homepage": "https://codeigniter.com",
 	"license": "MIT",
 	"support": {
-		"forum": "http://forum.codeigniter.com/",
+		"forum": "https://forum.codeigniter.com/",
 		"wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
 		"slack": "https://codeigniterchat.slack.com",
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
 		"php": ">=5.3.7"
+	},
+	"autoload": {
+		"classmap": [
+			"hungng/"
+		]
 	}
 }
