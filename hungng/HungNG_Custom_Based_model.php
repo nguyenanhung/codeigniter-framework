@@ -15,7 +15,7 @@
  * @copyright 713uk13m <dev@nguyenanhung.com>
  *
  * @property \CI_Loader    $load
- * @property \CI_DB_driver $db
+ * @property \CI_DB_query_builder $db
  */
 class HungNG_Custom_Based_model extends CI_Model
 {
