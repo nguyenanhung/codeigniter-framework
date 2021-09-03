@@ -14,6 +14,9 @@
 		"php": ">=5.4"
 	},
 	"autoload": {
+		"psr-4": {
+			"nguyenanhung\\CodeIgniter\\ActiveRecord\\": "ActiveRecord/src/"
+		},
 		"classmap": [
 			"hungng/"
 		]
