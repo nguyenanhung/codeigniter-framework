@@ -190,8 +190,9 @@ class Model extends \CI_Model implements \ArrayAccess
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
+    	parent::__construct();
         /* Database Connection Setting */
         // Master
         if ($this->database) {
@@ -331,20 +332,26 @@ class Model extends \CI_Model implements \ArrayAccess
         return [];
     }
 
-    /**
-     * Performs the data validation with filters
-     * 
-     * ORM only performs validation for assigned properties.
-     * 
-     * @param array Data of attributes
-     * @param boolean Return filtered data
-     * @return boolean Result
-     * @return mixed Data after filter ($returnData is true)
-     */
+	/**
+	 * Performs the data validation with filters
+	 *
+	 * ORM only performs validation for assigned properties.
+	 *
+	 * @param array Data of attributes
+	 * @param boolean Return filtered data
+	 *
+	 * @return boolean Result
+	 * @return mixed Data after filter ($returnData is true)
+	 * @throws \Exception
+	 */
     public function validate($attributes=[], $returnData=false)
     {
         // Data fetched by ORM or input
-        $data = ($attributes) ? $attributes : $this->_writeProperties;
+		if (($attributes)) {
+			$data = $attributes;
+		} else {
+			$data = $this->_writeProperties;
+		}
         // Filter first
         $data = $this->filter($data);
         // ORM re-assign properties
@@ -418,12 +425,14 @@ class Model extends \CI_Model implements \ArrayAccess
         return true;
     }
 
-    /**
-     * Filter process
-     *
-     * @param array $data Attributes
-     * @return array Filtered data
-     */
+	/**
+	 * Filter process
+	 *
+	 * @param array $data Attributes
+	 *
+	 * @return array Filtered data
+	 * @throws \Exception
+	 */
     public function filter($data)
     {
         // Get filter rules
@@ -552,7 +561,11 @@ class Model extends \CI_Model implements \ArrayAccess
      */
     public static function findOne($condition=[])
     {
-        $instance = (isset($this)) ? $this : new static;
+		if ((isset($this))) {
+			$instance = $this;
+		} else {
+			$instance = new static;
+		}
         
         $record = $instance->_findByCondition($condition)
             ->limit(1)
