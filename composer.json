@@ -16,6 +16,10 @@
 	"autoload": {
 		"classmap": [
 			"hungng/"
+		],
+		"files": [
+			"helpers/url.php",
+			"helpers/ip.php"
 		]
 	}
 }
