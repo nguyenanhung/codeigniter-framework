@@ -4,6 +4,14 @@
 	"type": "project",
 	"homepage": "https://codeigniter.com",
 	"license": "MIT",
+	"authors": [
+		{
+			"name": "Nguyen An Hung",
+			"email": "dev@nguyenanhung.com",
+			"homepage": "https://nguyenanhung.com",
+			"role": "Developer"
+		}
+	],
 	"support": {
 		"forum": "https://forum.codeigniter.com/",
 		"wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
@@ -11,15 +19,12 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.6"
+		"php": ">=5.6",
+		"nguyenanhung/codeigniter-basic-helper": "^1.0"
 	},
 	"autoload": {
 		"classmap": [
 			"hungng/"
-		],
-		"files": [
-			"helpers/url.php",
-			"helpers/ip.php"
 		]
 	}
 }
