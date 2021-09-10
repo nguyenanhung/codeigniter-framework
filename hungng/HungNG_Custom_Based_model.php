@@ -444,5 +444,15 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				}
 			}
 		}
+
+		/**
+		 * __destruct models
+		 */
+		public function __destruct()
+		{
+			if ($this->db != '') {
+				$this->close();
+			}
+		}
 	}
 }
