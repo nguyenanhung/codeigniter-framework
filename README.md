@@ -8,6 +8,56 @@ Bổ sung thêm 1 số thư viện mở rộng, helpers liên quan
 
 Support mô hình HMVC
 
+## Hướng dẫn tích hợp mô hình HMVC vào dự án
+
+1. Create folder: `modules` trong thư mục `application`. Tham khảo cấu trúc thư mục `modules` tại `sample/modules/` trong thư viện này
+
+```shell
+.
+└── modules
+    └── startup
+        ├── config
+        │   ├── index.html
+        │   └── routes.php
+        ├── controllers
+        │   ├── Startup.php
+        │   └── index.html
+        ├── index.html
+        ├── models
+        │   ├── Startup_model.php
+        │   └── index.html
+        └── views
+            └── index.html
+
+6 directories, 8 files
+```
+
+2. Create file `hmvc.php` với nội dung như sau
+
+```php
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+/*
+| -------------------------------------------------------------------------
+| HMVC settings
+| -------------------------------------------------------------------------
+| See: https://github.com/nguyenanhung/CodeIgniter-HMVC
+|
+*/
+$config['modules_locations'] = array(
+    APPPATH . 'modules/' => '../modules/'
+);
+
+```
+
+3. Nạp file `hmvc.php` vào file `config.php`
+
+```php
+require_once __DIR__ . '/hmvc.php';
+```
+
+4. Triển khai viết code trong thư mục modules mới
+
 ## Liên hệ
 
 | Name        | Email                | Skype            | Facebook      |
