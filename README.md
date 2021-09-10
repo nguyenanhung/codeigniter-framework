@@ -6,6 +6,8 @@ Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụ
 
 Bổ sung thêm 1 số thư viện mở rộng, helpers liên quan
 
+Support mô hình HMVC
+
 ## Liên hệ
 
 | Name        | Email                | Skype            | Facebook      |
