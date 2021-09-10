@@ -35,7 +35,6 @@
  * @since        Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Language Class extension.
