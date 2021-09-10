@@ -1,7 +1,9 @@
 <?php
 (defined('BASEPATH')) OR exit('No direct script access allowed');
+
 /* load the MX core module class */
 require dirname(__FILE__) . '/Modules.php';
+
 /**
  * Modular Extensions - HMVC
  *
@@ -33,6 +35,8 @@ require dirname(__FILE__) . '/Modules.php';
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * @property \CI_URI uri
  **/
 class MX_Router extends CI_Router
 {
