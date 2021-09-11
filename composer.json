@@ -1,7 +1,7 @@
 {
 	"description": "The CodeIgniter framework - v3.1.11",
 	"name": "nguyenanhung/codeigniter-framework",
-	"type": "project",
+	"type": "library",
 	"homepage": "https://codeigniter.com",
 	"license": "MIT",
 	"authors": [
