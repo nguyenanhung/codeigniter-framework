@@ -26,46 +26,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package      CodeIgniter
+ * @author       EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license      https://opensource.org/licenses/MIT	MIT License
+ * @link         https://codeigniter.com
+ * @since        Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Common Functions
  *
  * Loads the base classes and executes the request.
  *
- * @package		CodeIgniter
- * @subpackage	CodeIgniter
- * @category	Common Functions
- * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/
+ * @package        CodeIgniter
+ * @subpackage     CodeIgniter
+ * @category       Common Functions
+ * @author         EllisLab Dev Team
+ * @link           https://codeigniter.com/user_guide/
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('is_php'))
-{
+if (!function_exists('is_php')) {
 	/**
 	 * Determines if the current version of PHP is equal to or greater than the supplied value
 	 *
-	 * @param	string
-	 * @return	bool	TRUE if the current version is $version or higher
+	 * @param string
+	 *
+	 * @return    bool    TRUE if the current version is $version or higher
 	 */
 	function is_php($version)
 	{
 		static $_is_php;
 		$version = (string) $version;
 
-		if ( ! isset($_is_php[$version]))
-		{
+		if (!isset($_is_php[$version])) {
 			$_is_php[$version] = version_compare(PHP_VERSION, $version, '>=');
 		}
 
@@ -75,8 +74,7 @@ if ( ! function_exists('is_php'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('is_really_writable'))
-{
+if (!function_exists('is_really_writable')) {
 	/**
 	 * Tests for file writability
 	 *
@@ -84,48 +82,46 @@ if ( ! function_exists('is_really_writable'))
 	 * the file, based on the read-only attribute. is_writable() is also unreliable
 	 * on Unix servers if safe_mode is on.
 	 *
-	 * @link	https://bugs.php.net/bug.php?id=54709
-	 * @param	string
-	 * @return	bool
+	 * @link    https://bugs.php.net/bug.php?id=54709
+	 *
+	 * @param string
+	 *
+	 * @return    bool
 	 */
 	function is_really_writable($file)
 	{
 		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') OR ! ini_get('safe_mode')))
-		{
+		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') or !ini_get('safe_mode'))) {
 			return is_writable($file);
 		}
 
 		/* For Windows servers and safe_mode "on" installations we'll actually
 		 * write a file then read it. Bah...
 		 */
-		if (is_dir($file))
-		{
-			$file = rtrim($file, '/').'/'.md5(mt_rand());
-			if (($fp = @fopen($file, 'ab')) === FALSE)
-			{
-				return FALSE;
+		if (is_dir($file)) {
+			$file = rtrim($file, '/') . '/' . md5(mt_rand());
+			if (($fp = @fopen($file, 'ab')) === false) {
+				return false;
 			}
 
 			fclose($fp);
 			@chmod($file, 0777);
 			@unlink($file);
-			return TRUE;
-		}
-		elseif ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
-		{
-			return FALSE;
+
+			return true;
+		} elseif (!is_file($file) or ($fp = @fopen($file, 'ab')) === false) {
+			return false;
 		}
 
 		fclose($fp);
-		return TRUE;
+
+		return true;
 	}
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('load_class'))
-{
+if (!function_exists('load_class')) {
 	/**
 	 * Class registry
 	 *
@@ -133,34 +129,31 @@ if ( ! function_exists('load_class'))
 	 * exist it is instantiated and set to a static variable. If it has
 	 * previously been instantiated the variable is returned.
 	 *
-	 * @param	string	the class name being requested
-	 * @param	string	the directory where the class should be found
-	 * @param	mixed	an optional argument to pass to the class constructor
-	 * @return	object
+	 * @param string    the class name being requested
+	 * @param string    the directory where the class should be found
+	 * @param mixed    an optional argument to pass to the class constructor
+	 *
+	 * @return    object
 	 */
-	function &load_class($class, $directory = 'libraries', $param = NULL)
+	function &load_class($class, $directory = 'libraries', $param = null)
 	{
 		static $_classes = array();
 
 		// Does the class exist? If so, we're done...
-		if (isset($_classes[$class]))
-		{
+		if (isset($_classes[$class])) {
 			return $_classes[$class];
 		}
 
-		$name = FALSE;
+		$name = false;
 
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
-		foreach (array(APPPATH, BASEPATH) as $path)
-		{
-			if (file_exists($path.$directory.'/'.$class.'.php'))
-			{
-				$name = 'CI_'.$class;
+		foreach (array(APPPATH, BASEPATH) as $path) {
+			if (file_exists($path . $directory . '/' . $class . '.php')) {
+				$name = 'CI_' . $class;
 
-				if (class_exists($name, FALSE) === FALSE)
-				{
-					require_once($path.$directory.'/'.$class.'.php');
+				if (class_exists($name, false) === false) {
+					require_once($path . $directory . '/' . $class . '.php');
 				}
 
 				break;
@@ -168,23 +161,20 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Is the request a class extension? If so we load it too
-		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
-		{
-			$name = config_item('subclass_prefix').$class;
+		if (file_exists(APPPATH . $directory . '/' . config_item('subclass_prefix') . $class . '.php')) {
+			$name = config_item('subclass_prefix') . $class;
 
-			if (class_exists($name, FALSE) === FALSE)
-			{
-				require_once(APPPATH.$directory.'/'.$name.'.php');
+			if (class_exists($name, false) === false) {
+				require_once(APPPATH . $directory . '/' . $name . '.php');
 			}
 		}
 
 		// Did we find the class?
-		if ($name === FALSE)
-		{
+		if ($name === false) {
 			// Note: We use exit() rather than show_error() in order to avoid a
 			// self-referencing loop with the Exceptions class
 			set_status_header(503);
-			echo 'Unable to locate the specified class: '.$class.'.php';
+			echo 'Unable to locate the specified class: ' . $class . '.php';
 			exit(5); // EXIT_UNK_CLASS
 		}
 
@@ -194,27 +184,27 @@ if ( ! function_exists('load_class'))
 		$_classes[$class] = isset($param)
 			? new $name($param)
 			: new $name();
+
 		return $_classes[$class];
 	}
 }
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('is_loaded'))
-{
+if (!function_exists('is_loaded')) {
 	/**
 	 * Keeps track of which libraries have been loaded. This function is
 	 * called by the load_class() function above
 	 *
-	 * @param	string
-	 * @return	array
+	 * @param string
+	 *
+	 * @return    array
 	 */
 	function &is_loaded($class = '')
 	{
 		static $_is_loaded = array();
 
-		if ($class !== '')
-		{
+		if ($class !== '') {
 			$_is_loaded[strtolower($class)] = $class;
 		}
 
@@ -224,46 +214,40 @@ if ( ! function_exists('is_loaded'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('get_config'))
-{
+if (!function_exists('get_config')) {
 	/**
 	 * Loads the main config.php file
 	 *
 	 * This function lets us grab the config file even if the Config class
 	 * hasn't been instantiated yet
 	 *
-	 * @param	array
-	 * @return	array
+	 * @param array
+	 *
+	 * @return    array
 	 */
-	function &get_config(Array $replace = array())
+	function &get_config(array $replace = array())
 	{
 		static $config;
 
-		if (empty($config))
-		{
-			$file_path = APPPATH.'config/config.php';
-			$found = FALSE;
-			if (file_exists($file_path))
-			{
-				$found = TRUE;
+		if (empty($config)) {
+			$file_path = APPPATH . 'config/config.php';
+			$found     = false;
+			if (file_exists($file_path)) {
+				$found = true;
 				require($file_path);
 			}
 
 			// Is the config file in the environment folder?
-			if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
-			{
+			if (file_exists($file_path = APPPATH . 'config/' . ENVIRONMENT . '/config.php')) {
 				require($file_path);
-			}
-			elseif ( ! $found)
-			{
+			} elseif (!$found) {
 				set_status_header(503);
 				echo 'The configuration file does not exist.';
 				exit(3); // EXIT_CONFIG
 			}
 
 			// Does the $config array exist in the file?
-			if ( ! isset($config) OR ! is_array($config))
-			{
+			if (!isset($config) or !is_array($config)) {
 				set_status_header(503);
 				echo 'Your config file does not appear to be formatted correctly.';
 				exit(3); // EXIT_CONFIG
@@ -271,8 +255,7 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Are any values being dynamically added or replaced?
-		foreach ($replace as $key => $val)
-		{
+		foreach ($replace as $key => $val) {
 			$config[$key] = $val;
 		}
 
@@ -282,50 +265,46 @@ if ( ! function_exists('get_config'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('config_item'))
-{
+if (!function_exists('config_item')) {
 	/**
 	 * Returns the specified config item
 	 *
-	 * @param	string
-	 * @return	mixed
+	 * @param string
+	 *
+	 * @return    mixed
 	 */
 	function config_item($item)
 	{
 		static $_config;
 
-		if (empty($_config))
-		{
+		if (empty($_config)) {
 			// references cannot be directly assigned to static variables, so we use an array
 			$_config[0] =& get_config();
 		}
 
-		return isset($_config[0][$item]) ? $_config[0][$item] : NULL;
+		return isset($_config[0][$item]) ? $_config[0][$item] : null;
 	}
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('get_mimes'))
-{
+if (!function_exists('get_mimes')) {
 	/**
 	 * Returns the MIME types array from config/mimes.php
 	 *
-	 * @return	array
+	 * @return    array
 	 */
 	function &get_mimes()
 	{
 		static $_mimes;
 
-		if (empty($_mimes))
-		{
-			$_mimes = file_exists(APPPATH.'config/mimes.php')
-				? include(APPPATH.'config/mimes.php')
+		if (empty($_mimes)) {
+			$_mimes = file_exists(__DIR__ . '/../../config/mimes.php')
+				? include(__DIR__ . '/../../config/mimes.php')
 				: array();
 
-			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
-			{
-				$_mimes = array_merge($_mimes, include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
+			if (file_exists(APPPATH . 'config/' . ENVIRONMENT . '/mimes.php')) {
+				$_mimes = array_merge($_mimes, include(APPPATH . 'config/' . ENVIRONMENT . '/mimes.php'));
 			}
 		}
 
@@ -335,57 +314,49 @@ if ( ! function_exists('get_mimes'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('is_https'))
-{
+if (!function_exists('is_https')) {
 	/**
 	 * Is HTTPS?
 	 *
 	 * Determines if the application is accessed via an encrypted
 	 * (HTTPS) connection.
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	function is_https()
 	{
-		if ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
-		{
-			return TRUE;
-		}
-		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
-		{
-			return TRUE;
-		}
-		elseif ( ! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off')
-		{
-			return TRUE;
+		if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+			return true;
+		} elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
+			return true;
+		} elseif (!empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('is_cli'))
-{
+if (!function_exists('is_cli')) {
 
 	/**
 	 * Is CLI?
 	 *
 	 * Test to see if a request was made from the command line.
 	 *
-	 * @return 	bool
+	 * @return    bool
 	 */
 	function is_cli()
 	{
-		return (PHP_SAPI === 'cli' OR defined('STDIN'));
+		return (PHP_SAPI === 'cli' or defined('STDIN'));
 	}
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('show_error'))
-{
+if (!function_exists('show_error')) {
 	/**
 	 * Error Handler
 	 *
@@ -395,21 +366,19 @@ if ( ! function_exists('show_error'))
 	 * This function will send the error page directly to the
 	 * browser and exit.
 	 *
-	 * @param	string
-	 * @param	int
-	 * @param	string
-	 * @return	void
+	 * @param string
+	 * @param int
+	 * @param string
+	 *
+	 * @return    void
 	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
 		$status_code = abs($status_code);
-		if ($status_code < 100)
-		{
+		if ($status_code < 100) {
 			$exit_status = $status_code + 9; // 9 is EXIT__AUTO_MIN
 			$status_code = 500;
-		}
-		else
-		{
+		} else {
 			$exit_status = 1; // EXIT_ERROR
 		}
 
@@ -421,8 +390,7 @@ if ( ! function_exists('show_error'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('show_404'))
-{
+if (!function_exists('show_404')) {
 	/**
 	 * 404 Page Handler
 	 *
@@ -430,11 +398,12 @@ if ( ! function_exists('show_404'))
 	 * However, instead of the standard error template it displays
 	 * 404 errors.
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @return	void
+	 * @param string
+	 * @param bool
+	 *
+	 * @return    void
 	 */
-	function show_404($page = '', $log_error = TRUE)
+	function show_404($page = '', $log_error = true)
 	{
 		$_error =& load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
@@ -444,24 +413,23 @@ if ( ! function_exists('show_404'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('log_message'))
-{
+if (!function_exists('log_message')) {
 	/**
 	 * Error Logging Interface
 	 *
 	 * We use this as a simple mechanism to access the logging
 	 * class and send messages to be logged.
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	the error message
-	 * @return	void
+	 * @param string    the error level: 'error', 'debug' or 'info'
+	 * @param string    the error message
+	 *
+	 * @return    void
 	 */
 	function log_message($level, $message)
 	{
 		static $_log;
 
-		if ($_log === NULL)
-		{
+		if ($_log === null) {
 			// references cannot be directly assigned to static variables, so we use an array
 			$_log[0] =& load_class('Log', 'core');
 		}
@@ -472,109 +440,102 @@ if ( ! function_exists('log_message'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('set_status_header'))
-{
+if (!function_exists('set_status_header')) {
 	/**
 	 * Set HTTP Status Header
 	 *
-	 * @param	int	the status code
-	 * @param	string
-	 * @return	void
+	 * @param int    the status code
+	 * @param string
+	 *
+	 * @return    void
 	 */
 	function set_status_header($code = 200, $text = '')
 	{
-		if (is_cli())
-		{
+		if (is_cli()) {
 			return;
 		}
 
-		if (empty($code) OR ! is_numeric($code))
-		{
+		if (empty($code) or !is_numeric($code)) {
 			show_error('Status codes must be numeric', 500);
 		}
 
-		if (empty($text))
-		{
-			is_int($code) OR $code = (int) $code;
+		if (empty($text)) {
+			is_int($code) or $code = (int) $code;
 			$stati = array(
-				100	=> 'Continue',
-				101	=> 'Switching Protocols',
+				100 => 'Continue',
+				101 => 'Switching Protocols',
 
-				200	=> 'OK',
-				201	=> 'Created',
-				202	=> 'Accepted',
-				203	=> 'Non-Authoritative Information',
-				204	=> 'No Content',
-				205	=> 'Reset Content',
-				206	=> 'Partial Content',
+				200 => 'OK',
+				201 => 'Created',
+				202 => 'Accepted',
+				203 => 'Non-Authoritative Information',
+				204 => 'No Content',
+				205 => 'Reset Content',
+				206 => 'Partial Content',
 
-				300	=> 'Multiple Choices',
-				301	=> 'Moved Permanently',
-				302	=> 'Found',
-				303	=> 'See Other',
-				304	=> 'Not Modified',
-				305	=> 'Use Proxy',
-				307	=> 'Temporary Redirect',
+				300 => 'Multiple Choices',
+				301 => 'Moved Permanently',
+				302 => 'Found',
+				303 => 'See Other',
+				304 => 'Not Modified',
+				305 => 'Use Proxy',
+				307 => 'Temporary Redirect',
 
-				400	=> 'Bad Request',
-				401	=> 'Unauthorized',
-				402	=> 'Payment Required',
-				403	=> 'Forbidden',
-				404	=> 'Not Found',
-				405	=> 'Method Not Allowed',
-				406	=> 'Not Acceptable',
-				407	=> 'Proxy Authentication Required',
-				408	=> 'Request Timeout',
-				409	=> 'Conflict',
-				410	=> 'Gone',
-				411	=> 'Length Required',
-				412	=> 'Precondition Failed',
-				413	=> 'Request Entity Too Large',
-				414	=> 'Request-URI Too Long',
-				415	=> 'Unsupported Media Type',
-				416	=> 'Requested Range Not Satisfiable',
-				417	=> 'Expectation Failed',
-				422	=> 'Unprocessable Entity',
-				426	=> 'Upgrade Required',
-				428	=> 'Precondition Required',
-				429	=> 'Too Many Requests',
-				431	=> 'Request Header Fields Too Large',
+				400 => 'Bad Request',
+				401 => 'Unauthorized',
+				402 => 'Payment Required',
+				403 => 'Forbidden',
+				404 => 'Not Found',
+				405 => 'Method Not Allowed',
+				406 => 'Not Acceptable',
+				407 => 'Proxy Authentication Required',
+				408 => 'Request Timeout',
+				409 => 'Conflict',
+				410 => 'Gone',
+				411 => 'Length Required',
+				412 => 'Precondition Failed',
+				413 => 'Request Entity Too Large',
+				414 => 'Request-URI Too Long',
+				415 => 'Unsupported Media Type',
+				416 => 'Requested Range Not Satisfiable',
+				417 => 'Expectation Failed',
+				422 => 'Unprocessable Entity',
+				426 => 'Upgrade Required',
+				428 => 'Precondition Required',
+				429 => 'Too Many Requests',
+				431 => 'Request Header Fields Too Large',
 
-				500	=> 'Internal Server Error',
-				501	=> 'Not Implemented',
-				502	=> 'Bad Gateway',
-				503	=> 'Service Unavailable',
-				504	=> 'Gateway Timeout',
-				505	=> 'HTTP Version Not Supported',
-				511	=> 'Network Authentication Required',
+				500 => 'Internal Server Error',
+				501 => 'Not Implemented',
+				502 => 'Bad Gateway',
+				503 => 'Service Unavailable',
+				504 => 'Gateway Timeout',
+				505 => 'HTTP Version Not Supported',
+				511 => 'Network Authentication Required',
 			);
 
-			if (isset($stati[$code]))
-			{
+			if (isset($stati[$code])) {
 				$text = $stati[$code];
-			}
-			else
-			{
+			} else {
 				show_error('No status text available. Please check your status code number or supply your own message text.', 500);
 			}
 		}
 
-		if (strpos(PHP_SAPI, 'cgi') === 0)
-		{
-			header('Status: '.$code.' '.$text, TRUE);
+		if (strpos(PHP_SAPI, 'cgi') === 0) {
+			header('Status: ' . $code . ' ' . $text, true);
+
 			return;
 		}
 
-		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], array('HTTP/1.0', 'HTTP/1.1', 'HTTP/2'), TRUE))
+		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL']) && in_array($_SERVER['SERVER_PROTOCOL'], array('HTTP/1.0', 'HTTP/1.1', 'HTTP/2'), true))
 			? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-		header($server_protocol.' '.$code.' '.$text, TRUE, $code);
+		header($server_protocol . ' ' . $code . ' ' . $text, true, $code);
 	}
 }
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('_error_handler'))
-{
+if (!function_exists('_error_handler')) {
 	/**
 	 * Error Handler
 	 *
@@ -586,11 +547,12 @@ if ( ! function_exists('_error_handler'))
 	 * based on the current error_reporting level.
 	 * We do that with the use of a PHP error template.
 	 *
-	 * @param	int	$severity
-	 * @param	string	$message
-	 * @param	string	$filepath
-	 * @param	int	$line
-	 * @return	void
+	 * @param int    $severity
+	 * @param string $message
+	 * @param string $filepath
+	 * @param int    $line
+	 *
+	 * @return    void
 	 */
 	function _error_handler($severity, $message, $filepath, $line)
 	{
@@ -602,15 +564,13 @@ if ( ! function_exists('_error_handler'))
 		// it is only called when the display_errors flag is set (which isn't usually
 		// the case in a production environment) or when errors are ignored because
 		// they are above the error_reporting threshold.
-		if ($is_error)
-		{
+		if ($is_error) {
 			set_status_header(500);
 		}
 
 		// Should we ignore the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
-		if (($severity & error_reporting()) !== $severity)
-		{
+		if (($severity & error_reporting()) !== $severity) {
 			return;
 		}
 
@@ -618,16 +578,14 @@ if ( ! function_exists('_error_handler'))
 		$_error->log_exception($severity, $message, $filepath, $line);
 
 		// Should we display the error?
-		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
-		{
+		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors'))) {
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
 		// If the error is fatal, the execution of the script should be stopped because
 		// errors can't be recovered from. Halting the script conforms with PHP's
 		// default error handling. See http://www.php.net/manual/en/errorfunc.constants.php
-		if ($is_error)
-		{
+		if ($is_error) {
 			exit(1); // EXIT_ERROR
 		}
 	}
@@ -635,8 +593,7 @@ if ( ! function_exists('_error_handler'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('_exception_handler'))
-{
+if (!function_exists('_exception_handler')) {
 	/**
 	 * Exception Handler
 	 *
@@ -644,18 +601,18 @@ if ( ! function_exists('_exception_handler'))
 	 * only if display_errors is On so that they don't show up in
 	 * production environments.
 	 *
-	 * @param	Exception	$exception
-	 * @return	void
+	 * @param Exception $exception
+	 *
+	 * @return    void
 	 */
 	function _exception_handler($exception)
 	{
 		$_error =& load_class('Exceptions', 'core');
-		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
+		$_error->log_exception('error', 'Exception: ' . $exception->getMessage(), $exception->getFile(), $exception->getLine());
 
-		is_cli() OR set_status_header(500);
+		is_cli() or set_status_header(500);
 		// Should we display the error?
-		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
-		{
+		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors'))) {
 			$_error->show_exception($exception);
 		}
 
@@ -665,8 +622,7 @@ if ( ! function_exists('_exception_handler'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('_shutdown_handler'))
-{
+if (!function_exists('_shutdown_handler')) {
 	/**
 	 * Shutdown Handler
 	 *
@@ -677,15 +633,14 @@ if ( ! function_exists('_shutdown_handler'))
 	 * E_STRICT is purposively neglected because such events may have
 	 * been caught. Duplication or none? None is preferred for now.
 	 *
-	 * @link	http://insomanic.me.uk/post/229851073/php-trick-catching-fatal-errors-e-error-with-a
-	 * @return	void
+	 * @link    http://insomanic.me.uk/post/229851073/php-trick-catching-fatal-errors-e-error-with-a
+	 * @return    void
 	 */
 	function _shutdown_handler()
 	{
 		$last_error = error_get_last();
 		if (isset($last_error) &&
-			($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING)))
-		{
+			($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING))) {
 			_error_handler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
 		}
 	}
@@ -693,35 +648,33 @@ if ( ! function_exists('_shutdown_handler'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('remove_invisible_characters'))
-{
+if (!function_exists('remove_invisible_characters')) {
 	/**
 	 * Remove Invisible Characters
 	 *
 	 * This prevents sandwiching null characters
 	 * between ascii characters, like Java\0script.
 	 *
-	 * @param	string
-	 * @param	bool
-	 * @return	string
+	 * @param string
+	 * @param bool
+	 *
+	 * @return    string
 	 */
-	function remove_invisible_characters($str, $url_encoded = TRUE)
+	function remove_invisible_characters($str, $url_encoded = true)
 	{
 		$non_displayables = array();
 
 		// every control character except newline (dec 10),
 		// carriage return (dec 13) and horizontal tab (dec 09)
-		if ($url_encoded)
-		{
-			$non_displayables[] = '/%0[0-8bcef]/i';	// url encoded 00-08, 11, 12, 14, 15
-			$non_displayables[] = '/%1[0-9a-f]/i';	// url encoded 16-31
-			$non_displayables[] = '/%7f/i';	// url encoded 127
+		if ($url_encoded) {
+			$non_displayables[] = '/%0[0-8bcef]/i';    // url encoded 00-08, 11, 12, 14, 15
+			$non_displayables[] = '/%1[0-9a-f]/i';    // url encoded 16-31
+			$non_displayables[] = '/%7f/i';    // url encoded 127
 		}
 
-		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
+		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';    // 00-08, 11, 12, 14-31, 127
 
-		do
-		{
+		do {
 			$str = preg_replace($non_displayables, '', $str, -1, $count);
 		}
 		while ($count);
@@ -732,26 +685,23 @@ if ( ! function_exists('remove_invisible_characters'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('html_escape'))
-{
+if (!function_exists('html_escape')) {
 	/**
 	 * Returns HTML escaped variable.
 	 *
-	 * @param	mixed	$var		The input string or array of strings to be escaped.
-	 * @param	bool	$double_encode	$double_encode set to FALSE prevents escaping twice.
-	 * @return	mixed			The escaped string or array of strings as a result.
+	 * @param mixed $var           The input string or array of strings to be escaped.
+	 * @param bool  $double_encode $double_encode set to FALSE prevents escaping twice.
+	 *
+	 * @return    mixed            The escaped string or array of strings as a result.
 	 */
-	function html_escape($var, $double_encode = TRUE)
+	function html_escape($var, $double_encode = true)
 	{
-		if (empty($var))
-		{
+		if (empty($var)) {
 			return $var;
 		}
 
-		if (is_array($var))
-		{
-			foreach (array_keys($var) as $key)
-			{
+		if (is_array($var)) {
+			foreach (array_keys($var) as $key) {
 				$var[$key] = html_escape($var[$key], $double_encode);
 			}
 
@@ -764,37 +714,34 @@ if ( ! function_exists('html_escape'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('_stringify_attributes'))
-{
+if (!function_exists('_stringify_attributes')) {
 	/**
 	 * Stringify attributes for use in HTML tags.
 	 *
 	 * Helper function used to convert a string, array, or object
 	 * of attributes to a string.
 	 *
-	 * @param	mixed	string, array, object
-	 * @param	bool
-	 * @return	string
+	 * @param mixed    string, array, object
+	 * @param bool
+	 *
+	 * @return    string
 	 */
-	function _stringify_attributes($attributes, $js = FALSE)
+	function _stringify_attributes($attributes, $js = false)
 	{
-		$atts = NULL;
+		$atts = null;
 
-		if (empty($attributes))
-		{
+		if (empty($attributes)) {
 			return $atts;
 		}
 
-		if (is_string($attributes))
-		{
-			return ' '.$attributes;
+		if (is_string($attributes)) {
+			return ' ' . $attributes;
 		}
 
 		$attributes = (array) $attributes;
 
-		foreach ($attributes as $key => $val)
-		{
-			$atts .= ($js) ? $key.'='.$val.',' : ' '.$key.'="'.$val.'"';
+		foreach ($attributes as $key => $val) {
+			$atts .= ($js) ? $key . '=' . $val . ',' : ' ' . $key . '="' . $val . '"';
 		}
 
 		return rtrim($atts, ',');
@@ -803,8 +750,7 @@ if ( ! function_exists('_stringify_attributes'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('function_usable'))
-{
+if (!function_exists('function_usable')) {
 	/**
 	 * Function usable
 	 *
@@ -823,27 +769,27 @@ if ( ! function_exists('function_usable'))
 	 * that version is yet to be released. This function will therefore
 	 * be just temporary, but would probably be kept for a few years.
 	 *
-	 * @link	http://www.hardened-php.net/suhosin/
-	 * @param	string	$function_name	Function to check for
-	 * @return	bool	TRUE if the function exists and is safe to call,
-	 *			FALSE otherwise.
+	 * @link    http://www.hardened-php.net/suhosin/
+	 *
+	 * @param string $function_name Function to check for
+	 *
+	 * @return    bool    TRUE if the function exists and is safe to call,
+	 *            FALSE otherwise.
 	 */
 	function function_usable($function_name)
 	{
 		static $_suhosin_func_blacklist;
 
-		if (function_exists($function_name))
-		{
-			if ( ! isset($_suhosin_func_blacklist))
-			{
+		if (function_exists($function_name)) {
+			if (!isset($_suhosin_func_blacklist)) {
 				$_suhosin_func_blacklist = extension_loaded('suhosin')
 					? explode(',', trim(ini_get('suhosin.executor.func.blacklist')))
 					: array();
 			}
 
-			return ! in_array($function_name, $_suhosin_func_blacklist, TRUE);
+			return !in_array($function_name, $_suhosin_func_blacklist, true);
 		}
 
-		return FALSE;
+		return false;
 	}
 }
