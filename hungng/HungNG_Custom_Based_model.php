@@ -257,6 +257,19 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
+		 * Function count_all_from_table
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/13/2021 07:51
+		 */
+		public function count_all_from_table()
+		{
+			return $this->db->count_all($this->tableName);
+		}
+
+		/**
 		 * Function get_list_distinct
 		 *
 		 * @param string $field
