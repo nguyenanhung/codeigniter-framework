@@ -289,6 +289,43 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
+		 * Function get_data_simple_result
+		 *
+		 * @param string   $selectField
+		 * @param array    $wheres
+		 * @param int      $size
+		 * @param int      $page
+		 * @param string[] $orderBy
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/13/2021 16:49
+		 */
+		public function get_data_simple_result($selectField = '*', $wheres = [], $size = 75, $page = 0, $orderBy = ['id' => 'DESC'])
+		{
+			$this->db->select($selectField);
+			$this->db->from($this->tableName);
+			if (count($wheres) > 0) {
+				foreach ($wheres as $field => $value) {
+					if (is_array($value)) {
+						$this->db->where_in($this->tableName . '.' . $field, $value);
+					} else {
+						$this->db->where($this->tableName . '.' . $field, $value);
+					}
+				}
+			}
+			// Limit Result
+			self::_page_limit($size, $page);
+			// Order Result
+			foreach ($orderBy as $key => $val) {
+				$this->db->order_by($this->tableName . '.' . $key, $val);
+			}
+
+			return $this->db->get()->result();
+		}
+
+		/**
 		 * Function get_info
 		 *
 		 * @param string $value
