@@ -19,16 +19,38 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 	 */
 	class HungNG_Custom_Based_model extends CI_Model
 	{
-		public $db;
-		public $tableName;
-		public $primary_key;
-		public $is_not;
-		public $or_higher;
-		public $is_higher;
-		public $or_smaller;
-		public $is_smaller;
-		public $start_time;
-		public $end_time;
+		/** @var \CI_DB_query_builder $db */
+		protected $db;
+
+		/** @var string $tableName */
+		protected $tableName;
+
+		/** @var string $primary_key */
+		protected $primary_key;
+
+		/** @var string $is_not $is_not */
+		protected $is_not;
+
+		/** @var string $or_higher */
+		protected $or_higher;
+
+		/** @var string $is_higher */
+		protected $is_higher;
+
+		/** @var string $or_smaller */
+		protected $or_smaller;
+
+		/** @var string $is_smaller */
+		protected $is_smaller;
+
+		/** @var string $start_time */
+		protected $start_time;
+
+		/** @var string $end_time */
+		protected $end_time;
+
+		/** @var array $field */
+		protected $field = array();
 
 		/**
 		 * HungNG_Custom_Based_model constructor.
@@ -39,7 +61,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function __construct()
 		{
 			parent::__construct();
-			$this->db          = '';
+			$this->db          = $this->load->database('default', true, true);
 			$this->tableName   = '';
 			$this->primary_key = 'id';
 			$this->is_not      = ' !=';
