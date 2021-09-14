@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/html_helper.html
+ * @link		https://codeigniter.com/userguide3/helpers/html_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -235,16 +235,15 @@ if ( ! function_exists('doctype'))
 
 		if ( ! is_array($doctypes))
 		{
-//			if (file_exists(APPPATH.'config/doctypes.php'))
-//			{
-//				include(APPPATH.'config/doctypes.php');
-//			}
-//
-//			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
-//			{
-//				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
-//			}
-			include __DIR__.'/../../config/doctypes.php';
+			if (file_exists(APPPATH.'config/doctypes.php'))
+			{
+				include(APPPATH.'config/doctypes.php');
+			}
+
+			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
+			{
+				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
+			}
 
 			if (empty($_doctypes) OR ! is_array($_doctypes))
 			{
