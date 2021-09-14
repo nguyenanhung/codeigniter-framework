@@ -193,9 +193,9 @@ class CI_User_agent {
 	 */
 	protected function _load_agent_file()
 	{
-		if (($found = file_exists(APPPATH.'config/user_agents.php')))
+		if (($found = file_exists(__DIR__.'/../../config/user_agents.php')))
 		{
-			include(APPPATH.'config/user_agents.php');
+			include(__DIR__.'/../../config/user_agents.php');
 		}
 
 		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))

@@ -62,6 +62,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  Load the framework constants
  * ------------------------------------------------------
  */
+	if (file_exists(__DIR__.'/../../config/constants.php'))
+	{
+		require_once(__DIR__.'/../../config/constants.php');
+	}
 	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require_once(APPPATH.'config/'.ENVIRONMENT.'/constants.php');

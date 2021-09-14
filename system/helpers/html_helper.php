@@ -235,9 +235,9 @@ if ( ! function_exists('doctype'))
 
 		if ( ! is_array($doctypes))
 		{
-			if (file_exists(APPPATH.'config/doctypes.php'))
+			if (file_exists(__DIR__.'/../../config/doctypes.php'))
 			{
-				include(APPPATH.'config/doctypes.php');
+				include(__DIR__.'/../../config/doctypes.php');
 			}
 
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
