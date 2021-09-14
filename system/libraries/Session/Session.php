@@ -417,7 +417,8 @@ class CI_Session {
 				}
 				// Hacky, but 'old' will (implicitly) always be less than time() ;)
 				// DO NOT move this above the 'new' check!
-				elseif ($value < $current_time)
+				// Fix Flash Data time comparison for PHP 8 #6013: https://github.com/bcit-ci/CodeIgniter/pull/6013/commits/6c2f011e2acc8eb595385621dc16991e42bc2f0b
+				elseif ($value === 'old' || $value < $current_time)
 				{
 					unset($_SESSION[$key], $_SESSION['__ci_vars'][$key]);
 				}
