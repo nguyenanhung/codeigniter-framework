@@ -28,15 +28,15 @@ Trong thư viện đã xây dựng sẵn 1 Base Controller, kế thừa như sau
  */
 class Hungna_test extends HungNG_CI_Base_Module
 {
-		public function __construct()
+	public function __construct()
     {
         parent::__construct();
     }
   	
   	public function index()
     {
-      echo "This is ".get_class($this); // show: This is Hungna_test
-      exit();
+		echo "This is ".get_class($this); // show: This is Hungna_test
+		exit();
     }
 }
 
@@ -184,21 +184,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class TestModule extends HungNG_CI_Base_Module
 {
-		public function __construct()
+	public function __construct()
     {
         parent::__construct();
     }
   	
-  	public function index()
+	public function index()
     {
-      echo "This is ".get_class($this); // show: This is TestModule
-      exit();
+		echo "This is ".get_class($this); // show: This is TestModule
+		exit();
     }
 }
 
 ```
-
-
 
 ## Liên hệ
 
