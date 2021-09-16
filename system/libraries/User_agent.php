@@ -197,7 +197,11 @@ class CI_User_agent {
 		{
 			include(__DIR__.'/../../config/user_agents.php');
 		}
-
+		if (file_exists(APPPATH.'config/user_agents.php'))
+		{
+			include(APPPATH.'config/user_agents.php');
+			$found = TRUE;
+		}
 		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php');

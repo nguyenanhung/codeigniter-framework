@@ -239,7 +239,10 @@ if ( ! function_exists('doctype'))
 			{
 				include(__DIR__.'/../../config/doctypes.php');
 			}
-
+			if (file_exists(APPPATH.'config/doctypes.php'))
+			{
+				include(APPPATH.'config/doctypes.php');
+			}
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');

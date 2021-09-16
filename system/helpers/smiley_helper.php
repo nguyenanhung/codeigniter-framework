@@ -235,7 +235,10 @@ if ( ! function_exists('_get_smiley_array'))
 			{
 				include(__DIR__.'/../../config/smileys.php');
 			}
-
+			if (file_exists(APPPATH.'config/smileys.php'))
+			{
+				include(APPPATH.'config/smileys.php');
+			}
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');

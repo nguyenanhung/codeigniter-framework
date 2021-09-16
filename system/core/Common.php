@@ -323,6 +323,11 @@ if ( ! function_exists('get_mimes'))
 				? include(__DIR__.'/../../config/mimes.php')
 				: array();
 
+			if (file_exists(APPPATH.'config/mimes.php'))
+			{
+				$_mimes = array_merge($_mimes, include(APPPATH.'config/mimes.php'));
+			}
+
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
 				$_mimes = array_merge($_mimes, include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'));
