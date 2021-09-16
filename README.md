@@ -11,6 +11,37 @@ Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụ
 - [x] Hỗ trợ Output Response trên giao diện CLI thông qua hàm `ResponseOutput::writeLn($message)`
 - [x] Bổ sung class `StatusCodes` khai báo sẵn các HTTP code tuân chuẩn (from Symfony framework), VD: `StatusCodes::HTTP_OK`. Chi tiết tham khảo thêm tại class `StatusCodes`
 
+## Hướng dẫn viết Controller kế thừa Base Controller
+
+Trong thư viện đã xây dựng sẵn 1 Base Controller, kế thừa như sau
+
+1. Xây dựng 1 `Controller` mới theo tài liệu CodeIgniter 3
+2. Kế thừa class từ `HungNG_CI_Base_Controllers` thay vì `CI_Controller`, ví dụ như sau
+
+```php
+<?php
+/**
+ * Class Hungna_test
+ *
+ * @author    713uk13m <dev@nguyenanhung.com>
+ * @copyright 713uk13m <dev@nguyenanhung.com>
+ */
+class Hungna_test extends HungNG_CI_Base_Module
+{
+		public function __construct()
+    {
+        parent::__construct();
+    }
+  	
+  	public function index()
+    {
+      echo "This is ".get_class($this); // show: This is Hungna_test
+      exit();
+    }
+}
+
+```
+
 ## Hướng dẫn viết Model kế thừa Base Model
 
 1. Xây dựng 1 model theo tài liệu CodeIgniter 3
@@ -140,7 +171,34 @@ class MY_Router extends HungNG_Router
 
 ```
 
-6. Triển khai viết code trong thư mục modules mới
+6. Triển khai viết code trong thư mục modules mới, tương tự như sau
+
+```php
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+/**
+ * Class TestModule
+ *
+ * @author    713uk13m <dev@nguyenanhung.com>
+ * @copyright 713uk13m <dev@nguyenanhung.com>
+ */
+class TestModule extends HungNG_CI_Base_Module
+{
+		public function __construct()
+    {
+        parent::__construct();
+    }
+  	
+  	public function index()
+    {
+      echo "This is ".get_class($this); // show: This is TestModule
+      exit();
+    }
+}
+
+```
+
+
 
 ## Liên hệ
 
