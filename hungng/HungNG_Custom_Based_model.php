@@ -25,9 +25,6 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/** @var string $tableName */
 		protected $tableName;
 
-		/** @var string $primary_key */
-		protected $primary_key;
-
 		/** @var string $is_not $is_not */
 		protected $is_not;
 
@@ -52,6 +49,18 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/** @var array $field */
 		protected $field = array();
 
+		/** @var string $primary_key */
+		protected $primary_key;
+
+		/** @var string $created_at */
+		protected $created_at;
+
+		/** @var string $updated_at */
+		protected $updated_at;
+
+		/** @var string $deleted_at */
+		protected $deleted_at;
+
 		/**
 		 * HungNG_Custom_Based_model constructor.
 		 *
@@ -64,6 +73,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			$this->db          = $this->load->database('default', true, true);
 			$this->tableName   = '';
 			$this->primary_key = 'id';
+			$this->created_at  = 'created_at';
+			$this->updated_at  = 'updated_at';
+			$this->deleted_at  = 'deleted_at';
 			$this->is_not      = ' !=';
 			$this->or_higher   = ' >=';
 			$this->is_higher   = ' >';
@@ -468,15 +480,15 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param string $id
 		 *
-		 * @return false|int
+		 * @return int
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:40
+		 * @time     : 09/20/2021 38:36
 		 */
 		public function delete($id = '')
 		{
 			if (empty($id)) {
-				return false;
+				return 0;
 			}
 			$this->db->where($this->primary_key, $id);
 			$this->db->delete($this->tableName);
@@ -520,7 +532,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function __destruct()
 		{
-			if ($this->db) {
+			if (is_object($this->db)) {
 				$this->close();
 			}
 		}
