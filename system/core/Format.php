@@ -1,7 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Format
+class CI_Format
 {
 	/**
 	 * Array output format.
@@ -60,9 +60,9 @@ class Format
 	/**
 	 * Type to convert from.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	protected $_from_type = null;
+	protected $_from_type;
 
 	/**
 	 * DO NOT CALL THIS DIRECTLY, USE factory().
@@ -82,10 +82,10 @@ class Format
 
 		// If the provided data is already formatted we should probably convert it to an array
 		if ($from_type !== null) {
-			if (method_exists($this, '_from_'.$from_type)) {
-				$data = call_user_func([$this, '_from_'.$from_type], $data);
+			if (method_exists($this, '_from_' . $from_type)) {
+				$data = $this->{'_from_' . $from_type}($data);
 			} else {
-				throw new Exception('Format class does not support conversion from "'.$from_type.'".');
+				throw new Exception('Format class does not support conversion from "' . $from_type . '".');
 			}
 		}
 
@@ -181,7 +181,7 @@ class Format
 			// no numeric keys in our xml please!
 			if (is_numeric($key)) {
 				// make string key...
-				$key = (singular($basenode) != $basenode) ? singular($basenode) : 'item';
+				$key = (singular($basenode) !== $basenode) ? singular($basenode) : 'item';
 			}
 
 			// replace anything not alpha numeric
@@ -196,8 +196,7 @@ class Format
 				foreach ($attributes as $attribute_name => $attribute_value) {
 					$structure->addAttribute($attribute_name, $attribute_value);
 				}
-			}
-			// if there is another array found recursively call this function
+			} // if there is another array found recursively call this function
 			elseif (is_array($value) || is_object($value)) {
 				$node = $structure->addChild($key);
 
@@ -242,7 +241,7 @@ class Format
 		} else {
 			// Single array
 			$headings = array_keys($data);
-			$data = [$data];
+			$data     = [$data];
 		}
 
 		// Load the table library
@@ -276,7 +275,7 @@ class Format
 	public function to_csv($data = null, $delimiter = ',', $enclosure = '"')
 	{
 		// Use a threshold of 1 MB (1024 * 1024)
-		$handle = fopen('php://temp/maxmemory:1048576', 'w');
+		$handle = fopen('php://temp/maxmemory:1048576', 'wb');
 		if ($handle === false) {
 			return;
 		}
@@ -309,7 +308,7 @@ class Format
 		} else {
 			// Single array
 			$headings = array_keys($data);
-			$data = [$data];
+			$data     = [$data];
 		}
 
 		// Apply the headings
@@ -368,15 +367,16 @@ class Format
 			return json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
 
-		// We only honour a jsonp callback which are valid javascript identifiers
-		elseif (preg_match('/^[a-z_\$][a-z0-9\$_]*(\.[a-z_\$][a-z0-9\$_]*)*$/i', $callback)) {
+		if (preg_match('/^[a-z_\$][a-z0-9\$_]*(\.[a-z_\$][a-z0-9\$_]*)*$/i', $callback)) {
 			// Return the data as encoded json with a callback
-			return $callback.'('.json_encode($data, JSON_UNESCAPED_UNICODE).');';
+			return $callback . '(' . json_encode($data, JSON_UNESCAPED_UNICODE) . ');';
 		}
+
+		// We only honour a jsonp callback which are valid javascript identifiers
 
 		// An invalid jsonp callback function provided.
 		// Though I don't believe this should be hardcoded here
-		$data['warning'] = 'INVALID JSONP CALLBACK: '.$callback;
+		$data['warning'] = 'INVALID JSONP CALLBACK: ' . $callback;
 
 		return json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
