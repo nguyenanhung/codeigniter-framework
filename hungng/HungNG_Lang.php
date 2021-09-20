@@ -104,7 +104,7 @@ if (!class_exists('HungNG_Lang')) {
 				$langfile = preg_replace('/_lang$/', '', $langfile) . '_lang';
 			}
 			$langfile .= '.php';
-			if (empty($idiom) or !preg_match('/^[a-z_-]+$/i', $idiom)) {
+			if (empty($idiom) || !preg_match('/^[a-z_-]+$/i', $idiom)) {
 				$config =& get_config();
 				$idiom  = empty($config['language']) ? $this->base_language : $config['language'];
 			}

@@ -104,7 +104,7 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 					(ENVIRONMENT === 'development' || ENVIRONMENT === 'staging' || ENVIRONMENT === 'testing')
 				)
 				||
-				in_array(getIPAddress(), config_item('whitelist_ip'))
+				in_array(getIPAddress(), config_item('whitelist_ip'), true)
 			) {
 				$response['error'] = array(
 					'Code'          => $exception->getCode(),
@@ -188,7 +188,7 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 			$response            = array();
 			$response['code']    = StatusCodes::HTTP_FORBIDDEN;
 			$response['message'] = StatusCodes::$statusTexts[StatusCodes::HTTP_FORBIDDEN];
-			if ((defined('_PROCESS_TEST_') && _PROCESS_TEST_ === true) || in_array(getIPAddress(), config_item('whitelist_ip'))) {
+			if ((defined('_PROCESS_TEST_') && _PROCESS_TEST_ === true) || in_array(getIPAddress(), config_item('whitelist_ip'), true)) {
 				$response['validSignature'] = $validSignature;
 			}
 

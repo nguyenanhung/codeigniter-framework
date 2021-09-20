@@ -145,8 +145,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function page_limit($size = 500, $page = 0)
 		{
-			if ($size != 'no_limit') {
-				if ($page != 0) {
+			if ($size !== 'no_limit') {
+				if ($page !== 0) {
 					if (!$page || $page <= 0 || empty($page)) {
 						$page = 1;
 					}
@@ -338,7 +338,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				}
 			}
 			// Limit Result
-			self::_page_limit($size, $page);
+			$this->_page_limit($size, $page);
 			// Order Result
 			foreach ($orderBy as $key => $val) {
 				$this->db->order_by($this->tableName . '.' . $key, $val);
@@ -369,9 +369,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			}
 			if ($array === true) {
 				return $this->db->get()->row_array();
-			} else {
-				return $this->db->get()->row();
 			}
+
+			return $this->db->get()->row();
 		}
 
 		/**
@@ -402,12 +402,12 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			if (null !== $field_output) {
 				if (null === $query->row()) {
 					return null;
-				} else {
-					return $query->row()->$field_output;
 				}
-			} else {
-				return $query->row();
+
+				return $query->row()->$field_output;
 			}
+
+			return $query->row();
 		}
 
 		/**
@@ -497,16 +497,14 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		{
 			if (!empty($search)) {
 				foreach ($search as $field => $value) {
-					if ($this->db->field_exists($field, $this->tableName)) {
-						if (!empty($value)) {
-							if (is_array($value)) {
-								$this->db->where_in($this->tableName . '.' . $field, $value);
-							} else {
-								$this->db->like($this->tableName . '.' . $field, $value);
-							}
+					if (!empty($value) && $this->db->field_exists($field, $this->tableName)) {
+						if (is_array($value)) {
+							$this->db->where_in($this->tableName . '.' . $field, $value);
+						} else {
+							$this->db->like($this->tableName . '.' . $field, $value);
 						}
 					}
-					if ($field == 'sort') {
+					if ($field === 'sort') {
 						$sort   = (strpos($value, '-') === false) ? 'DESC' : 'ASC';
 						$column = (strpos($value, '-') === false) ? $value : substr($value, 1);
 						if ($this->db->field_exists($column, $this->tableName)) {
@@ -522,7 +520,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function __destruct()
 		{
-			if ($this->db != '') {
+			if ($this->db) {
 				$this->close();
 			}
 		}
