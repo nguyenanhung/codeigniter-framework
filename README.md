@@ -26,7 +26,7 @@ Trong thư viện đã xây dựng sẵn 1 Base Controller, kế thừa như sau
  * @author    713uk13m <dev@nguyenanhung.com>
  * @copyright 713uk13m <dev@nguyenanhung.com>
  */
-class Hungna_test extends HungNG_CI_Base_Module
+class Hungna_test extends HungNG_CI_Base_Controllers
 {
 	public function __construct()
     {
