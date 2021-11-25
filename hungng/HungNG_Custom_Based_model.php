@@ -191,7 +191,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function check_exists
 		 *
 		 * @param string $value
-		 * @param null   $field
+		 * @param mixed  $field
 		 *
 		 * @return int
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -362,7 +362,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/**
 		 * Function get_all_data_simple_result
 		 *
-		 * @param null $options
+		 * @param mixed $options
 		 *
 		 * @return array|array[]|object|object[]
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -389,8 +389,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function get_info
 		 *
 		 * @param string $value
-		 * @param null   $field
-		 * @param false  $array
+		 * @param mixed  $field
+		 * @param bool   $array
 		 *
 		 * @return array|mixed|object|null
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -416,8 +416,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function get_value
 		 *
 		 * @param string $value_input
-		 * @param null   $field_input
-		 * @param null   $field_output
+		 * @param mixed  $field_input
+		 * @param mixed  $field_output
 		 *
 		 * @return array|mixed|object|null
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
