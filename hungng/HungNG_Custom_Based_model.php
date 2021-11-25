@@ -360,6 +360,32 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
+		 * Function get_all_data_simple_result
+		 *
+		 * @param null $options
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 25/11/2021 46:10
+		 */
+		public function get_all_data_simple_result($options = null)
+		{
+			$this->db->from($this->tableName);
+			if (($options !== null) && is_array($options)) {
+				foreach ($options as $field => $value) {
+					if (is_array($value)) {
+						$this->db->where_in($field, $value);
+					} else {
+						$this->db->where($field, $value);
+					}
+				}
+			}
+
+			return $this->db->get()->result();
+		}
+
+		/**
 		 * Function get_info
 		 *
 		 * @param string $value
