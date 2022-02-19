@@ -11,6 +11,46 @@ Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụ
 - [x] Hỗ trợ Output Response trên giao diện CLI thông qua hàm `ResponseOutput::writeLn($message)`
 - [x] Bổ sung class `StatusCodes` khai báo sẵn các HTTP code tuân chuẩn (from Symfony framework), VD: `StatusCodes::HTTP_OK`. Chi tiết tham khảo thêm tại class `StatusCodes`
 
+## Hướng dẫn cài đặt gói vào trong dự án
+
+1. Cài đặt gói vào trong dự án với lệnh sau
+
+```shell
+composer require nguyenanhung/codeigniter-framework
+```
+
+2. Cập nhật file `index.php`
+
+Tìm dòng
+
+```phpt
+/*
+ *---------------------------------------------------------------
+ * SYSTEM DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * This variable must contain the name of your "system" directory.
+ * Set the path if it is not in the same directory as this file.
+ */
+	$system_path = 'system';
+```
+
+Sửa thành như sau
+
+```phpt
+/*
+ *---------------------------------------------------------------
+ * SYSTEM DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * This variable must contain the name of your "system" directory.
+ * Set the path if it is not in the same directory as this file.
+ */
+	$system_path = '/your_vendor_path/nguyenanhung/codeigniter-framework/system';
+```
+
+3. Xoá thư mục `system` trong thư mục gốc dự án đi cho gọn
+
 ## Hướng dẫn viết Controller kế thừa Base Controller
 
 Trong thư viện đã xây dựng sẵn 1 Base Controller, kế thừa như sau
