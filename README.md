@@ -130,7 +130,7 @@ class Credentials_model extends HungNG_Custom_Based_model
 
 ## Hướng dẫn tích hợp mô hình HMVC vào dự án
 
-1. Create folder: `modules` trong thư mục `application`. Tham khảo cấu trúc thư mục `modules` tại `sample/modules/` trong thư viện này
+1. Create folder: `modules` trong thư mục `application`. Tham khảo cấu trúc thư mục `modules-samples` tại https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/modules-sample
 
 ```shell
 .
