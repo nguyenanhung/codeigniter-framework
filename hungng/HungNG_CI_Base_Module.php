@@ -69,10 +69,7 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 			if (is_array($response) || is_object($response)) {
 				$response = json_encode($response);
 			}
-			$this->output->set_status_header($status)
-						 ->set_content_type('application/json', 'utf-8')
-						 ->set_output($response)
-						 ->_display();
+			$this->output->set_status_header($status)->set_content_type('application/json', 'utf-8')->set_output($response)->_display();
 			exit;
 		}
 
@@ -88,10 +85,7 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 		 */
 		protected function errorExceptionResponse($exception)
 		{
-			$errorMessage = "Error Code: " . $exception->getCode() .
-							" - Error File: " . $exception->getFile() .
-							" - Error Line: " . $exception->getLine() .
-							" - Error Message: " . $exception->getMessage();
+			$errorMessage = "Error Code: " . $exception->getCode() . " - Error File: " . $exception->getFile() . " - Error Line: " . $exception->getLine() . " - Error Message: " . $exception->getMessage();
 			log_message('error', $errorMessage);
 			log_message('error', $exception->getTraceAsString());
 

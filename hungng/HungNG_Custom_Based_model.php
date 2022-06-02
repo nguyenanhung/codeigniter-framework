@@ -150,10 +150,10 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @param int $size
 		 * @param int $page
 		 *
-		 * @return mixed|void
+		 * @return \CI_DB_query_builder
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/25/2021 53:15
+		 * @time     : 03/06/2022 20:38
 		 */
 		public function page_limit($size = 500, $page = 0)
 		{
@@ -177,7 +177,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @param int $size
 		 * @param int $page
 		 *
-		 * @return \CI_DB_pdo_driver
+		 * @return \CI_DB_query_builder
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/16/2021 30:54
