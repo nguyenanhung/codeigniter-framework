@@ -159,7 +159,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		{
 			if ($size !== 'no_limit') {
 				if ($page !== 0) {
-					if (!$page || $page <= 0 || empty($page)) {
+					if ($page <= 0 || empty($page)) {
 						$page = 1;
 					}
 					$start = ($page - 1) * $size;
@@ -227,6 +227,34 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			$this->db->from($this->tableName);
 			$this->db->limit(1);
 			$this->db->order_by($field, 'DESC');
+			$row = $this->db->get()->row();
+			if (is_object($row)) {
+				return $row->$field;
+			}
+
+			return 0;
+		}
+
+		public function get_first_id($field = 'id')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->limit(1);
+			$this->db->order_by($field, 'ASC');
+			$row = $this->db->get()->row();
+			if (is_object($row)) {
+				return $row->$field;
+			}
+
+			return 0;
+		}
+
+		public function get_random_id($field = 'id')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->limit(1);
+			$this->db->order_by($field, 'RANDOM');
 			$row = $this->db->get()->row();
 			if (is_object($row)) {
 				return $row->$field;
@@ -325,7 +353,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/**
 		 * Function get_data_simple_result
 		 *
-		 * @param string   $selectField
+		 * @param string   $select
 		 * @param array    $wheres
 		 * @param int      $size
 		 * @param int      $page
@@ -336,9 +364,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 09/13/2021 16:49
 		 */
-		public function get_data_simple_result($selectField = '*', $wheres = [], $size = 75, $page = 0, $orderBy = ['id' => 'DESC'])
+		public function get_data_simple_result($select = '*', $wheres = [], $size = 75, $page = 0, $orderBy = ['id' => 'DESC'])
 		{
-			$this->db->select($selectField);
+			$this->db->select($select);
 			$this->db->from($this->tableName);
 			if (count($wheres) > 0) {
 				foreach ($wheres as $field => $value) {
@@ -372,7 +400,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function get_all_data_simple_result($options = null)
 		{
 			$this->db->from($this->tableName);
-			if (($options !== null) && is_array($options)) {
+			if (is_array($options)) {
 				foreach ($options as $field => $value) {
 					if (is_array($value)) {
 						$this->db->where_in($field, $value);
