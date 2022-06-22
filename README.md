@@ -6,6 +6,22 @@ Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụ
 
 Bản đóng gói `v3.1.13` bổ sung thêm 1 số tính năng mới, tương thích với phiên bản PHP 8.1
 
+
+Mục lục
+-------
+
+- [Tính năng](#bổ-sung-thêm-1-số-thư-viện-mở-rộng-helpers-liên-quan)
+- [Hướng dẫn cài đặt](#hướng-dẫn-cài-đặt-gói-vào-trong-dự-án)
+- [Usage](#usage)
+	- [Running Queue Worker](#running-queue-worker)
+		- [Worker](#worker)
+		- [Listener](#listener)
+	- [Running in Background](#running-in-background)
+		- [Launcher](#launcher)
+		- [Process Status](#process-status)
+
+---
+
 ## Bổ sung thêm 1 số thư viện mở rộng, helpers liên quan
 
 - [x] Support mô hình HMVC
@@ -27,7 +43,7 @@ composer require nguyenanhung/codeigniter-framework
 
 Tìm dòng
 
-```phpt
+```php
 /*
  *---------------------------------------------------------------
  * SYSTEM DIRECTORY NAME
@@ -41,7 +57,7 @@ Tìm dòng
 
 Sửa thành như sau
 
-```phpt
+```php
 /*
  *---------------------------------------------------------------
  * SYSTEM DIRECTORY NAME
@@ -55,7 +71,8 @@ Sửa thành như sau
 
 3. Xoá thư mục `system` trong thư mục gốc dự án đi cho gọn
 
-## Hướng dẫn viết Controller kế thừa Base Controller
+## Sử dụng
+### Hướng dẫn viết Controller kế thừa Base Controller
 
 Trong thư viện đã xây dựng sẵn 1 Base Controller, kế thừa như sau
 
@@ -86,7 +103,7 @@ class Hungna_test extends HungNG_CI_Base_Controllers
 
 ```
 
-## Hướng dẫn viết Controller chạy Queue Worker
+### Hướng dẫn viết Controller chạy Queue Worker
 
 Trong thư viện đã xây dựng sẵn 1 Base Queue Worker (được xây dựng bởi yidas), kế thừa như sau
 
@@ -117,7 +134,7 @@ class My_worker extends HungNG_CI_Base_Queue_Worker
 
 Tìm hiểu thêm chi tiết tài liệu tại đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker)
 
-## Hướng dẫn viết Controller chạy RESTful API Service
+### Hướng dẫn viết Controller chạy RESTful API Service
 
 Trong thư viện đã xây dựng sẵn 1 Base RESTful (được xây dựng bởi yidas), kế thừa như sau
 
@@ -152,7 +169,7 @@ class My_worker extends HungNG_CI_Base_REST
 
 Tìm hiểu thêm chi tiết tài liệu tại đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest)
 
-## Hướng dẫn viết Model kế thừa Base Model
+### Hướng dẫn viết Model kế thừa Base Model
 
 1. Xây dựng 1 model theo tài liệu CodeIgniter 3
 2. Kế thừa class từ `HungNG_Custom_Based_model` thay vì `CI_Model`, ví dụ như sau
@@ -198,13 +215,13 @@ class Credentials_model extends HungNG_Custom_Based_model
 }
 ```
 
-## Hướng dẫn viết Model kế thừa Base ORM Model
+### Hướng dẫn viết Model kế thừa Base ORM Model
 
 1. Package này bổ sung thêm 1 phương án viết model hiện đại theo phong cách ORM với Elegant patterns giống như Laravel Eloquent ORM & Yii2 Active Record (được xây dựng bởi yidas)
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model)
 
-## Hướng dẫn tích hợp mô hình HMVC vào dự án
+### Hướng dẫn tích hợp mô hình HMVC vào dự án
 
 1. Create folder: `modules` trong thư mục `application`. Tham khảo cấu trúc thư mục `modules-samples` tại https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/modules-sample
 
