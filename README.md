@@ -9,6 +9,8 @@ Bản đóng gói `v3.1.13` bổ sung thêm 1 số tính năng mới, tương th
 ## Bổ sung thêm 1 số thư viện mở rộng, helpers liên quan
 
 - [x] Support mô hình HMVC
+- [x] Support RESTful Web Service
+- [x] Support Queue Worker
 - [x] Support class Base Model với 1 số hàm cơ bản
 - [x] Hỗ trợ Output Response trên giao diện CLI thông qua hàm `ResponseOutput::writeLn($message)`
 - [x] Bổ sung class `StatusCodes` khai báo sẵn các HTTP code tuân chuẩn (from Symfony framework), VD: `StatusCodes::HTTP_OK`. Chi tiết tham khảo thêm tại class `StatusCodes`
@@ -84,6 +86,72 @@ class Hungna_test extends HungNG_CI_Base_Controllers
 
 ```
 
+## Hướng dẫn viết Controller chạy Queue Worker
+
+Trong thư viện đã xây dựng sẵn 1 Base Queue Worker (được xây dựng bởi yidas), kế thừa như sau
+
+1. Xây dựng 1 `Controller` mới theo tài liệu CodeIgniter 3
+2. Kế thừa class từ `HungNG_CI_Base_Queue_Worker ` thay vì `CI_Controller`, ví dụ như sau
+
+```php
+<?php
+/**
+ * Class My_worker
+ *
+ * @author    713uk13m <dev@nguyenanhung.com>
+ * @copyright 713uk13m <dev@nguyenanhung.com>
+ */
+class My_worker extends HungNG_CI_Base_Queue_Worker
+{
+    // Initializer
+    protected function init() {}
+    
+    // Worker
+    protected function handleWork() {}
+    
+    // Listener
+    protected function handleListen() {}
+}
+
+```
+
+Tìm hiểu thêm chi tiết tài liệu tại đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker)
+
+## Hướng dẫn viết Controller chạy RESTful API Service
+
+Trong thư viện đã xây dựng sẵn 1 Base RESTful (được xây dựng bởi yidas), kế thừa như sau
+
+1. Xây dựng 1 `Controller` mới theo tài liệu CodeIgniter 3
+2. Kế thừa class từ `HungNG_CI_Base_REST ` thay vì `CI_Controller`, ví dụ như sau
+
+```php
+<?php
+/**
+ * Class My_worker
+ *
+ * @author    713uk13m <dev@nguyenanhung.com>
+ * @copyright 713uk13m <dev@nguyenanhung.com>
+ */
+class My_worker extends HungNG_CI_Base_REST
+{
+    public function index()
+    {
+        return $this->response->json(['bar'=>'foo']);
+    }
+    
+	public function store($requestData=null) {
+	
+	    $this->db->insert('mytable', $requestData);
+	    $id = $this->db->insert_id();
+	    
+	    return $this->response->json(['id'=>$id], 201);
+	}
+}
+
+```
+
+Tìm hiểu thêm chi tiết tài liệu tại đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest)
+
 ## Hướng dẫn viết Model kế thừa Base Model
 
 1. Xây dựng 1 model theo tài liệu CodeIgniter 3
@@ -129,6 +197,12 @@ class Credentials_model extends HungNG_Custom_Based_model
     }
 }
 ```
+
+## Hướng dẫn viết Model kế thừa Base ORM Model
+
+1. Package này bổ sung thêm 1 phương án viết model hiện đại theo phong cách ORM với Elegant patterns giống như Laravel Eloquent ORM & Yii2 Active Record (được xây dựng bởi yidas)
+2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
+   thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model)
 
 ## Hướng dẫn tích hợp mô hình HMVC vào dự án
 
