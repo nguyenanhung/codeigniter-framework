@@ -12,13 +12,14 @@ Mục lục
 
 - [Tính năng](#bổ-sung-thêm-1-số-thư-viện-mở-rộng-helpers-liên-quan)
 - [Hướng dẫn cài đặt](#hướng-dẫn-cài-đặt-gói-vào-trong-dự-án)
-- [Usage](#usage)
-	- [Running Queue Worker](#running-queue-worker)
-		- [Worker](#worker)
-		- [Listener](#listener)
-	- [Running in Background](#running-in-background)
-		- [Launcher](#launcher)
-		- [Process Status](#process-status)
+- [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
+	- [Hướng dẫn viết Controller kế thừa Base Controller](#hướng-dẫn-viết-controller-kế-thừa-base-controller)
+	- [Hướng dẫn viết Controller chạy Queue Worker](#hướng-dẫn-viết-controller-chạy-queue-worker)
+	- [Hướng dẫn viết Controller chạy RESTful API Service](#hướng-dẫn-viết-controller-chạy-restful-api-service)
+	- [Hướng dẫn viết Model kế thừa Base Model](#hướng-dẫn-viết-model-kế-thừa-base-model)
+	- [Hướng dẫn viết Model kế thừa Base ORM Model](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
+	- [Hướng dẫn tích hợp mô hình HMVC vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
+- [Liên hệ & Hỗ trợ](#liên-hệ)
 
 ---
 
@@ -71,7 +72,8 @@ Sửa thành như sau
 
 3. Xoá thư mục `system` trong thư mục gốc dự án đi cho gọn
 
-## Sử dụng
+## Hướng dẫn sử dụng
+
 ### Hướng dẫn viết Controller kế thừa Base Controller
 
 Trong thư viện đã xây dựng sẵn 1 Base Controller, kế thừa như sau
