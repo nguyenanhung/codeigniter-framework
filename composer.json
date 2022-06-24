@@ -24,6 +24,9 @@
 		"ext-mbstring": "*",
 		"nguyenanhung/codeigniter-basic-helper": "^1.0"
 	},
+	"require-dev": {
+		"nguyenanhung/my-debug": "^3.0 || ^2.0 || ^1.0"
+	},
 	"autoload": {
 		"classmap": [
 			"hungng/"

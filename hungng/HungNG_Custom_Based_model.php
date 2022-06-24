@@ -211,6 +211,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 				return $this->db->limit($size, $start);
 			}
+
+			return $this->db;
 		}
 
 		/**

@@ -73,6 +73,28 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 		}
 
 		/**
+		 * Function renderOutput
+		 *
+		 * @param $response
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/03/2021 38:04
+		 */
+		protected function renderOutput($response)
+		{
+			$method    = $this->input->method(true);
+			$ip        = getIPAddress();
+			$userAgent = $this->input->user_agent(true);
+			$message   = 'Received ' . $method . ' Request from IP: ' . $ip . ' - With User Agent: ' . $userAgent;
+			if (method_exists($this, 'log')) {
+				$this->log('RequestAPI', $message, $response);
+			}
+			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response))->_display();
+			exit;
+		}
+
+		/**
 		 * Function jsonResponse
 		 *
 		 * @param array|object|string $response
@@ -209,6 +231,71 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 			}
 
 			return $response;
+		}
+
+		/**
+		 * Function log
+		 *
+		 * @param $name
+		 * @param $message
+		 * @param $context
+		 * @param $inputLevel
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 25/06/2022 32:45
+		 */
+		protected function log($name = '', $message = '', $context = array(), $inputLevel = 'info')
+		{
+			try {
+				if (class_exists('Monolog\Logger') && class_exists('Monolog\Formatter\LineFormatter') && class_exists('Monolog\Handler\StreamHandler')) {
+					$useLevel = strtolower($inputLevel);
+					switch ($useLevel) {
+						case 'debug':
+							$keyLevel = Monolog\Logger::DEBUG;
+							break;
+						case 'notice':
+							$keyLevel = Monolog\Logger::NOTICE;
+							break;
+						case 'warning':
+							$keyLevel = Monolog\Logger::WARNING;
+							break;
+						case 'error':
+							$keyLevel = Monolog\Logger::ERROR;
+							break;
+						case 'critical':
+							$keyLevel = Monolog\Logger::CRITICAL;
+							break;
+						case 'alert':
+							$keyLevel = Monolog\Logger::ALERT;
+							break;
+						case 'emergency':
+							$keyLevel = Monolog\Logger::EMERGENCY;
+							break;
+						default:
+							$keyLevel = Monolog\Logger::INFO;
+					}
+					$fileName  = __DIR__ . '/../../storage/logs/Log-' . date('Y-m-d') . '.log';
+					$formatter = new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n", "Y-m-d H:i:s u");
+					$stream    = new Monolog\Handler\StreamHandler($fileName, $keyLevel, true, 0777);
+					$stream->setFormatter($formatter);
+					$logger = new Monolog\Logger(trim($name));
+					$logger->pushHandler($stream);
+					if (is_array($context)) {
+						$logger->$useLevel($message, $context);
+					} else {
+						$logger->$useLevel($message . json_encode($context));
+					}
+				} else {
+					log_message($inputLevel, $name . " | Error Message: " . $message . ' | Context: ' . json_encode($context));
+				}
+			} catch (InvalidArgumentException $exception) {
+				log_message('error', $exception->getMessage());
+				log_message('error', $exception->getTraceAsString());
+			} catch (Exception $exception) {
+				log_message('error', $exception->getMessage());
+				log_message('error', $exception->getTraceAsString());
+			}
 		}
 	}
 }
