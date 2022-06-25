@@ -73,6 +73,36 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		}
 
 		/**
+		 * Function defaultJsonResponseInfo
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 25/06/2022 20:41
+		 */
+		protected function defaultJsonResponseInfo()
+		{
+			$response = [
+				'code'         => StatusCodes::HTTP_OK,
+				'message'      => StatusCodes::$statusTexts[StatusCodes::HTTP_OK],
+				'info'         => [
+					'name'     => 'Nguyen An Hung',
+					'email'    => 'dev@nguyenanhung.com',
+					'web'      => 'https://nguyenanhung.com',
+					'blog'     => 'https://blog.nguyenanhung.com',
+					'facebook' => 'https://facebook.com/nguyenanhung',
+					'github'   => 'https://github.com/nguyenanhung',
+				],
+				'request_data' => [
+					'ip'             => getIPAddress(),
+					'user_agent'     => $this->input->user_agent(true),
+					'request_method' => $this->input->method(true)
+				]
+			];
+			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response, JSON_PRETTY_PRINT))->_display();
+			exit;
+		}
+
+		/**
 		 * Function renderOutput
 		 *
 		 * @param $response
