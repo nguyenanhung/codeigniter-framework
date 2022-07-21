@@ -18,7 +18,7 @@ Mục lục
 	- [Hướng dẫn viết Controller chạy RESTful API Service](#hướng-dẫn-viết-controller-chạy-restful-api-service)
 	- [Hướng dẫn viết Model kế thừa Base Model](#hướng-dẫn-viết-model-kế-thừa-base-model)
 	- [Hướng dẫn viết Model kế thừa Base ORM Model](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
-	- [Hướng dẫn sử dụng CSDL MongoDB trong dự án](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
+	- [Hướng dẫn sử dụng CSDL MongoDB trong dự án](#hướng-dẫn-sử-dụng-csdl-mongodb-trong-dự-án)
 	- [Hướng dẫn tích hợp mô hình HMVC vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
 - [Liên hệ & Hỗ trợ](#liên-hệ)
 
