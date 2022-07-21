@@ -29,6 +29,9 @@ Mục lục
 - [x] Support mô hình HMVC
 - [x] Support RESTful Web Service
 - [x] Support Queue Worker
+- [x] Support CSDL MongoDB
+- [ ] Support Redis
+- [ ] Support CSDL Elasticsearch
 - [x] Support class Base Model với 1 số hàm cơ bản
 - [x] Hỗ trợ Output Response trên giao diện CLI thông qua hàm `ResponseOutput::writeLn($message)`
 - [x] Bổ sung class `StatusCodes` khai báo sẵn các HTTP code tuân chuẩn (from Symfony framework), VD: `StatusCodes::HTTP_OK`. Chi tiết tham khảo thêm tại class `StatusCodes`
