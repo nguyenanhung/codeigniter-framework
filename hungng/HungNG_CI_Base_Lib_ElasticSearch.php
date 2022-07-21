@@ -28,7 +28,12 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 			} else {
 				$this->esHost = $host;
 			}
-			$this->client = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts([$this->esHost])->build();
+			if (!class_exists('Elastic\Elasticsearch\ClientBuilder')) {
+				show_error("The elasticsearch/elasticsearch packages has not been installed or enabled", 500);
+				$this->client = null;
+			} else {
+				$this->client = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts([$this->esHost])->build();
+			}
 		}
 
 		public function get_info()
