@@ -7,7 +7,7 @@
  * Date: 21/07/2022
  * Time: 15:45
  */
-if (!class_exists('HungNG_CI_Base_MongoDB_Lib')) {
+if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 	/**
 	 * CodeIgniter MongoDB Active Record Library
 	 *
@@ -20,7 +20,7 @@ if (!class_exists('HungNG_CI_Base_MongoDB_Lib')) {
 	 * @link      http://intekhab.in
 	 * @version   Version 1.0
 	 */
-	class HungNG_CI_Base_MongoDB_Lib
+	class HungNG_CI_Base_Lib_MongoDB
 	{
 
 		private $CI;
