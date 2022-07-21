@@ -22,7 +22,7 @@
 		"php": ">=5.6",
 		"ext-json": "*",
 		"ext-mbstring": "*",
-		"nguyenanhung/codeigniter-basic-helper": "^1.0"
+		"nguyenanhung/codeigniter-basic-helper": ">=1.0"
 	},
 	"require-dev": {
 		"nguyenanhung/my-debug": "^3.0 || ^2.0 || ^1.0"
@@ -33,9 +33,6 @@
 		],
 		"psr-4": {
 			"nguyenanhung\\CodeIgniter\\BaseREST\\": "thirdParty/REST/"
-		},
-		"files": [
-			"helpers/helpers.php"
-		]
+		}
 	}
 }
