@@ -66,12 +66,13 @@ if ( ! function_exists('set_cookie'))
 	 * @param	string	the cookie prefix
 	 * @param	bool	true makes the cookie secure
 	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
+	 * @param	string		$samesite	SameSite attribute
 	 * @return	void
 	 */
-	function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL)
+	function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL, $samesite = NULL)
 	{
 		// Set the config file options
-		get_instance()->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httponly);
+		get_instance()->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httponly, $samesite);
 	}
 }
 

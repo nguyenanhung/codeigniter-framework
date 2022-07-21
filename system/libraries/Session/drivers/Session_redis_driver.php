@@ -26,48 +26,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package      CodeIgniter
- * @author       EllisLab Dev Team
- * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @copyright    Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
- * @license      https://opensource.org/licenses/MIT	MIT License
- * @link         https://codeigniter.com
- * @since        Version 3.0.0
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 3.0.0
  * @filesource
  */
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * CodeIgniter Session Redis Driver
  *
- * @package       CodeIgniter
- * @subpackage    Libraries
- * @category      Sessions
- * @author        Andrey Andreev
- * @link          https://codeigniter.com/userguide3/libraries/sessions.html
+ * @package	CodeIgniter
+ * @subpackage	Libraries
+ * @category	Sessions
+ * @author	Andrey Andreev
+ * @link	https://codeigniter.com/userguide3/libraries/sessions.html
  */
-class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_driver_interface
-{
+class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_driver_interface {
 
 	/**
 	 * phpRedis instance
 	 *
-	 * @var    Redis
+	 * @var	Redis
 	 */
 	protected $_redis;
 
 	/**
 	 * Key prefix
 	 *
-	 * @var    string
+	 * @var	string
 	 */
 	protected $_key_prefix = 'ci_session:';
 
 	/**
 	 * Lock key
 	 *
-	 * @var    string
+	 * @var	string
 	 */
 	protected $_lock_key;
 
@@ -76,7 +75,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * @var bool
 	 */
-	protected $_key_exists = false;
+	protected $_key_exists = FALSE;
 
 	/**
 	 * Name of setTimeout() method in phpRedis
@@ -110,44 +109,65 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	/**
 	 * Class constructor
 	 *
-	 * @param array $params Configuration parameters
-	 *
-	 * @return    void
+	 * @param	array	$params	Configuration parameters
+	 * @return	void
 	 */
 	public function __construct(&$params)
 	{
 		parent::__construct($params);
 
 		// Detect the names of some methods in phpRedis instance
-		if (version_compare(phpversion('redis'), '5', '>=')) {
+		if (version_compare(phpversion('redis'), '5', '>='))
+		{
 			$this->_setTimeout_name = 'expire';
-			$this->_delete_name     = 'del';
-			$this->_ping_success    = true;
-		} else {
+			$this->_delete_name = 'del';
+			$this->_ping_success = TRUE;
+		}
+		else
+		{
 			$this->_setTimeout_name = 'setTimeout';
-			$this->_delete_name     = 'delete';
-			$this->_ping_success    = '+PONG';
+			$this->_delete_name = 'delete';
+			$this->_ping_success = '+PONG';
 		}
 
-		if (empty($this->_config['save_path'])) {
+		if (empty($this->_config['save_path']))
+		{
 			log_message('error', 'Session: No Redis save path configured.');
-		} elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(\?.+)?#', $this->_config['save_path'], $matches)) {
-			isset($matches[3]) or $matches[3] = ''; // Just to avoid undefined index notices below
-			$this->_config['save_path'] = array(
-				'host'     => $matches[1],
-				'port'     => empty($matches[2]) ? null : $matches[2],
-				'password' => preg_match('#auth=([^\s&]+)#', $matches[3], $match) ? $match[1] : null,
-				'database' => preg_match('#database=(\d+)#', $matches[3], $match) ? (int) $match[1] : null,
-				'timeout'  => preg_match('#timeout=(\d+\.\d+)#', $matches[3], $match) ? (float) $match[1] : null
+		}
+		elseif (preg_match('#^unix://([^\?]+)(?<options>\?.+)?$#', $this->_config['save_path'], $matches))
+		{
+			$save_path = array('path' => $matches[1]);
+		}
+		elseif (preg_match('#(?:(?:tcp|tls)://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
+		{
+			$save_path = array(
+				'host'    => $matches[1],
+				'port'    => empty($matches[2]) ? NULL : $matches[2],
+				'timeout' => 0.0 // We always pass this to Redis::connect(), so it needs to exist
 			);
-
-			preg_match('#prefix=([^\s&]+)#', $matches[3], $match) && $this->_key_prefix = $match[1];
-		} else {
-			log_message('error', 'Session: Invalid Redis save path format: ' . $this->_config['save_path']);
+		}
+		else
+		{
+			log_message('error', 'Session: Invalid Redis save path format: '.$this->_config['save_path']);
 		}
 
-		if ($this->_config['match_ip'] === true) {
-			$this->_key_prefix .= $_SERVER['REMOTE_ADDR'] . ':';
+		if (isset($save_path))
+		{
+			if (isset($matches['options']))
+			{
+				$save_path['password'] = preg_match('#auth=([^\s&]+)#', $matches['options'], $match) ? $match[1] : NULL;
+				$save_path['database'] = preg_match('#database=(\d+)#', $matches['options'], $match) ? (int) $match[1] : NULL;
+				$save_path['timeout']  = preg_match('#timeout=(\d+\.\d+)#', $matches['options'], $match) ? (float) $match[1] : NULL;
+
+				preg_match('#prefix=([^\s&]+)#', $matches['options'], $match) && $this->_key_prefix = $match[1];
+			}
+
+			$this->_config['save_path'] = $save_path;
+
+			if ($this->_config['match_ip'] === TRUE)
+			{
+				$this->_key_prefix .= $_SERVER['REMOTE_ADDR'].':';
+			}
 		}
 	}
 
@@ -158,28 +178,47 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Sanitizes save_path and initializes connection.
 	 *
-	 * @param string $save_path Server path
-	 * @param string $name      Session cookie name, unused
-	 *
-	 * @return    bool
+	 * @param	string	$save_path	Server path
+	 * @param	string	$name		Session cookie name, unused
+	 * @return	bool
 	 */
 	public function open($save_path, $name)
 	{
-		if (empty($this->_config['save_path'])) {
+		if (empty($this->_config['save_path']))
+		{
 			return $this->_failure;
 		}
 
 		$redis = new Redis();
-		if (!$redis->connect($this->_config['save_path']['host'], $this->_config['save_path']['port'], $this->_config['save_path']['timeout'])) {
-			log_message('error', 'Session: Unable to connect to Redis with the configured settings.');
-		} elseif (isset($this->_config['save_path']['password']) && !$redis->auth($this->_config['save_path']['password'])) {
-			log_message('error', 'Session: Unable to authenticate to Redis instance.');
-		} elseif (isset($this->_config['save_path']['database']) && !$redis->select($this->_config['save_path']['database'])) {
-			log_message('error', 'Session: Unable to select Redis database with index ' . $this->_config['save_path']['database']);
-		} else {
+		$connected = isset($this->_config['save_path']['path'])
+			? $redis->connect($this->_config['save_path']['path'])
+			: $redis->connect(
+				$this->_config['save_path']['host'],
+				$this->_config['save_path']['port'],
+				$this->_config['save_path']['timeout']
+			);
+
+		if ($connected)
+		{
+			if (isset($this->_config['save_path']['password']) && ! $redis->auth($this->_config['save_path']['password']))
+			{
+				log_message('error', 'Session: Unable to authenticate to Redis instance.');
+			}
+			elseif (isset($this->_config['save_path']['database']) && ! $redis->select($this->_config['save_path']['database']))
+			{
+				log_message('error', 'Session: Unable to select Redis database with index '.$this->_config['save_path']['database']);
+			}
+			else
+			{
+				$this->_redis = $redis;
+				$this->php5_validate_id();
+				return $this->_success;
+			}
+		}
+		else
+		{
 			$this->_redis = $redis;
 			$this->php5_validate_id();
-
 			return $this->_success;
 		}
 
@@ -193,24 +232,23 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Reads session data and acquires a lock
 	 *
-	 * @param string $session_id Session ID
-	 *
-	 * @return    string    Serialized session data
+	 * @param	string	$session_id	Session ID
+	 * @return	string	Serialized session data
 	 */
 	public function read($session_id)
 	{
-		if (isset($this->_redis) && $this->_get_lock($session_id)) {
+		if (isset($this->_redis) && $this->_get_lock($session_id))
+		{
 			// Needed by write() to detect session_regenerate_id() calls
 			$this->_session_id = $session_id;
 
-			$session_data = $this->_redis->get($this->_key_prefix . $session_id);
+			$session_data = $this->_redis->get($this->_key_prefix.$session_id);
 
 			is_string($session_data)
-				? $this->_key_exists = true
+				? $this->_key_exists = TRUE
 				: $session_data = '';
 
 			$this->_fingerprint = md5($session_data);
-
 			return $session_data;
 		}
 
@@ -224,38 +262,42 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Writes (create / update) session data
 	 *
-	 * @param string $session_id   Session ID
-	 * @param string $session_data Serialized session data
-	 *
-	 * @return    bool
+	 * @param	string	$session_id	Session ID
+	 * @param	string	$session_data	Serialized session data
+	 * @return	bool
 	 */
 	public function write($session_id, $session_data)
 	{
-		if (!isset($this->_redis, $this->_lock_key)) {
+		if ( ! isset($this->_redis, $this->_lock_key))
+		{
 			return $this->_failure;
-		} // Was the ID regenerated?
-		elseif ($session_id !== $this->_session_id) {
-			if (!$this->_release_lock() or !$this->_get_lock($session_id)) {
+		}
+		// Was the ID regenerated?
+		elseif ($session_id !== $this->_session_id)
+		{
+			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
+			{
 				return $this->_failure;
 			}
 
-			$this->_key_exists = false;
+			$this->_key_exists = FALSE;
 			$this->_session_id = $session_id;
 		}
 
 		$this->_redis->{$this->_setTimeout_name}($this->_lock_key, 300);
-		if ($this->_fingerprint !== ($fingerprint = md5($session_data)) or $this->_key_exists === false) {
-			if ($this->_redis->set($this->_key_prefix . $session_id, $session_data, $this->_config['expiration'])) {
+		if ($this->_fingerprint !== ($fingerprint = md5($session_data)) OR $this->_key_exists === FALSE)
+		{
+			if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
+			{
 				$this->_fingerprint = $fingerprint;
-				$this->_key_exists  = true;
-
+				$this->_key_exists = TRUE;
 				return $this->_success;
 			}
 
 			return $this->_failure;
 		}
 
-		return ($this->_redis->{$this->_setTimeout_name}($this->_key_prefix . $session_id, $this->_config['expiration']))
+		return ($this->_redis->{$this->_setTimeout_name}($this->_key_prefix.$session_id, $this->_config['expiration']))
 			? $this->_success
 			: $this->_failure;
 	}
@@ -267,24 +309,28 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Releases locks and closes connection.
 	 *
-	 * @return    bool
+	 * @return	bool
 	 */
 	public function close()
 	{
-		if (isset($this->_redis)) {
+		if (isset($this->_redis))
+		{
 			try {
-				if ($this->_redis->ping() === $this->_ping_success) {
+				if ($this->_redis->ping() === $this->_ping_success)
+				{
 					$this->_release_lock();
-					if ($this->_redis->close() === false) {
+					if ($this->_redis->close() === FALSE)
+					{
 						return $this->_failure;
 					}
 				}
-			} catch (RedisException $e) {
-				log_message('error', 'Session: Got RedisException on close(): ' . $e->getMessage());
+			}
+			catch (RedisException $e)
+			{
+				log_message('error', 'Session: Got RedisException on close(): '.$e->getMessage());
 			}
 
-			$this->_redis = null;
-
+			$this->_redis = NULL;
 			return $this->_success;
 		}
 
@@ -298,19 +344,19 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Destroys the current session.
 	 *
-	 * @param string $session_id Session ID
-	 *
-	 * @return    bool
+	 * @param	string	$session_id	Session ID
+	 * @return	bool
 	 */
 	public function destroy($session_id)
 	{
-		if (isset($this->_redis, $this->_lock_key)) {
-			if (($result = $this->_redis->{$this->_delete_name}($this->_key_prefix . $session_id)) !== 1) {
-				log_message('debug', 'Session: Redis::' . $this->_delete_name . '() expected to return 1, got ' . var_export($result, true) . ' instead.');
+		if (isset($this->_redis, $this->_lock_key))
+		{
+			if (($result = $this->_redis->{$this->_delete_name}($this->_key_prefix.$session_id)) !== 1)
+			{
+				log_message('debug', 'Session: Redis::'.$this->_delete_name.'() expected to return 1, got '.var_export($result, TRUE).' instead.');
 			}
 
 			$this->_cookie_destroy();
-
 			return $this->_success;
 		}
 
@@ -324,9 +370,8 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Deletes expired sessions
 	 *
-	 * @param int $maxlifetime Maximum lifetime of sessions
-	 *
-	 * @return    bool
+	 * @param	int 	$maxlifetime	Maximum lifetime of sessions
+	 * @return	bool
 	 */
 	public function gc($maxlifetime)
 	{
@@ -341,14 +386,13 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Update session timestamp without modifying data
 	 *
-	 * @param string $id      Session ID
-	 * @param string $unknown Unknown & unused
-	 *
-	 * @return    bool
+	 * @param	string	$id	Session ID
+	 * @param	string	$data	Unknown & unused
+	 * @return	bool
 	 */
 	public function updateTimestamp($id, $unknown)
 	{
-		return $this->_redis->{$this->_setTimeout_name}($this->_key_prefix . $id, $this->_config['expiration']);
+		return $this->_redis->{$this->_setTimeout_name}($this->_key_prefix.$id, $this->_config['expiration']);
 	}
 
 	// --------------------------------------------------------------------
@@ -359,13 +403,12 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 * Checks whether a session ID record exists server-side,
 	 * to enforce session.use_strict_mode.
 	 *
-	 * @param string $id Session ID
-	 *
-	 * @return    bool
+	 * @param	string	$id	Session ID
+	 * @return	bool
 	 */
 	public function validateId($id)
 	{
-		return (bool) $this->_redis->exists($this->_key_prefix . $id);
+		return (bool) $this->_redis->exists($this->_key_prefix.$id);
 	}
 
 	// ------------------------------------------------------------------------
@@ -375,36 +418,40 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Acquires an (emulated) lock.
 	 *
-	 * @param string $session_id Session ID
-	 *
-	 * @return    bool
+	 * @param	string	$session_id	Session ID
+	 * @return	bool
 	 */
 	protected function _get_lock($session_id)
 	{
 		// PHP 7 reuses the SessionHandler object on regeneration,
 		// so we need to check here if the lock key is for the
 		// correct session ID.
-		if ($this->_lock_key === $this->_key_prefix . $session_id . ':lock') {
+		if ($this->_lock_key === $this->_key_prefix.$session_id.':lock')
+		{
 			return $this->_redis->{$this->_setTimeout_name}($this->_lock_key, 300);
 		}
 
 		// 30 attempts to obtain a lock, in case another request already has it
-		$lock_key = $this->_key_prefix . $session_id . ':lock';
-		$attempt  = 0;
-		do {
-			if (($ttl = $this->_redis->ttl($lock_key)) > 0) {
+		$lock_key = $this->_key_prefix.$session_id.':lock';
+		$attempt = 0;
+		do
+		{
+			if (($ttl = $this->_redis->ttl($lock_key)) > 0)
+			{
 				sleep(1);
 				continue;
 			}
 
-			if ($ttl === -2 && !$this->_redis->set($lock_key, time(), array('nx', 'ex' => 300))) {
+			if ($ttl === -2 && ! $this->_redis->set($lock_key, time(), array('nx', 'ex' => 300)))
+			{
 				// Sleep for 1s to wait for lock releases.
 				sleep(1);
 				continue;
-			} elseif (!$this->_redis->setex($lock_key, 300, time())) {
-				log_message('error', 'Session: Error while trying to obtain lock for ' . $this->_key_prefix . $session_id);
-
-				return false;
+			}
+			elseif ( ! $this->_redis->setex($lock_key, 300, time()))
+			{
+				log_message('error', 'Session: Error while trying to obtain lock for '.$this->_key_prefix.$session_id);
+				return FALSE;
 			}
 
 			$this->_lock_key = $lock_key;
@@ -412,17 +459,18 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 		}
 		while (++$attempt < 30);
 
-		if ($attempt === 30) {
-			log_message('error', 'Session: Unable to obtain lock for ' . $this->_key_prefix . $session_id . ' after 30 attempts, aborting.');
-
-			return false;
-		} elseif ($ttl === -1) {
-			log_message('debug', 'Session: Lock for ' . $this->_key_prefix . $session_id . ' had no TTL, overriding.');
+		if ($attempt === 30)
+		{
+			log_message('error', 'Session: Unable to obtain lock for '.$this->_key_prefix.$session_id.' after 30 attempts, aborting.');
+			return FALSE;
+		}
+		elseif ($ttl === -1)
+		{
+			log_message('debug', 'Session: Lock for '.$this->_key_prefix.$session_id.' had no TTL, overriding.');
 		}
 
-		$this->_lock = true;
-
-		return true;
+		$this->_lock = TRUE;
+		return TRUE;
 	}
 
 	// ------------------------------------------------------------------------
@@ -432,22 +480,23 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 	 *
 	 * Releases a previously acquired lock
 	 *
-	 * @return    bool
+	 * @return	bool
 	 */
 	protected function _release_lock()
 	{
-		if (isset($this->_redis, $this->_lock_key) && $this->_lock) {
-			if (!$this->_redis->{$this->_delete_name}($this->_lock_key)) {
-				log_message('error', 'Session: Error while trying to free lock for ' . $this->_lock_key);
-
-				return false;
+		if (isset($this->_redis, $this->_lock_key) && $this->_lock)
+		{
+			if ( ! $this->_redis->{$this->_delete_name}($this->_lock_key))
+			{
+				log_message('error', 'Session: Error while trying to free lock for '.$this->_lock_key);
+				return FALSE;
 			}
 
-			$this->_lock_key = null;
-			$this->_lock     = false;
+			$this->_lock_key = NULL;
+			$this->_lock = FALSE;
 		}
 
-		return true;
+		return TRUE;
 	}
 
 }
