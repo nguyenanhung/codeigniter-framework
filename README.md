@@ -31,7 +31,6 @@ Mục lục
 - [x] Support RESTful Web Service
 - [x] Support Queue Worker
 - [x] Support CSDL MongoDB
-- [ ] Support Redis
 - [x] Support Elasticsearch: Use third party packages `"elasticsearch/elasticsearch": "^8.0 || ^7.0 || ^6.0 || ^5.0"`
 - [x] Support class Base Model với 1 số hàm cơ bản
 - [x] Hỗ trợ Output Response trên giao diện CLI thông qua hàm `ResponseOutput::writeLn($message)`
