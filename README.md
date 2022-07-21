@@ -18,6 +18,7 @@ Mục lục
 	- [Hướng dẫn viết Controller chạy RESTful API Service](#hướng-dẫn-viết-controller-chạy-restful-api-service)
 	- [Hướng dẫn viết Model kế thừa Base Model](#hướng-dẫn-viết-model-kế-thừa-base-model)
 	- [Hướng dẫn viết Model kế thừa Base ORM Model](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
+	- [Hướng dẫn sử dụng CSDL MongoDB trong dự án](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
 	- [Hướng dẫn tích hợp mô hình HMVC vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
 - [Liên hệ & Hỗ trợ](#liên-hệ)
 
@@ -222,6 +223,13 @@ class Credentials_model extends HungNG_Custom_Based_model
 1. Package này bổ sung thêm 1 phương án viết model hiện đại theo phong cách ORM với Elegant patterns giống như Laravel Eloquent ORM & Yii2 Active Record (được xây dựng bởi yidas)
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model)
+
+### Hướng dẫn sử dụng CSDL MongoDB trong dự án
+
+1. Mặc định, CodeIgniter v3 không hỗ trợ MongoDB. Tuy nhiên không vì thế mà hạn chế, CodeIgniter là framework mở, vì vậy tôi đã bổ sung thêm 1 thư viện hỗ trợ việc gọi, tương tác, xử lý với CSDL MongoDB mà cách sử dụng cũng tương đối giống với Query
+   Builder của CodeIgniter
+2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
+   thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-mongodb](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-mongodb)
 
 ### Hướng dẫn tích hợp mô hình HMVC vào dự án
 
