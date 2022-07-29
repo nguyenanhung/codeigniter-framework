@@ -125,6 +125,28 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 		}
 
 		/**
+		 * Function renderOutputPretty
+		 *
+		 * @param $response
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/03/2021 38:04
+		 */
+		protected function renderOutputPretty($response)
+		{
+			$method    = $this->input->method(true);
+			$ip        = getIPAddress();
+			$userAgent = $this->input->user_agent(true);
+			$message   = 'Received ' . $method . ' Request from IP: ' . $ip . ' - With User Agent: ' . $userAgent;
+			if (method_exists($this, 'log')) {
+				$this->log('RequestAPI', $message, $response);
+			}
+			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response, JSON_PRETTY_PRINT))->_display();
+			exit;
+		}
+
+		/**
 		 * Function jsonResponse
 		 *
 		 * @param array|object|string $response
@@ -142,6 +164,29 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 			log_message('debug', $message);
 			if (is_array($response) || is_object($response)) {
 				$response = json_encode($response);
+			}
+			$this->output->set_status_header($status)->set_content_type('application/json', 'utf-8')->set_output($response)->_display();
+			exit;
+		}
+
+		/**
+		 * Function jsonResponsePretty
+		 *
+		 * @param array|object|string $response
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/16/2021 12:51
+		 */
+		protected function jsonResponsePretty($response = array(), $status = 200)
+		{
+			$method    = $this->input->method(true);
+			$ip        = getIPAddress();
+			$userAgent = $this->input->user_agent(true);
+			$message   = 'Received ' . $method . ' Request from IP: ' . $ip . ' - With User Agent: ' . $userAgent;
+			log_message('debug', $message);
+			if (is_array($response) || is_object($response)) {
+				$response = json_encode($response, JSON_PRETTY_PRINT);
 			}
 			$this->output->set_status_header($status)->set_content_type('application/json', 'utf-8')->set_output($response)->_display();
 			exit;
