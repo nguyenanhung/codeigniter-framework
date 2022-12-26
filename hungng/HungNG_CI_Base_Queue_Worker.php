@@ -14,50 +14,50 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 	 * @author    713uk13m <dev@nguyenanhung.com>
 	 * @copyright 713uk13m <dev@nguyenanhung.com>
 	 *
-	 * @property CI_Benchmark                                             $benchmark                           This class enables you to mark points and calculate the time difference between them. Memory consumption can also be displayed.
-	 * @property CI_Calendar                                              $calendar                            This class enables the creation of calendars
-	 * @property CI_Cache                                                 $cache                               Caching Class
-	 * @property CI_Cart                                                  $cart                                Shopping Cart Class
-	 * @property CI_Config                                                $config                              This class contains functions that enable config files to be managed
-	 * @property CI_Controller                                            $controller                          This class object is the super class that every library in CodeIgniter will be assigned to
-	 * @property CI_DB_forge                                              $dbforge                             Database Forge Class
-	 * @property CI_DB_pdo_driver|CI_DB_mysqli_driver|CI_DB_query_builder $db                                  This is the platform-independent base Query Builder implementation class
-	 * @property CI_DB_utility                                            $dbutil                              Database Utility Class
-	 * @property CI_Driver_Library                                        $driver                              Driver Library Class
-	 * @property CI_Email                                                 $email                               Permits email to be sent using Mail, Sendmail, or SMTP
-	 * @property CI_Encrypt                                               $encrypt                             Provides two-way keyed encoding using Mcrypt
-	 * @property CI_Encryption                                            $encryption                          Provides two-way keyed encryption via PHP's MCrypt and/or OpenSSL extensions
-	 * @property CI_Exceptions                                            $exceptions                          Exceptions Class
-	 * @property CI_Form_validation                                       $form_validation                     Form Validation Class
-	 * @property CI_FTP                                                   $ftp                                 FTP Class
-	 * @property CI_Hooks                                                 $hooks                               Provides a mechanism to extend the base system without hacking
-	 * @property CI_Image_lib                                             $image_lib                           Image Manipulation class
-	 * @property CI_Input                                                 $input                               Pre-processes global input data for security
-	 * @property CI_Javascript                                            $javascript                          Javascript Class
-	 * @property CI_Jquery                                                $jquery                              Jquery Class
-	 * @property CI_Lang                                                  $lang                                Language Class
-	 * @property CI_Loader                                                $load                                Loads framework components
-	 * @property CI_Log                                                   $log                                 Logging Class
-	 * @property CI_Migration                                             $migration                           All migrations should implement this, forces up() and down() and gives access to the CI super-global
-	 * @property CI_Model                                                 $model                               CodeIgniter Model Class
-	 * @property CI_Output                                                $output                              Responsible for sending final output to the browser
-	 * @property CI_Pagination                                            $pagination                          Pagination Class
-	 * @property CI_Parser                                                $parser                              Parser Class
-	 * @property CI_Profiler                                              $profiler                            This class enables you to display benchmark, query, and other data in order to help with debugging and optimization.
-	 * @property CI_Router                                                $router                              Parses URIs and determines routing
-	 * @property CI_Security                                              $security                            Security Class
-	 * @property CI_Session                                               $session                             Session Class
-	 * @property CI_Table                                                 $table                               Lets you create tables manually or from database result objects, or arrays
-	 * @property CI_Trackback                                             $trackback                           Trackback Sending/Receiving Class
-	 * @property CI_Typography                                            $typography                          Typography Class
-	 * @property CI_Unit_test                                             $unit                                Simple testing class
-	 * @property CI_Upload                                                $upload                              File Uploading Class
-	 * @property CI_URI                                                   $uri                                 Parses URIs and determines routing
-	 * @property CI_User_agent                                            $agent                               Identifies the platform, browser, robot, or mobile device of the browsing agent
-	 * @property CI_Xmlrpc                                                $xmlrpc                              XML-RPC request handler class
-	 * @property CI_Xmlrpcs                                               $xmlrpcs                             XML-RPC server class
-	 * @property CI_Zip                                                   $zip                                 Zip Compression Class
-	 * @property CI_Utf8                                                  $utf8                                Provides support for UTF-8 environments
+	 * @property CI_Benchmark                                                          $benchmark                           This class enables you to mark points and calculate the time difference between them. Memory consumption can also be displayed.
+	 * @property CI_Calendar                                                           $calendar                            This class enables the creation of calendars
+	 * @property CI_Cache                                                              $cache                               Caching Class
+	 * @property CI_Cart                                                               $cart                                Shopping Cart Class
+	 * @property CI_Config                                                             $config                              This class contains functions that enable config files to be managed
+	 * @property CI_Controller                                                         $controller                          This class object is the super class that every library in CodeIgniter will be assigned to
+	 * @property CI_DB_forge                                                           $dbforge                             Database Forge Class
+	 * @property CI_DB_pdo_driver|CI_DB_mysqli_driver|CI_DB_query_builder|CI_DB_driver $db                                  This is the platform-independent base Query Builder implementation class
+	 * @property CI_DB_utility                                                         $dbutil                              Database Utility Class
+	 * @property CI_Driver_Library                                                     $driver                              Driver Library Class
+	 * @property CI_Email                                                              $email                               Permits email to be sent using Mail, Sendmail, or SMTP
+	 * @property CI_Encrypt                                                            $encrypt                             Provides two-way keyed encoding using Mcrypt
+	 * @property CI_Encryption                                                         $encryption                          Provides two-way keyed encryption via PHP's MCrypt and/or OpenSSL extensions
+	 * @property CI_Exceptions                                                         $exceptions                          Exceptions Class
+	 * @property CI_Form_validation                                                    $form_validation                     Form Validation Class
+	 * @property CI_FTP                                                                $ftp                                 FTP Class
+	 * @property CI_Hooks                                                              $hooks                               Provides a mechanism to extend the base system without hacking
+	 * @property CI_Image_lib                                                          $image_lib                           Image Manipulation class
+	 * @property CI_Input                                                              $input                               Pre-processes global input data for security
+	 * @property CI_Javascript                                                         $javascript                          Javascript Class
+	 * @property CI_Jquery                                                             $jquery                              Jquery Class
+	 * @property CI_Lang                                                               $lang                                Language Class
+	 * @property CI_Loader                                                             $load                                Loads framework components
+	 * @property CI_Log                                                                $log                                 Logging Class
+	 * @property CI_Migration                                                          $migration                           All migrations should implement this, forces up() and down() and gives access to the CI super-global
+	 * @property CI_Model                                                              $model                               CodeIgniter Model Class
+	 * @property CI_Output                                                             $output                              Responsible for sending final output to the browser
+	 * @property CI_Pagination                                                         $pagination                          Pagination Class
+	 * @property CI_Parser                                                             $parser                              Parser Class
+	 * @property CI_Profiler                                                           $profiler                            This class enables you to display benchmark, query, and other data in order to help with debugging and optimization.
+	 * @property CI_Router                                                             $router                              Parses URIs and determines routing
+	 * @property CI_Security                                                           $security                            Security Class
+	 * @property CI_Session                                                            $session                             Session Class
+	 * @property CI_Table                                                              $table                               Lets you create tables manually or from database result objects, or arrays
+	 * @property CI_Trackback                                                          $trackback                           Trackback Sending/Receiving Class
+	 * @property CI_Typography                                                         $typography                          Typography Class
+	 * @property CI_Unit_test                                                          $unit                                Simple testing class
+	 * @property CI_Upload                                                             $upload                              File Uploading Class
+	 * @property CI_URI                                                                $uri                                 Parses URIs and determines routing
+	 * @property CI_User_agent                                                         $agent                               Identifies the platform, browser, robot, or mobile device of the browsing agent
+	 * @property CI_Xmlrpc                                                             $xmlrpc                              XML-RPC request handler class
+	 * @property CI_Xmlrpcs                                                            $xmlrpcs                             XML-RPC server class
+	 * @property CI_Zip                                                                $zip                                 Zip Compression Class
+	 * @property CI_Utf8                                                               $utf8                                Provides support for UTF-8 environments
 	 */
 	class HungNG_CI_Base_Queue_Worker extends HungNG_CI_Base_Controllers
 	{
@@ -232,17 +232,17 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 			// Worker command builder
 			// Be careful to avoid infinite loop by opening listener itself
 			$workerAction = 'work';
-			$route        = $this->router->fetch_directory() . $this->router->fetch_class() . "/{$workerAction}";
-			$workerCmd    = "{$this->phpCommand} " . FCPATH . "index.php {$route}";
+			$route = $this->router->fetch_directory() . $this->router->fetch_class() . "/{$workerAction}";
+			$workerCmd = "{$this->phpCommand} " . FCPATH . "index.php {$route}";
 
 			// Static variables
-			$startTime   = 0;
+			$startTime = 0;
 			$workerCount = 0;
 			$workingFlag = false;
 
 			// Setting check
-			$this->workerMaxNum      = ($this->workerMaxNum >= 1) ? floor($this->workerMaxNum) : 1;
-			$this->workerStartNum    = ($this->workerStartNum <= $this->workerMaxNum) ? floor($this->workerStartNum) : $this->workerMaxNum;
+			$this->workerMaxNum = ($this->workerMaxNum >= 1) ? floor($this->workerMaxNum) : 1;
+			$this->workerStartNum = ($this->workerStartNum <= $this->workerMaxNum) ? floor($this->workerStartNum) : $this->workerMaxNum;
 			$this->workerWaitSeconds = ($this->workerWaitSeconds >= 1) ? $this->workerWaitSeconds : 10;
 
 			while (true) {
@@ -263,7 +263,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 					// First time to assign works
 					if (!$workingFlag) {
 						$workingFlag = true;
-						$startTime   = microtime(true);
+						$startTime = microtime(true);
 						$this->_log("Queue Listener - Job detect");
 						$this->_log("Queue Listener - Start dispatch");
 
@@ -309,7 +309,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 					$workerCount = 0;
 					// Clear worker stack
 					$this->_pidStack = [];
-					$costSeconds     = number_format(microtime(true) - $startTime, 2, '.', '');
+					$costSeconds = number_format(microtime(true) - $startTime, 2, '.', '');
 					$this->_log("Queue Listener - Job empty");
 					$this->_log("Queue Listener - Stop dispatch, total cost: {$costSeconds}s");
 				}
@@ -344,7 +344,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			// Start worker
 			$startTime = microtime(true);
-			$pid       = getmypid();
+			$pid = getmypid();
 			// Print worker close
 			$this->_print("Queue Worker - Create #{$id} (PID: {$pid})");
 
@@ -394,13 +394,13 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			// Action command builder
 			$route = $this->router->fetch_directory() . $this->router->fetch_class() . "/{$action}";
-			$cmd   = "{$this->phpCommand} " . FCPATH . "index.php {$route}";
+			$cmd = "{$this->phpCommand} " . FCPATH . "index.php {$route}";
 
 			// Check process exists
 			$search = str_replace('/', '\/', $route);
 			// $result = shell_exec("pgrep -f \"{$search}\""); // Lacks of display info
 			// Find out the process by name
-			$psCmd     = "ps aux | grep \"{$search}\" | grep -v grep";
+			$psCmd = "ps aux | grep \"{$search}\" | grep -v grep";
 			$psInfoCmd = "ps aux | egrep \"PID|{$search}\" | grep -v grep";
 			if ((shell_exec($psCmd))) {
 				$exist = true;
@@ -416,9 +416,9 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			// Launch by calling command
 			$launchCmd = "{$cmd} > {$logPath} &";
-			$result    = shell_exec($launchCmd);
-			$result    = shell_exec($psCmd);
-			$psInfo    = shell_exec($psInfoCmd);
+			$result = shell_exec($launchCmd);
+			$result = shell_exec($psCmd);
+			$psInfo = shell_exec($psInfoCmd);
 			echo "Success to launch process `{$action}`: {$route}.\nCalled command: {$launchCmd}\n------\n{$psInfo}";
 
 			return;
@@ -568,7 +568,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 			$process = proc_open("{$cmd} &", self::$_procDescriptorspec, $pipe);
 			// Find out worker command's PID
 			$status = proc_get_status($process);
-			$pid    = $status['pid'] + 1;
+			$pid = $status['pid'] + 1;
 			// Stack workers
 			$this->_pidStack[$workerCount] = $pid;
 			// Close

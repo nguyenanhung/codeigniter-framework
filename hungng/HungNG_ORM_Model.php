@@ -194,7 +194,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Constructor
 		 */
-		function __construct()
+		public function __construct()
 		{
 			/* Database Connection Setting */
 			// Master
@@ -208,7 +208,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 						$this->_db = self::$_dbCaches[$this->database];
 					} else {
 						// CI Database Configuration
-						$this->_db                        = get_instance()->load->database($this->database, true);
+						$this->_db = get_instance()->load->database($this->database, true);
 						self::$_dbCaches[$this->database] = $this->_db;
 					}
 				} else {
@@ -230,7 +230,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 						$this->_dbr = self::$_dbrCaches[$this->databaseRead];
 					} else {
 						// CI Database Configuration
-						$this->_dbr                            = get_instance()->load->database($this->databaseRead, true);
+						$this->_dbr = get_instance()->load->database($this->databaseRead, true);
 						self::$_dbrCaches[$this->databaseRead] = $this->_dbr;
 					}
 				} else {
@@ -793,7 +793,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		{
 			$maxLength = $maxLength ? : 4 * 1024 * 1024;
 
-			$count    = 0;
+			$count = 0;
 			$sqlBatch = '';
 
 			foreach ($dataSet as $key => &$each) {
@@ -828,9 +828,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 				// use multiple SQL line in one query, but allows if the multi-line query is behind a single query.
 				if (($count == 0 && $sqlBatch) || strlen($sqlBatch) >= $maxLength) {
 					// Each batch of query
-					$result   = $this->_db->query($sqlBatch);
+					$result = $this->_db->query($sqlBatch);
 					$sqlBatch = "";
-					$count    = ($result) ? $count + 1 : $count;
+					$count = ($result) ? $count + 1 : $count;
 				}
 
 				// Keep Combining query
@@ -1109,10 +1109,10 @@ if (!class_exists('HungNG_ORM_Model')) {
 				// Change this ActiveRecord to update mode
 				if ($result) {
 					// ORM handling
-					$this->_readProperties                    = $this->_writeProperties;
-					$insertID                                 = $this->getLastInsertID();
+					$this->_readProperties = $this->_writeProperties;
+					$insertID = $this->getLastInsertID();
 					$this->_readProperties[$this->primaryKey] = $insertID;
-					$this->_selfCondition                     = $insertID;
+					$this->_selfCondition = $insertID;
 					// Event
 					$this->afterSave(true, $this->_readProperties);
 					// Reset properties
@@ -1229,9 +1229,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 				// Original CodeIgniter 3 model loader
 				get_instance()->load->model($modelName);
 				// Fix the modelName if it has path
-				$path      = explode('/', $modelName);
+				$path = explode('/', $modelName);
 				$modelName = count($path) > 1 ? end($path) : $modelName;
-				$model     = get_instance()->$modelName;
+				$model = get_instance()->$modelName;
 			}
 
 			$libClass = __CLASS__;
@@ -1243,7 +1243,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 			// Keys
 			$foreignKey = ($foreignKey) ? $foreignKey : $this->primaryKey;
-			$localKey   = ($localKey) ? $localKey : $this->primaryKey;
+			$localKey = ($localKey) ? $localKey : $this->primaryKey;
 
 			$query = $model->find()
 						   ->where($foreignKey, $this->$localKey);
@@ -1273,7 +1273,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			$query = call_user_func_array([$this, $method], []);
 
 			// Extract query builder injection property
-			$modelName    = isset($query->modelName) ? $query->modelName : null;
+			$modelName = isset($query->modelName) ? $query->modelName : null;
 			$relationship = isset($query->relationship) ? $query->relationship : null;
 
 			if (!$modelName || !$relationship) {
