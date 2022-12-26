@@ -81,23 +81,23 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		 */
 		protected function defaultJsonResponseInfo()
 		{
-			$response = [
+			$response = array(
 				'code'         => StatusCodes::HTTP_OK,
 				'message'      => StatusCodes::$statusTexts[StatusCodes::HTTP_OK],
-				'info'         => [
+				'info'         => array(
 					'name'     => 'Nguyen An Hung',
 					'email'    => 'dev@nguyenanhung.com',
 					'web'      => 'https://nguyenanhung.com',
 					'blog'     => 'https://blog.nguyenanhung.com',
 					'facebook' => 'https://facebook.com/nguyenanhung',
-					'github'   => 'https://github.com/nguyenanhung',
-				],
-				'request_data' => [
+					'github'   => 'https://github.com/nguyenanhung'
+				),
+				'request_data' => array(
 					'ip'             => getIPAddress(),
 					'user_agent'     => $this->input->user_agent(true),
 					'request_method' => $this->input->method(true)
-				]
-			];
+				)
+			);
 			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response, JSON_PRETTY_PRINT))->_display();
 			exit;
 		}
@@ -370,6 +370,63 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 			} catch (Exception $exception) {
 				log_message('error', $exception->getMessage());
 				log_message('error', $exception->getTraceAsString());
+			}
+		}
+
+		/**
+		 * Function opcache_flush_reset
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 26/12/2022 01:36
+		 */
+		protected function opcache_flush_reset()
+		{
+			if (function_exists('opcache_reset') && is_cli()) {
+				opcache_reset();
+			} else {
+				show_404();
+			}
+		}
+
+		/**
+		 * Function default_base_flush_logs
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 26/12/2022 04:29
+		 */
+		protected function default_base_flush_logs()
+		{
+			if (is_cli()) {
+				try {
+					$file = new \nguyenanhung\MyDebug\Manager\File();
+					$file->setInclude(array('*.log', '*.txt', 'log-*.php'));
+					$response = array(
+						'status' => 'OK',
+						'time'   => date('Y-m-d H:i:s'),
+						'data'   => array(
+							'logs'      => $file->cleanLog(dirname(__DIR__) . '/logs', 7),
+							'logs-data' => $file->cleanLog(dirname(__DIR__) . '/logs-data', 7)
+						)
+					);
+					log_message('debug', 'Clean Log Result: ' . json_encode($response));
+					$output = defined('JSON_PRETTY_PRINT') ? json_encode($response, JSON_PRETTY_PRINT) : json_encode($response);
+					$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output($output . PHP_EOL)->_display();
+					exit;
+				} catch (Exception $e) {
+					$message = 'Code: ' . $e->getCode() . ' - File: ' . $e->getFile() . ' - Line: ' . $e->getLine() . ' - Message: ' . $e->getMessage();
+					log_message('error', $message);
+				}
+			} else {
+				$info = array(
+					'method'          => $this->input->method(true),
+					'ip_address'      => $this->input->ip_address(),
+					'user_agent'      => $this->input->user_agent(true),
+					'request_headers' => $this->input->request_headers(true)
+				);
+				log_message('error', json_encode($info));
+				show_404();
 			}
 		}
 	}

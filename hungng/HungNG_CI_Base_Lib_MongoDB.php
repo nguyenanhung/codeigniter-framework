@@ -69,7 +69,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			$this->CI =& get_instance();
 			$this->CI->load->config('mongo_db');
 			$this->config = $this->CI->config->item('mongo_db');
-			$this->param  = $param;
+			$this->param = $param;
 			$this->connect();
 		}
 
@@ -725,7 +725,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			if ($enable_end_wildcard !== true) {
 				$value .= "$";
 			}
-			$regex                = "/$value/$flags";
+			$regex = "/$value/$flags";
 			$this->wheres[$field] = new MongoDB\BSON\Regex($regex);
 
 			return ($this);
@@ -748,17 +748,17 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 
 			try {
 
-				$read_concern    = new MongoDB\Driver\ReadConcern($this->read_concern);
+				$read_concern = new MongoDB\Driver\ReadConcern($this->read_concern);
 				$read_preference = new MongoDB\Driver\ReadPreference($this->read_preference);
 
-				$options                = array();
-				$options['projection']  = $this->selects;
-				$options['sort']        = $this->sorts;
-				$options['skip']        = (int) $this->offset;
-				$options['limit']       = (int) $this->limit;
+				$options = array();
+				$options['projection'] = $this->selects;
+				$options['sort'] = $this->sorts;
+				$options['skip'] = (int) $this->offset;
+				$options['limit'] = (int) $this->limit;
 				$options['readConcern'] = $read_concern;
 
-				$query  = new MongoDB\Driver\Query($this->wheres, $options);
+				$query = new MongoDB\Driver\Query($this->wheres, $options);
 				$cursor = $this->db->executeQuery($this->database . "." . $collection, $query, $read_preference);
 
 				// Clear
@@ -830,17 +830,17 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 
 			try {
 
-				$read_concern    = new MongoDB\Driver\ReadConcern($this->read_concern);
+				$read_concern = new MongoDB\Driver\ReadConcern($this->read_concern);
 				$read_preference = new MongoDB\Driver\ReadPreference($this->read_preference);
 
-				$options                = array();
-				$options['projection']  = $this->selects;
-				$options['sort']        = $this->sorts;
-				$options['skip']        = (int) $this->offset;
-				$options['limit']       = (int) 1;
+				$options = array();
+				$options['projection'] = $this->selects;
+				$options['sort'] = $this->sorts;
+				$options['skip'] = (int) $this->offset;
+				$options['limit'] = (int) 1;
 				$options['readConcern'] = $read_concern;
 
-				$query  = new MongoDB\Driver\Query($this->wheres, $options);
+				$query = new MongoDB\Driver\Query($this->wheres, $options);
 				$cursor = $this->db->executeQuery($this->database . "." . $collection, $query, $read_preference);
 
 				// Clear
@@ -892,19 +892,19 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 
 			try {
 
-				$read_concern    = new MongoDB\Driver\ReadConcern($this->read_concern);
+				$read_concern = new MongoDB\Driver\ReadConcern($this->read_concern);
 				$read_preference = new MongoDB\Driver\ReadPreference($this->read_preference);
 
-				$options                = array();
-				$options['projection']  = array('_id' => 1);
-				$options['sort']        = $this->sorts;
-				$options['skip']        = (int) $this->offset;
-				$options['limit']       = (int) $this->limit;
+				$options = array();
+				$options['projection'] = array('_id' => 1);
+				$options['sort'] = $this->sorts;
+				$options['skip'] = (int) $this->offset;
+				$options['limit'] = (int) $this->limit;
 				$options['readConcern'] = $read_concern;
 
-				$query  = new MongoDB\Driver\Query($this->wheres, $options);
+				$query = new MongoDB\Driver\Query($this->wheres, $options);
 				$cursor = $this->db->executeQuery($this->database . "." . $collection, $query, $read_preference);
-				$array  = $cursor->toArray();
+				$array = $cursor->toArray();
 				// Clear
 				$this->_clear();
 
@@ -1328,7 +1328,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			}
 
 			$options = array('limit' => true);
-			$bulk    = new MongoDB\Driver\BulkWrite();
+			$bulk = new MongoDB\Driver\BulkWrite();
 			$bulk->delete($this->wheres, $options);
 
 			$writeConcern = new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY, 1000);
@@ -1375,7 +1375,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			}
 
 			$options = array('limit' => false);
-			$bulk    = new MongoDB\Driver\BulkWrite();
+			$bulk = new MongoDB\Driver\BulkWrite();
 			$bulk->delete($this->wheres, $options);
 
 			$writeConcern = new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY, 1000);
@@ -1522,7 +1522,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			if ($this->legacy_support === true && isset($document['_id']) && $document['_id'] instanceof MongoDB\BSON\ObjectId) {
 				$new_id = $document['_id']->__toString();
 				unset($document['_id']);
-				$document['_id']          = new \stdClass();
+				$document['_id'] = new \stdClass();
 				$document['_id']->{'$id'} = $new_id;
 			}
 
@@ -1608,9 +1608,9 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 					$keys[$col] = 1;
 				}
 			}
-			$command                  = array();
+			$command = array();
 			$command['createIndexes'] = $collection;
-			$command['indexes']       = array($keys);
+			$command['indexes'] = array($keys);
 
 			return $this->command($command);
 		}
@@ -1636,9 +1636,9 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error("Index could not be removed from MongoDB Collection because no index name were specified", 500);
 			}
 
-			$command                = array();
+			$command = array();
 			$command['dropIndexes'] = $collection;
-			$command['index']       = $name;
+			$command['index'] = $name;
 
 			return $this->command($command);
 		}
@@ -1657,7 +1657,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			if (empty($collection)) {
 				show_error("No Mongo collection specified to list all indexes from", 500);
 			}
-			$command                = array();
+			$command = array();
 			$command['listIndexes'] = $collection;
 
 			return $this->command($command);
@@ -1692,7 +1692,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error('Failed to drop MongoDB database because name is empty', 500);
 			}
 
-			$command                 = array();
+			$command = array();
 			$command['dropDatabase'] = 1;
 
 			return $this->command($command);
@@ -1713,7 +1713,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error('Failed to drop MongoDB collection because collection name is empty', 500);
 			}
 
-			$command         = array();
+			$command = array();
 			$command['drop'] = $col;
 
 			return $this->command($command);
@@ -1730,10 +1730,10 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		{
 			$this->selects = array();
 			$this->updates = array();
-			$this->wheres  = array();
-			$this->limit   = 999999;
-			$this->offset  = 0;
-			$this->sorts   = array();
+			$this->wheres = array();
+			$this->limit = 999999;
+			$this->offset = 0;
+			$this->sorts = array();
 		}
 
 		/**

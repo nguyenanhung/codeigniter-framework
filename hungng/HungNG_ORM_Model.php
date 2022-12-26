@@ -50,7 +50,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *
 		 * @var array Field names of columns
 		 */
-		protected $fillable = [];
+		protected $fillable = array();
 
 		/**
 		 * Indicates if the model should be timestamped.
@@ -134,17 +134,17 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * @var object database caches by database key for write
 		 */
-		protected static $_dbCaches = [];
+		protected static $_dbCaches = array();
 
 		/**
 		 * @var object database caches by database key for read (Salve)
 		 */
-		protected static $_dbrCaches = [];
+		protected static $_dbrCaches = array();
 
 		/**
 		 * @var object ORM schema caches by model class namespace
 		 */
-		private static $_ormCaches = [];
+		private static $_ormCaches = array();
 
 		/**
 		 * @var bool SOFT_DELETED one time switch
@@ -161,14 +161,14 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *
 		 * @var array
 		 */
-		private $_readProperties = [];
+		private $_readProperties = array();
 
 		/**
 		 * ORM write properties
 		 *
 		 * @var array
 		 */
-		private $_writeProperties = [];
+		private $_writeProperties = array();
 
 		/**
 		 * ORM self query
@@ -189,7 +189,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *
 		 * @var array
 		 */
-		private $_relationshipCaches = [];
+		private $_relationshipCaches = array();
 
 		/**
 		 * Constructor
@@ -317,7 +317,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 */
 		public function filters()
 		{
-			return [];
+			return array();
 		}
 
 		/**
@@ -328,7 +328,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 */
 		public function rules()
 		{
-			return [];
+			return array();
 		}
 
 		/**
@@ -342,7 +342,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 * @return boolean Result
 		 * @return mixed Data after filter ($returnData is true)
 		 */
-		public function validate($attributes = [], $returnData = false)
+		public function validate($attributes = array(), $returnData = false)
 		{
 			// Data fetched by ORM or input
 			$data = ($attributes) ? $attributes : $this->_writeProperties;
@@ -356,7 +356,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			// The ORM update will only collect rules with corresponding modified attributes.
 			if ($this->_selfCondition) {
 
-				$newRules = [];
+				$newRules = array();
 				foreach ((array) $rules as $key => $rule) {
 					if (isset($this->_writeProperties[$rule['field']])) {
 						// Add into new rules for updating
@@ -556,7 +556,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *  $this->Model->find()->where('id', 123);
 		 *  $this->Model->findOne();
 		 */
-		public static function findOne($condition = [])
+		public static function findOne($condition = )
 		{
 			if ((isset($this))) {
 				$instance = $this;
@@ -590,7 +590,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *  $this->Model->find()->where_in('id', [3,21,135]);
 		 *  $this->Model->findAll();
 		 */
-		public static function findAll($condition = [], $limit = null)
+		public static function findAll($condition = array(), $limit = null)
 		{
 			$instance = (isset($this)) ? $this : new static;
 
@@ -618,7 +618,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				return $records;
 			}
 
-			$set = [];
+			$set = array();
 			// Each ActiveRecord
 			foreach ((array) $records as $key => $record) {
 				// Check primary key setting
@@ -862,7 +862,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *  // Force delete for SOFT_DELETED mode
 		 *  $this->Model->delete(123, true);
 		 */
-		public function delete($condition = null, $forceDelete = false, $attributes = [])
+		public function delete($condition = null, $forceDelete = false, $attributes = array())
 		{
 			// Check is Active Record
 			if ($this->_readProperties) {
@@ -1116,7 +1116,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 					// Event
 					$this->afterSave(true, $this->_readProperties);
 					// Reset properties
-					$this->_writeProperties = [];
+					$this->_writeProperties = array();
 				}
 
 			} else {
@@ -1138,7 +1138,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 					// Event
 					$this->afterSave(true, $this->_readProperties);
 					// Reset properties
-					$this->_writeProperties = [];
+					$this->_writeProperties = array();
 				}
 			}
 
@@ -1270,7 +1270,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				return $this->_relationshipCaches[$method];
 			}
 
-			$query = call_user_func_array([$this, $method], []);
+			$query = call_user_func_array([$this, $method], array());
 
 			// Extract query builder injection property
 			$modelName = isset($query->modelName) ? $query->modelName : null;
@@ -1354,7 +1354,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			// Use model instance's primary key while no given key
 			$key = ($key) ? : (new static())->primaryKey;
 
-			$tmp = [];
+			$tmp = array();
 			foreach ($array as $row) {
 				// Array & Object types support
 				if (is_object($row) && isset($row->$key)) {

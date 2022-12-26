@@ -408,7 +408,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 09/13/2021 16:49
 		 */
-		public function get_data_simple_result($select = '*', $wheres = [], $size = 75, $page = 0, $orderBy = ['id' => 'DESC'])
+		public function get_data_simple_result($select = '*', $wheres = array(), $size = 75, $page = 0, $orderBy = array('id' => 'DESC'))
 		{
 			$this->db->select($select);
 			$this->db->from($this->tableName);

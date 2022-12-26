@@ -178,7 +178,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		 *
 		 * @var array Worker ID => OS PID
 		 */
-		protected $_pidStack = [];
+		protected $_pidStack = array();
 
 		public function __construct()
 		{
@@ -308,7 +308,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 					$workingFlag = false;
 					$workerCount = 0;
 					// Clear worker stack
-					$this->_pidStack = [];
+					$this->_pidStack = array();
 					$costSeconds = number_format(microtime(true) - $startTime, 2, '.', '');
 					$this->_log("Queue Listener - Job empty");
 					$this->_log("Queue Listener - Stop dispatch, total cost: {$costSeconds}s");

@@ -45,9 +45,9 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		{
 			$status = 404;
 			if ($index) {
-				$params   = ['index' => $index];
+				$params = array('index' => $index);
 				$response = $this->client->indices()->exists($params);
-				$status   = $response->getStatusCode();
+				$status = $response->getStatusCode();
 			}
 
 			return $status;
@@ -55,13 +55,13 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 
 		public function create_index($index, $body)
 		{
-			$params   = ['index' => $index, 'body' => $body];
+			$params = array('index' => $index, 'body' => $body);
 			$response = $this->client->indices()->create($params);
 		}
 
 		public function refresh_index($index)
 		{
-			$params   = ['index' => $index];
+			$params = array('index' => $index);
 			$response = $this->client->indices()->refresh($params);
 		}
 
@@ -70,7 +70,7 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 			if (!$index) {
 				return false;
 			}
-			$params = ['index' => $index];
+			$params = array('index' => $index);
 			try {
 				$response = $this->client->indices()->delete($params);
 			} catch (Exception $e) {
@@ -82,7 +82,11 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		public function get_found_document($index, $type, $id)
 		{
 			//db - collection - id
-			$params  = ['index' => $index, 'type' => $type, 'id' => $id];
+			$params = array(
+				'index' => $index,
+				'type'  => $type,
+				'id'    => $id
+			);
 			$results = $this->client->get($params);
 
 			return $results['found'];
@@ -90,60 +94,70 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 
 		public function exists_document($index, $type, $id)
 		{
-			$params = ['index' => $index, 'type' => $type, 'id' => $id];
+			$params = array(
+				'index' => $index,
+				'type'  => $type,
+				'id'    => $id
+			);
 
 			return $this->client->exists($params);
 		}
 
 		public function create_document($index, $type, $id, $body)
 		{
-			$params = [
+			$params = array(
 				'index' => $index,
 				'type'  => $type,
 				'id'    => $id,
-				'body'  => $body];
+				'body'  => $body
+			);
 
 			return $this->client->index($params);
 		}
 
 		public function update_document($index, $type, $id, $body)
 		{
-			$params = [
+			$params = array(
 				'index' => $index,
 				'type'  => $type,
 				'id'    => $id,
-				'body'  => $body];
+				'body'  => $body
+			);
 
 			return $this->client->update($params);
 		}
 
 		public function delete_document($index, $type, $id)
 		{
-			$params = [
+			$params = array(
 				'index'   => $index,
 				'type'    => $type,
 				'refresh' => 'wait_for', //or true
-				'id'      => $id];
+				'id'      => $id
+			);
 
 			return $this->client->delete($params);
 		}
 
 		public function search_document($index, $type, $from, $size, $query, $all)
 		{
-			$params = [
+			$params = array(
 				'index' => $index,
 				'type'  => $type,
-				'body'  => [
+				'body'  => array(
 					'from'  => $from,
 					'size'  => $size,
-					'query' => $query]];
+					'query' => $query
+				)
+			);
 			if ($all) {
-				$params = [
+				$params = array(
 					'index' => $index,
 					'type'  => $type,
 					'from'  => $from,
 					'size'  => $size,
-					'body'  => ['query' => $query]];
+					'body'  => array('query' => $query)
+				);
 			}
 
 			return $this->client->search($params);
@@ -153,10 +167,11 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		{
 			$exists_index = $this->exists_index($index);
 			if ($exists_index === 200) {
-				$params   = [
+				$params = array(
 					'index' => $index,
 					'type'  => $type,
-					'body'  => ['query' => $query]];
+					'body'  => array('query' => $query)
+				);
 				$response = $this->client->count($params);
 			} else {
 				$response['count'] = 0;

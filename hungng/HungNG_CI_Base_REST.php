@@ -46,26 +46,26 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 *
 		 * @var array RESTful API table of routes & actions
 		 */
-		protected $routes = [
+		protected $routes = array(
 			'index'  => 'index',
 			'store'  => 'store',
 			'show'   => 'show',
 			'update' => 'update',
 			'delete' => 'delete',
-		];
+		);
 
 		/**
 		 * Behaviors of actions
 		 *
 		 * @var array
 		 */
-		private $behaviors = [
+		private $behaviors = array(
 			'index'  => null,
 			'store'  => null,
 			'show'   => null,
 			'update' => null,
 			'delete' => null,
-		];
+		);
 
 		/**
 		 * Pre-setting format
@@ -81,10 +81,10 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 */
 		protected $bodyFormat = false;
 
-		/** @var \nguyenanhung\CodeIgniter\BaseREST\Request  */
+		/** @var \nguyenanhung\CodeIgniter\BaseREST\Request */
 		protected $request;
 
-		/** @var \nguyenanhung\CodeIgniter\BaseREST\Response  */
+		/** @var \nguyenanhung\CodeIgniter\BaseREST\Response */
 		protected $response;
 
 		function __construct()
@@ -117,7 +117,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 			switch ($this->request->getMethod()) {
 				case 'POST':
 					if (!$resourceID) {
-						return $this->_action(['store', $this->request->getBodyParams()]);
+						return $this->_action(array('store', $this->request->getBodyParams()));
 					}
 					break;
 				case 'PATCH':
@@ -126,17 +126,17 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 						return $this->_defaultAction();
 					}
 				case 'PUT':
-					return $this->_action(['update', $resourceID, $this->request->getBodyParams()]);
+					return $this->_action(array('update', $resourceID, $this->request->getBodyParams()));
 					break;
 				case 'DELETE':
-					return $this->_action(['delete', $resourceID, $this->request->getBodyParams()]);
+					return $this->_action(array('delete', $resourceID, $this->request->getBodyParams()));
 					break;
 				case 'GET':
 				default:
 					if ($resourceID) {
-						return $this->_action(['show', $resourceID]);
+						return $this->_action(array('show', $resourceID));
 					} else {
-						return $this->_action(['index']);
+						return $this->_action(array('index'));
 					}
 					break;
 			}
@@ -178,7 +178,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 *  json(false, true, 401, 'Login Required', 'Unauthorized');
 		 * @throws \Exception
 		 */
-		protected function json($data = [], $bodyFormat = null, $statusCode = null, $message = null)
+		protected function json($data = array(), $bodyFormat = null, $statusCode = null, $message = null)
 		{
 			// Check default Body Format setting if not assigning
 			$bodyFormat = ($bodyFormat !== null) ? $bodyFormat : $this->bodyFormat;
@@ -188,7 +188,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 				$data = $this->_format($statusCode, $message, $data);
 			} else {
 				// JSON standard of RFC4627
-				$data = is_array($data) ? $data : [$data];
+				$data = is_array($data) ? $data : array($data);
 			}
 
 			return $this->response->json($data, $statusCode);
@@ -207,7 +207,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 */
 		protected function _format($statusCode = null, $message = null, $body = false)
 		{
-			$format = [];
+			$format = array();
 			// Status Code field is necessary
 			$format['code'] = ($statusCode)
 				? : $this->response->getStatusCode();
@@ -238,7 +238,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 */
 		protected function pack($data, $statusCode = 200, $message = null)
 		{
-			$packBody = [];
+			$packBody = array();
 
 			// Status Code
 			if ($statusCode) {
