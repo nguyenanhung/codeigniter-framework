@@ -10,6 +10,5 @@
 if (!class_exists('MY_Router')) {
 	class MY_Router extends HungNG_Router
 	{
-
 	}
 }

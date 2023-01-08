@@ -87,7 +87,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/** @var \nguyenanhung\CodeIgniter\BaseREST\Response */
 		protected $response;
 
-		function __construct()
+		public function __construct()
 		{
 			parent::__construct();
 
@@ -110,7 +110,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 * Without routes setting, `resource/{route-alias}` URI pattern is a limitation which CI3 would
 		 * first map `controller/action` URI into action() instead of index($action)
 		 *
-		 * @param int|string Resource ID
+		 * @param int|string $resourceID Resource ID
 		 */
 		public function route($resourceID = null)
 		{
@@ -167,10 +167,10 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 *
 		 * @deprecated 1.3.0
 		 *
-		 * @param array|mixed Callback data body, false will remove body key
-		 * @param bool Enable body format
-		 * @param int HTTP Status Code
-		 * @param string Callback message
+		 * @param array|mixed $data       Callback data body, false will remove body key
+		 * @param bool        $bodyFormat Enable body format
+		 * @param int         $statusCode HTTP Status Code
+		 * @param string      $message    Callback message
 		 *
 		 * @return string Response body data
 		 *
@@ -199,18 +199,17 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 *
 		 * @deprecated 1.3.0
 		 *
-		 * @param int Callback status code
-		 * @param string Callback status text
-		 * @param array|mixed|bool Callback data body, false will remove body key
+		 * @param int              $statusCode Callback status code
+		 * @param string           $message    Callback status text
+		 * @param array|mixed|bool $body       Callback data body, false will remove body key
 		 *
-		 * @return array Formated array data
+		 * @return array Formatted array data
 		 */
 		protected function _format($statusCode = null, $message = null, $body = false)
 		{
 			$format = array();
 			// Status Code field is necessary
-			$format['code'] = ($statusCode)
-				? : $this->response->getStatusCode();
+			$format['code'] = ($statusCode) ? : $this->response->getStatusCode();
 			// Message field
 			if ($message) {
 				$format['message'] = $message;
@@ -228,9 +227,9 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 *
 		 * You could override this method for your application standard
 		 *
-		 * @param array|mixed $data Original data
-		 * @param int HTTP Status Code
-		 * @param string Callback message
+		 * @param array|mixed $data       Original data
+		 * @param int         $statusCode HTTP Status Code
+		 * @param string      $message    Callback message
 		 *
 		 * @return array Packed data
 		 * @example
@@ -264,8 +263,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 */
 		protected function _defaultAction()
 		{
-			/* Response sample code */
-			// $response->data = ['foo'=>'bar'];
+			/* Response sample code */ // $response->data = ['foo'=>'bar'];
 			// $response->setStatusCode(401);
 
 			// Codeigniter 404 Error Handling
@@ -295,7 +293,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Action processor for route
 		 *
-		 * @param array Elements contains method for first and params for others
+		 * @param array $params Elements contains method for first and params for others
 		 */
 		private function _action($params)
 		{
