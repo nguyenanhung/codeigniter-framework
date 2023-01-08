@@ -24,7 +24,8 @@
 		"ext-mbstring": "*",
 		"nguyenanhung/codeigniter-basic-helper": ">=1.0",
         "ext-simplexml": "*",
-		"ext-libxml": "*"
+		"ext-libxml": "*",
+		"ext-ldap": "*"
 	},
 	"require-dev": {
 		"nguyenanhung/my-debug": "^3.0 || ^2.0 || ^1.0"
