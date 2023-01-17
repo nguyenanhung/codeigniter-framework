@@ -29,10 +29,14 @@
 	},
 	"autoload": {
 		"classmap": [
-			"hungng/"
+			"hungng/",
+			"lib/"
 		],
 		"psr-4": {
 			"nguyenanhung\\CodeIgniter\\BaseREST\\": "thirdParty/REST/"
-		}
+		},
+		"files": [
+			"helpers/codeigniter_modular.php"
+		]
 	}
 }
