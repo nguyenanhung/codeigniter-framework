@@ -43,10 +43,12 @@ class CI
 
 	public function __construct()
 	{
-		/* assign the application instance */
+		// assign the application instance
 		self::$APP = CI_Controller::get_instance();
+
 		global $LANG, $CFG;
-		/* re-assign language and config for modules */
+
+		// re-assign language and config for modules
 		if (!$LANG instanceof MX_Lang) {
 			$LANG = new MX_Lang;
 		}

@@ -1,5 +1,5 @@
 <?php
-(defined('BASEPATH')) OR exit('No direct script access allowed');
+(defined('BASEPATH')) or exit('No direct script access allowed');
 
 /**
  * Modular Extensions - HMVC
@@ -42,16 +42,28 @@ class MX_Config extends CI_Config
 		if (in_array($file, $this->is_loaded, true)) {
 			return $this->item($file);
 		}
+
 		$_module or $_module = CI::$APP->router->fetch_module();
-		list($path, $file) = Modules::find($file, $_module, 'config/');
+
+		// Backward function
+		// Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
+		if (version_compare(phpversion(), '7.1', '<')) {
+			// php version isn't high enough
+			list($path, $file) = Modules::find($file, $_module, 'config/');
+		} else {
+			[$path, $file] = Modules::find($file, $_module, 'config/');
+		}
+
 		if ($path === false) {
 			parent::load($file, $use_sections, $fail_gracefully);
 
 			return $this->item($file);
 		}
+
 		if ($config = Modules::load_file($file, $path, 'config')) {
-			/* reference to the config array */
+			// reference to the config array
 			$current_config =& $this->config;
+
 			if ($use_sections === true) {
 				if (isset($current_config[$file])) {
 					$current_config[$file] = array_merge($current_config[$file], $config);
@@ -61,6 +73,7 @@ class MX_Config extends CI_Config
 			} else {
 				$current_config = array_merge($current_config, $config);
 			}
+
 			$this->is_loaded[] = $file;
 			unset($config);
 
