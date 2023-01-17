@@ -16,11 +16,13 @@ Mục lục
 	- [Hướng dẫn viết Controller kế thừa Base Controller](#hướng-dẫn-viết-controller-kế-thừa-base-controller)
 	- [Hướng dẫn viết Controller chạy Queue Worker](#hướng-dẫn-viết-controller-chạy-queue-worker)
 	- [Hướng dẫn viết Controller chạy RESTful API Service](#hướng-dẫn-viết-controller-chạy-restful-api-service)
+	- [Hướng dẫn tích hợp mô hình HMVC (Modular) vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
 	- [Hướng dẫn viết Model kế thừa Base Model](#hướng-dẫn-viết-model-kế-thừa-base-model)
 	- [Hướng dẫn viết Model kế thừa Base ORM Model](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
-	- [Hướng dẫn tích hợp mô hình HMVC vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
 	- [Hướng dẫn sử dụng CSDL MongoDB trong dự án](#hướng-dẫn-sử-dụng-csdl-mongodb-trong-dự-án)
 	- [Hướng dẫn sử dụng Elasticsearch trong dự án](#hướng-dẫn-sử-dụng-elasticsearch-trong-dự-án)
+	- [Hướng dẫn sử dụng kiểm tra các filename trong dự án của bạn đã đúng chuẩn của CodeIgniter hay chưa](#hướng-dẫn-sử-dụng-kiểm-tra-các-filename-trong-dự-án-của-bạn-đã-đúng-chuẩn-của-codeigniter-hay-chưa)
+	- [Hướng dẫn sử dụng ghi log tất cả các queries trong CodeIgniter và ghi lại Execution Time của từng Queries](#hướng-dẫn-sử-dụng-ghi-log-tất-cả-các-queries-trong-codeigniter-và-ghi-lại-execution-time-của-từng-queries)
 - [Liên hệ & Hỗ trợ](#liên-hệ)
 
 ---
