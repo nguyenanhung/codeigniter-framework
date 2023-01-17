@@ -359,10 +359,11 @@ class TestModule extends HungNG_CI_Base_Module
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter3-filename-checker](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter3-filename-checker)
 
 ### Hướng dẫn sử dụng ghi log tất cả các queries trong CodeIgniter và ghi lại Execution Time của từng Queries
+
 1. Mặc định, CodeIgniter v3 không hỗ trợ ghi log Execution Time của các Queries. Tuy nhiên, có thể sử dụng Hooks để thực hiện điều này
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-log-all-queries](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-log-all-queries)
-   
+
 ## Liên hệ
 
 | Name        | Email                | Skype            | Facebook      |
