@@ -11,9 +11,9 @@
 if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 	class HungNG_CI_Base_Controller_Filename_Checker extends HungNG_CI_Base_Controllers
 	{
-		private $dir;
-		private $output_ = array();
-		private $fix = false;
+		protected $dir;
+		protected $output_ = array();
+		protected $fix = false;
 
 		public function __construct()
 		{
