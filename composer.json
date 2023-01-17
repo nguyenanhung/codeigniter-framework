@@ -30,7 +30,8 @@
 	"autoload": {
 		"classmap": [
 			"hungng/",
-			"lib/"
+			"lib/",
+			"hooks/"
 		],
 		"psr-4": {
 			"nguyenanhung\\CodeIgniter\\BaseREST\\": "thirdParty/REST/"
