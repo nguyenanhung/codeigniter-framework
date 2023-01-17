@@ -372,6 +372,11 @@ if ( ! function_exists('meta'))
 			$content	= isset($meta['content'])				? $meta['content'] : '';
 			$newline	= isset($meta['newline'])				? $meta['newline'] : "\n";
 
+			// Remove XSS or HTML Tags in Meta Name or Meta Content
+			$name = strip_tags($name);
+			$content = strip_tags($content);
+			$type = strip_tags($content);
+
 			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
 		}
 
