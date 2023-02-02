@@ -40,8 +40,9 @@ if (!function_exists('codeigniter_hmvc_modules_list')) {
 			$files = directory_map($location, 1);
 			if (is_array($files)) {
 				foreach ($files as $name) {
-					if (is_dir($location . $name))
+					if (is_dir($location . $name)) {
 						$modules[] = $with_location ? array($location, $name) : $name;
+					}
 				}
 			}
 		}
@@ -49,4 +50,3 @@ if (!function_exists('codeigniter_hmvc_modules_list')) {
 		return $modules;
 	}
 }
-
