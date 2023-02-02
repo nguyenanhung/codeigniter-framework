@@ -366,7 +366,7 @@ class TestModule extends HungNG_CI_Base_Module
 
 ## Liên hệ
 
-| Name        | Email                | Skype            | Facebook      |
-|-------------|----------------------|------------------|---------------|
-| Hung Nguyen | dev@nguyenanhung.com | nguyenanhung5891 | @nguyenanhung |
+| Name        | Email                | Skype            | Facebook      | Website                  |
+|-------------|----------------------|------------------|---------------|--------------------------|
+| Hung Nguyen | dev@nguyenanhung.com | nguyenanhung5891 | @nguyenanhung | https://nguyenanhung.com |
 
