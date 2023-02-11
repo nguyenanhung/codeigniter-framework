@@ -380,12 +380,17 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 				try {
 					$file = new \nguyenanhung\MyDebug\Manager\File();
 					$file->setInclude(array('*.log', '*.txt', 'log-*.php'));
+					if (defined('APPPATH')) {
+						$applicationPath = APPPATH;
+					} else {
+						$applicationPath = dirname(__DIR__) . '/';
+					}
 					$response = array(
 						'status' => 'OK',
 						'time'   => date('Y-m-d H:i:s'),
 						'data'   => array(
-							'logs'      => $file->cleanLog(dirname(__DIR__) . '/logs', 7),
-							'logs-data' => $file->cleanLog(dirname(__DIR__) . '/logs-data', 7)
+							'logs'      => $file->cleanLog($applicationPath . 'logs', 7),
+							'logs-data' => $file->cleanLog($applicationPath . 'logs-data', 7)
 						)
 					);
 					log_message('debug', 'Clean Log Result: ' . json_encode($response));

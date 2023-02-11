@@ -26,28 +26,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2022, CodeIgniter Foundation (https://codeigniter.com/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 3.0.0
+ * @package      CodeIgniter
+ * @author       EllisLab Dev Team
+ * @copyright    Copyright (c) 2022, CodeIgniter Foundation (https://codeigniter.com/)
+ * @license      https://opensource.org/licenses/MIT	MIT License
+ * @link         https://codeigniter.com
+ * @since        Version 3.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * PHP8SessionWrapper
  *
  * PHP 8 Session handler compatibility wrapper
  *
- * @package	CodeIgniter
- * @subpackage	Libraries
- * @category	Sessions
- * @author	Andrey Andreev
- * @link	https://codeigniter.com/userguide3/libraries/sessions.html
+ * @package       CodeIgniter
+ * @subpackage    Libraries
+ * @category      Sessions
+ * @author        Andrey Andreev
+ * @link          https://codeigniter.com/userguide3/libraries/sessions.html
  */
-class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface {
+class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
+{
 
 	protected CI_Session_driver_interface $driver;
 
@@ -56,44 +57,44 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 		$this->driver = $driver;
 	}
 
-	public function open(string $save_path, string $name): bool
+	public function open($save_path, $name)
 	{
 		return $this->driver->open($save_path, $name);
 	}
 
-	public function close(): bool
+	public function close()
 	{
 		return $this->driver->close();
 	}
 
 	#[\ReturnTypeWillChange]
-	public function read(string $id): mixed
+	public function read($id):
 	{
 		return $this->driver->read($id);
 	}
 
-	public function write(string $id, string $data): bool
+	public function write($id, $data)
 	{
 		return $this->driver->write($id, $data);
 	}
 
-	public function destroy(string $id): bool
+	public function destroy($id)
 	{
 		return $this->driver->destroy($id);
 	}
 
 	#[\ReturnTypeWillChange]
-	public function gc(int $maxlifetime): mixed
+	public function gc($maxlifetime)
 	{
 		return $this->driver->gc($maxlifetime);
 	}
 
-	public function updateTimestamp(string $id, string$data): bool
+	public function updateTimestamp($id, $data)
 	{
 		return $this->driver->updateTimestamp($id, $data);
 	}
 
-	public function validateId(string $id): bool
+	public function validateId($id)
 	{
 		return $this->driver->validateId($id);
 	}
