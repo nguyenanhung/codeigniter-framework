@@ -262,29 +262,62 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
-		 * Function build_order_result
+		 * Function bind_order_result
+		 *
+		 * Lưu ý: mặc định sẽ order theo giá trị $direction và $field, $field truyền vào
+		 * Trong trường hợp sử dụng $table=order_by_field, cần setup cả table và field trong biến $order_by_field trước khi truyền vào để order cho đúng
 		 *
 		 * @param $order_by_field
 		 * @param $direction
 		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 11/02/2023 49:18
+		 */
+		public function bind_order_result($order_by_field, $direction = 'desc', $field = 'id', $table = '')
+		{
+			return $this->build_order_result($order_by_field, $direction, $field, $table);
+		}
+
+		/**
+		 * Function build_order_result
+		 *
+		 * Lưu ý: mặc định sẽ order theo giá trị $direction và $field, $field truyền vào
+		 * Trong trường hợp sử dụng $table=order_by_field, cần setup cả table và field trong biến $order_by_field trước khi truyền vào để order cho đúng
+		 *
+		 * @param $order_by_field
+		 * @param $direction
+		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 28:15
 		 */
-		public function build_order_result($order_by_field, $direction = 'desc', $field = 'id')
+		public function build_order_result($order_by_field, $direction = 'desc', $field = 'id', $table = '')
 		{
+			if (!empty($table)) {
+				$tableName = trim($table) . '.';
+			} else {
+				$tableName = $this->tableName . '.';
+			}
+			if ($table === 'order_by_field') {
+				$tableName = '';
+			}
 			if (isset($order_by_field) && is_array($order_by_field) && count($order_by_field) > 0) {
 				foreach ($order_by_field as $field) {
-					$this->db->order_by($this->tableName . '.' . $field['field_name'], $field['order_value']);
+					$this->db->order_by($tableName . $field['field_name'], $field['order_value']);
 				}
 			} else {
 				$direction = strtoupper(trim($direction));
 				if ($direction === 'RANDOM') {
-					$this->db->order_by($this->tableName . '.' . $field, 'RANDOM');
+					$this->db->order_by($tableName . $field, 'RANDOM');
 				} else {
-					$this->db->order_by($this->tableName . '.' . $field, $direction);
+					$this->db->order_by($tableName . $field, $direction);
 				}
 			}
 
