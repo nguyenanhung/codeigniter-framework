@@ -174,40 +174,36 @@ class CI_Typography {
 		$str = '';
 		$process = TRUE;
 
-		for ($i = 0, $c = count($chunks) - 1; $i <= $c; $i++)
-		{
-			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
-			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
-			if (preg_match('#<(/*)('.$this->block_elements.').*?>#', $chunks[$i], $match))
-			{
-				if (preg_match('#'.$this->skip_elements.'#', $match[2]))
-				{
-					$process = ($match[1] === '/');
+		if (is_array($chunks)) {
+			for ($i = 0, $c = count($chunks) - 1; $i <= $c; $i++) {
+				// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
+				// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
+				if (preg_match('#<(/*)(' . $this->block_elements . ').*?>#', $chunks[$i], $match)) {
+					if (preg_match('#' . $this->skip_elements . '#', $match[2])) {
+						$process = ($match[1] === '/');
+					}
+
+					if ($match[1] === '') {
+						$this->last_block_element = $match[2];
+					}
+
+					$str .= $chunks[$i];
+					continue;
 				}
 
-				if ($match[1] === '')
-				{
-					$this->last_block_element = $match[2];
+				if ($process === false) {
+					$str .= $chunks[$i];
+					continue;
 				}
 
-				$str .= $chunks[$i];
-				continue;
-			}
+				//  Force a newline to make sure end tags get processed by _format_newlines()
+				if ($i === $c) {
+					$chunks[$i] .= "\n";
+				}
 
-			if ($process === FALSE)
-			{
-				$str .= $chunks[$i];
-				continue;
+				//  Convert Newlines into <p> and <br /> tags
+				$str .= $this->_format_newlines($chunks[$i]);
 			}
-
-			//  Force a newline to make sure end tags get processed by _format_newlines()
-			if ($i === $c)
-			{
-				$chunks[$i] .= "\n";
-			}
-
-			//  Convert Newlines into <p> and <br /> tags
-			$str .= $this->_format_newlines($chunks[$i]);
 		}
 
 		// No opening block level tag? Add it if needed.
