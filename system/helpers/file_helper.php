@@ -252,8 +252,8 @@ if ( ! function_exists('get_dir_file_info'))
 					$filedata['relative_path'] = $relative_path;
 					$_filedata[] = $filedata;
 
-					// $_filedata[$file] = get_file_info($source_dir.$file);
-					// $_filedata[$file]['relative_path'] = $relative_path;
+//					$_filedata[$file] = get_file_info($source_dir.$file);
+//					$_filedata[$file]['relative_path'] = $relative_path;
 				}
 			}
 
