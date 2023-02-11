@@ -678,27 +678,29 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function request_builder
 		 *
 		 * @param $search
+		 * @param $table
 		 *
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/16/2021 29:37
 		 */
-		public function request_builder($search)
+		public function request_builder($search, $table = '')
 		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
 			if (!empty($search)) {
 				foreach ($search as $field => $value) {
-					if (!empty($value) && $this->db->field_exists($field, $this->tableName)) {
+					if (!empty($value) && $this->db->field_exists($field, $tableName)) {
 						if (is_array($value)) {
-							$this->db->where_in($this->tableName . '.' . $field, $value);
+							$this->db->where_in($tableName . '.' . $field, $value);
 						} else {
-							$this->db->like($this->tableName . '.' . $field, $value);
+							$this->db->like($tableName . '.' . $field, $value);
 						}
 					}
 					if ($field === 'sort') {
 						$sort = (strpos($value, '-') === false) ? 'DESC' : 'ASC';
 						$column = (strpos($value, '-') === false) ? $value : substr($value, 1);
-						if ($this->db->field_exists($column, $this->tableName)) {
-							$this->db->order_by($this->tableName . '.' . $column, $sort);
+						if ($this->db->field_exists($column, $tableName)) {
+							$this->db->order_by($tableName . '.' . $column, $sort);
 						}
 					}
 				}
@@ -742,19 +744,21 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $value
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 31:03
 		 */
-		public function prepare_simple_wheres_not_statement($value, $field = 'id')
+		public function prepare_simple_wheres_not_statement($value, $field = 'id', $table = '')
 		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
 			if ($value !== null) {
 				if (is_array($value)) {
-					$this->db->where_not_in($this->tableName . '.' . $field, $value);
+					$this->db->where_not_in($tableName . '.' . $field, $value);
 				} else {
-					$this->db->where($this->tableName . '.' . $field . $this->is_not, $value);
+					$this->db->where($tableName . '.' . $field . $this->is_not, $value);
 				}
 			}
 
@@ -766,19 +770,21 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $value
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 31:11
 		 */
-		public function prepare_simple_wheres_statement($value, $field = 'id')
+		public function prepare_simple_wheres_statement($value, $field = 'id', $table = '')
 		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
 			if ($value !== null) {
 				if (is_array($value)) {
-					$this->db->where_in($this->tableName . '.' . $field, $value);
+					$this->db->where_in($tableName . '.' . $field, $value);
 				} else {
-					$this->db->where($this->tableName . '.' . $field, $value);
+					$this->db->where($tableName . '.' . $field, $value);
 				}
 			}
 
@@ -940,19 +946,21 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 03:06
 		 */
-		public function filter_by_primary_id($id, $field = 'id')
+		public function filter_by_primary_id($id, $field = 'id', $table = '')
 		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
 			if ($id !== null) {
 				if (is_array($id)) {
-					$this->db->where_in($this->tableName . '.' . $field, $id);
+					$this->db->where_in($tableName . '.' . $field, $id);
 				} else {
-					$this->db->where($this->tableName . '.' . $field, $id);
+					$this->db->where($tableName . '.' . $field, $id);
 				}
 			}
 
@@ -964,19 +972,21 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 03:02
 		 */
-		public function build_operator_equal_to($id, $field = 'id')
+		public function build_operator_equal_to($id, $field = 'id', $table = '')
 		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
 			if ($id !== null) {
 				if (is_array($id)) {
-					$this->db->where_in($this->tableName . '.' . $field, $id);
+					$this->db->where_in($tableName . '.' . $field, $id);
 				} else {
-					$this->db->where($this->tableName . '.' . $field, $id);
+					$this->db->where($tableName . '.' . $field, $id);
 				}
 			}
 
@@ -988,19 +998,21 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 02:59
 		 */
-		public function build_operator_not_equal_to($id, $field = 'id')
+		public function build_operator_not_equal_to($id, $field = 'id', $table = '')
 		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
 			if ($id !== null) {
 				if (is_array($id)) {
-					$this->db->where_not_in($this->tableName . '.' . $field, $id);
+					$this->db->where_not_in($tableName . '.' . $field, $id);
 				} else {
-					$this->db->where($this->tableName . '.' . $field . $this->is_not, $id);
+					$this->db->where($tableName . '.' . $field . $this->is_not, $id);
 				}
 			}
 
@@ -1012,15 +1024,17 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 02:56
 		 */
-		public function build_operator_less_than_to($id, $field = 'id')
+		public function build_operator_less_than_to($id, $field = 'id', $table = '')
 		{
-			$this->db->where($this->tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN, $id);
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN, $id);
 
 			return $this->db;
 		}
@@ -1030,15 +1044,17 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 02:53
 		 */
-		public function build_operator_greater_than_to($id, $field = 'id')
+		public function build_operator_greater_than_to($id, $field = 'id', $table = '')
 		{
-			$this->db->where($this->tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN, $id);
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN, $id);
 
 			return $this->db;
 		}
@@ -1048,15 +1064,17 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 02:50
 		 */
-		public function build_operator_less_than_or_equal_to($id, $field = 'id')
+		public function build_operator_less_than_or_equal_to($id, $field = 'id', $table = '')
 		{
-			$this->db->where($this->tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN_OR_EQUAL_TO, $id);
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN_OR_EQUAL_TO, $id);
 
 			return $this->db;
 		}
@@ -1066,15 +1084,17 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 02:46
 		 */
-		public function build_operator_greater_than_or_equal_to($id, $field = 'id')
+		public function build_operator_greater_than_or_equal_to($id, $field = 'id', $table = '')
 		{
-			$this->db->where($this->tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN_OR_EQUAL_TO, $id);
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN_OR_EQUAL_TO, $id);
 
 			return $this->db;
 		}
@@ -1084,15 +1104,17 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 *
 		 * @param $id
 		 * @param $field
+		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 08/02/2023 02:41
 		 */
-		public function build_operator_space_ship_to($id, $field = 'id')
+		public function build_operator_space_ship_to($id, $field = 'id', $table = '')
 		{
-			$this->db->where($this->tableName . '.' . $field . ' ' . self::OPERATOR_IS_SPACESHIP, $id);
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_IS_SPACESHIP, $id);
 
 			return $this->db;
 		}
