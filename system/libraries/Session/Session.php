@@ -212,6 +212,7 @@ class CI_Session {
 
 		require_once(BASEPATH.'libraries/Session/CI_Session_driver_interface.php');
 		$wrapper = is_php('8.0') ? 'PHP8SessionWrapper' : 'OldSessionWrapper';
+
 		require_once(BASEPATH.'libraries/Session/'.$wrapper.'.php');
 
 		$prefix = config_item('subclass_prefix');

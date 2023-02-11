@@ -278,7 +278,7 @@ if ( ! function_exists('create_captcha'))
 		{
 			$theta += $thetac;
 			$rad = $radius * ($i / $points);
-			if (version_compare(PHP_VERSION, '8.0', '>=')) {
+			if (is_php('8.0')) {
 				$x = round(($rad * cos($theta)) + $x_axis);
 				$y = round(($rad * sin($theta)) + $y_axis);
 			} else {
@@ -287,7 +287,7 @@ if ( ! function_exists('create_captcha'))
 			}
 			$theta += $thetac;
 			$rad1 = $radius * (($i + 1) / $points);
-			if (version_compare(PHP_VERSION, '8.0', '>=')) {
+			if (is_php('8.0')) {
 				$x1 = round(($rad1 * cos($theta)) + $x_axis);
 				$y1 = round(($rad1 * sin($theta)) + $y_axis);
 			} else {

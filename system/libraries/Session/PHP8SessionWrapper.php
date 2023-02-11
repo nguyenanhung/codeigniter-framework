@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
 {
 
-	protected CI_Session_driver_interface $driver;
+	protected $driver;
 
 	public function __construct(CI_Session_driver_interface $driver)
 	{
@@ -68,7 +68,7 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 	}
 
 	#[\ReturnTypeWillChange]
-	public function read($id):
+	public function read($id)
 	{
 		return $this->driver->read($id);
 	}

@@ -741,3 +741,50 @@ if ( ! function_exists('date_range'))
 		return $range;
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if (!function_exists('get_zulu_ime')) {
+	/**
+	 * Function get_zulu_ime
+	 *
+	 * @return string|null
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 16/06/2022 40:35
+	 */
+	function get_zulu_ime()
+	{
+		try {
+			return (new DateTime("now", new DateTimeZone("UTC")))->format('Y-m-d\TH:i:s\Z');
+		} catch (Exception $e) {
+			return null;
+		}
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if (!function_exists('calculator_day_floor')) {
+	/**
+	 * Function calculator_day_floor
+	 *
+	 * @param string $start
+	 * @param string $end
+	 *
+	 * @return int
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 10/05/2021 12:01
+	 */
+	function calculator_day_floor($start = '', $end = '')
+	{
+		if (empty($start) && empty($end)) {
+			return 0;
+		}
+
+		$floor = abs(strtotime($start) - strtotime($end));
+
+		return (int) floor($floor / (60 * 60 * 24));
+	}
+}

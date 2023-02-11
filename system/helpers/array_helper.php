@@ -114,3 +114,37 @@ if ( ! function_exists('elements'))
 		return $return;
 	}
 }
+
+// --------------------------------------------------------------------
+
+if (!function_exists('array_to_object')) {
+	/**
+	 * Function array_to_object
+	 *
+	 * @param array|mixed $array
+	 *
+	 * @return array|false|\stdClass
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 07/27/2021 36:10
+	 */
+	function array_to_object($array = array())
+	{
+		if (!is_array($array)) {
+			return $array;
+		}
+		$object = new stdClass();
+		$countArray = count($array);
+		if ($countArray > 0) {
+			foreach ($array as $name => $value) {
+				if (!empty($name)) {
+					$object->$name = array_to_object($value);
+				}
+			}
+
+			return $object;
+		}
+
+		return false;
+	}
+}

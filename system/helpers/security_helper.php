@@ -136,3 +136,21 @@ if ( ! function_exists('encode_php_tags'))
 		return str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $str);
 	}
 }
+
+// ------------------------------------------------------------------------
+if (!function_exists('bear_xss_validation')) {
+	/**
+	 * Function bear_xss_validation` - Validation dữ liệu đầu vào có bị dính lỗi XSS hay không. Hàm này không có tác dụng escape
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 30/07/2022 57:32
+	 */
+	function bear_xss_validation($value)
+	{
+		return get_instance()->security->bear_xss_validation($value);
+	}
+}
