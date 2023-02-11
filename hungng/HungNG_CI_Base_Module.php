@@ -212,14 +212,7 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 			$response = array();
 			$response['code'] = StatusCodes::HTTP_BAD_REQUEST;
 			$response['message'] = StatusCodes::$statusTexts[StatusCodes::HTTP_BAD_REQUEST];
-			if (
-				(
-					defined('ENVIRONMENT') &&
-					(ENVIRONMENT === 'development' || ENVIRONMENT === 'staging' || ENVIRONMENT === 'testing')
-				)
-				||
-				in_array(getIPAddress(), config_item('whitelist_ip'), true)
-			) {
+			if ((defined('ENVIRONMENT') && (ENVIRONMENT === 'development' || ENVIRONMENT === 'staging' || ENVIRONMENT === 'testing')) || in_array(getIPAddress(), config_item('whitelist_ip'), true)) {
 				$response['error'] = array(
 					'Code'          => $exception->getCode(),
 					'File'          => $exception->getFile(),
@@ -375,22 +368,6 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 		}
 
 		/**
-		 * Function opcache_flush_reset
-		 *
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 26/12/2022 01:36
-		 */
-		protected function opcache_flush_reset()
-		{
-			if (function_exists('opcache_reset') && is_cli()) {
-				opcache_reset();
-			} else {
-				show_404();
-			}
-		}
-
-		/**
 		 * Function default_base_flush_logs
 		 *
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -418,6 +395,8 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 				} catch (Exception $e) {
 					$message = 'Code: ' . $e->getCode() . ' - File: ' . $e->getFile() . ' - Line: ' . $e->getLine() . ' - Message: ' . $e->getMessage();
 					log_message('error', $message);
+					echo $message . PHP_EOL;
+					exit;
 				}
 			} else {
 				$info = array(
@@ -427,6 +406,56 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 					'request_headers' => $this->input->request_headers(true)
 				);
 				log_message('error', json_encode($info));
+				show_404();
+			}
+		}
+
+		/**
+		 * Function opcache_flush_reset
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 26/12/2022 01:36
+		 */
+		protected function opcache_flush_reset()
+		{
+			if (function_exists('opcache_reset') && is_cli()) {
+				opcache_reset();
+			} else {
+				show_404();
+			}
+		}
+
+		/**
+		 * Function command_clean_cache_file
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 12/02/2023 08:12
+		 */
+		protected function command_clean_cache_file()
+		{
+			if (is_cli()) {
+				$this->load->driver('cache', array('adapter' => 'file', 'backup' => 'dummy'));
+				$this->cache->clean();
+			} else {
+				show_404();
+			}
+		}
+
+		/**
+		 * Function command_clean_cache_apc
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 12/02/2023 08:36
+		 */
+		protected function command_clean_cache_apc()
+		{
+			if (is_cli()) {
+				$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+				$this->cache->clean();
+			} else {
 				show_404();
 			}
 		}
