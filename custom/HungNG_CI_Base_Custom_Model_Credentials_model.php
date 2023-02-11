@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 11/02/2023
  * Time: 19:25
  */
-if (!class_exists('HungNG_Basic_Custom_Model_Credentials_model')) {
+if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 	/**
 	 * Class HungNG_CI_Base_Custom_Model_Credentials_model
 	 *
