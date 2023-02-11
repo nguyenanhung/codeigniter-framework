@@ -1,5 +1,5 @@
 <?php
-
+defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
  * Created by PhpStorm
@@ -18,7 +18,6 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 		public function __construct()
 		{
 			parent::__construct();
-
 			$this->dir = array(
 				'controllers',
 				'libraries',
@@ -91,11 +90,11 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 				}
 			}
 
-			if (!$this->checkUcfirst($filename)) {
+			if (!$this->checkUcFirst($filename)) {
 				if ($this->fix) {
-					$newname = dirname($filepath) . '/' . ucfirst($filename);
-					if (rename($filepath, $newname)) {
-						$this->output('Rename: ' . $filepath . PHP_EOL . '     -> ' . $newname);
+					$newName = dirname($filepath) . '/' . ucfirst($filename);
+					if (rename($filepath, $newName)) {
+						$this->output('Rename: ' . $filepath . PHP_EOL . '     -> ' . $newName);
 					}
 				}
 
@@ -105,13 +104,13 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 			}
 		}
 
-		private function checkUcfirst($filename)
+		private function checkUcFirst($filename)
 		{
 			if (ucfirst($filename) !== $filename) {
 				return false;
-			} else {
-				return true;
 			}
+
+			return true;
 		}
 
 		private function hasPrefix($filename, $prefix)

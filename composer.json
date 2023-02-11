@@ -31,6 +31,7 @@
 		"classmap": [
 			"hungng/",
 			"lib/",
+			"custom/",
 			"hooks/"
 		],
 		"psr-4": {
@@ -39,5 +40,19 @@
 		"files": [
 			"helpers/codeigniter_modular.php"
 		]
+	},
+	"suggest": {
+		"nguyenanhung/helpers": "Awesome Helpers - Powerful Library, Helpers and Tools",
+		"nguyenanhung/security": "Awesome Helpers - Wrapper for Security, Encrypt, Encode, Purifier",
+		"nguyenanhung/validation": "Awesome Validation - A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
+		"nguyenanhung/image": "Need support for Image Service",
+		"nguyenanhung/seo": "Need support for SEO",
+		"nguyenanhung/my-cache": "Need support for Powerful Cache Implement",
+		"nguyenanhung/my-debug": "Need support for Powerful Logger (Extend from Monolog)",
+		"nguyenanhung/requests": "Need support for Powerful HTTP Request",
+		"nguyenanhung/database": "Need support for Powerful SQL Database Tools (Customize Laravel Database)",
+		"nguyenanhung/monitor": "Need support for Send Monitor Message to Monitor Service",
+		"nguyenanhung/markdown": "Parser for Markdown",
+		"nguyenanhung/basic-firewall": "PHP Basic Firewall - Library providing IP filtering features"
 	}
 }

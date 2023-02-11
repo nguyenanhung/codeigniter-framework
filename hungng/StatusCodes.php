@@ -1,7 +1,5 @@
 <?php
 if (!class_exists('StatusCodes')) {
-
-
 	/**
 	 * Class StatusCodes
 	 *
@@ -94,7 +92,7 @@ if (!class_exists('StatusCodes')) {
 			'last_modified'    => true,
 			'etag'             => true,
 		);
-		public static $statusTexts                            = array(
+		public static $statusTexts = array(
 			100 => 'Continue',
 			101 => 'Switching Protocols',
 			102 => 'Processing',            // RFC2518
