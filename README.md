@@ -6,6 +6,7 @@ Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụ
 
 Bản đóng gói `v3.1.14` bổ sung thêm 1 số tính năng mới, tương thích với phiên bản PHP 8.2
 
+Bản đóng gói này được liên tục cập nhật với các feature mới từ nhánh CodeIgniter3 nguyên bản. Vì vậy nó luôn được cập nhật các bản vá lỗi và bổ sung thêm nhiều tính năng mới
 
 Mục lục
 -------
@@ -23,20 +24,26 @@ Mục lục
 	- [Hướng dẫn sử dụng Elasticsearch trong dự án](#hướng-dẫn-sử-dụng-elasticsearch-trong-dự-án)
 	- [Hướng dẫn sử dụng kiểm tra các filename trong dự án của bạn đã đúng chuẩn của CodeIgniter hay chưa](#hướng-dẫn-sử-dụng-kiểm-tra-các-filename-trong-dự-án-của-bạn-đã-đúng-chuẩn-của-codeigniter-hay-chưa)
 	- [Hướng dẫn sử dụng ghi log tất cả các queries trong CodeIgniter và ghi lại Execution Time của từng Queries](#hướng-dẫn-sử-dụng-ghi-log-tất-cả-các-queries-trong-codeigniter-và-ghi-lại-execution-time-của-từng-queries)
+- [CodeIgniter Basic Helper](#codeigniter-basic-helper)
 - [Liên hệ & Hỗ trợ](#liên-hệ)
 
 ---
 
-## Bổ sung thêm 1 số thư viện mở rộng, helpers liên quan
+## Các tính năng chính
 
+Bổ sung thêm 1 số thư viện mở rộng, helpers liên quan
+
+- [x] Base Controllers với nhiều protected method sẵn có
 - [x] Support mô hình HMVC
 - [x] Support RESTful Web Service
 - [x] Support Queue Worker
 - [x] Support CSDL MongoDB
 - [x] Support Elasticsearch: Use third party packages `"elasticsearch/elasticsearch": "^8.0 || ^7.0 || ^6.0 || ^5.0"`
-- [x] Support class Base Model với 1 số hàm cơ bản
+- [x] Support class Base Model với 1 số hàm cơ bản đủ dùng với SQL
+- [x] Support class ORM Model, cung cấp 1 phương thức đơn giản và dễ dàng hơn để query
 - [x] Hỗ trợ Output Response trên giao diện CLI thông qua hàm `ResponseOutput::writeLn($message)`
 - [x] Bổ sung class `StatusCodes` khai báo sẵn các HTTP code tuân chuẩn (from Symfony framework), VD: `StatusCodes::HTTP_OK`. Chi tiết tham khảo thêm tại class `StatusCodes`
+- [x] Bổ sung rất nhiều helper tiện dụng với việc tích hợp sẵn gói `nguyenanhung/codeigniter-basic-helper` thông qua Composer
 
 ## Hướng dẫn cài đặt gói vào trong dự án
 
@@ -363,6 +370,13 @@ class TestModule extends HungNG_CI_Base_Module
 1. Mặc định, CodeIgniter v3 không hỗ trợ ghi log Execution Time của các Queries. Tuy nhiên, có thể sử dụng Hooks để thực hiện điều này
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-log-all-queries](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-log-all-queries)
+
+## CodeIgniter Basic Helper
+
+- Trong nhiều năm làm lập trình với CodeIgniter, tôi đã sưu tập, xây dựng và viết được kha khá helper, tôi đã đóng gói chúng lại thành gói `nguyenanhung/codeigniter-basic-helper` và tích hợp vào bên trong gói này.
+- Gói helper này vẫn đang được tôi vận hành và phát triển hàng ngày, số project tích hợp các hàm trong gói này đã lên con số hàng nghìn
+- Thông tin chi tiết hơn về bộ helper này [https://github.com/nguyenanhung/codeigniter-basic-helper](https://github.com/nguyenanhung/codeigniter-basic-helper)
+
 
 ## Liên hệ
 
