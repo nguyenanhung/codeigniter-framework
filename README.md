@@ -4,7 +4,7 @@
 
 Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụng tương thích với Composer và PHP 7, PHP 8
 
-Bản đóng gói `v3.1.13` bổ sung thêm 1 số tính năng mới, tương thích với phiên bản PHP 8.1
+Bản đóng gói `v3.1.14` bổ sung thêm 1 số tính năng mới, tương thích với phiên bản PHP 8.2
 
 
 Mục lục
