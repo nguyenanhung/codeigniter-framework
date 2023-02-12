@@ -159,12 +159,12 @@ Trong thư viện đã xây dựng sẵn 1 Base RESTful (được xây dựng b�
 ```php
 <?php
 /**
- * Class My_worker
+ * Class My_rest_api
  *
  * @author    713uk13m <dev@nguyenanhung.com>
  * @copyright 713uk13m <dev@nguyenanhung.com>
  */
-class My_worker extends HungNG_CI_Base_REST
+class My_rest_api extends HungNG_CI_Base_REST
 {
     public function index()
     {
