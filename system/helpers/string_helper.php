@@ -193,16 +193,16 @@ if ( ! function_exists('reduce_multiples'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('random_string'))
-{
+if (!function_exists('random_string')) {
 	/**
-	 * Create a "Random" String
+	 * Creates a random string of characters
 	 *
-	 * Function update by FuelPHP
+	 * From FuelPHP
 	 *
-	 * @param	string $type	type of random string.  basic, alpha, alnum, numeric, nozero, unique, md5, encrypt and sha1
-	 * @param	int $length	number of characters
-	 * @return	string  the random string
+	 * @param string $type   the type of string
+	 * @param int    $length the number of characters
+	 *
+	 * @return  string  the random string
 	 */
 	function random_string($type = 'alnum', $length = 16)
 	{
@@ -257,11 +257,21 @@ if ( ! function_exists('random_string'))
 			case 'unique':
 				return md5(uniqid(mt_rand(), true));
 				break;
-
 			case 'sha1' :
 				return sha1(uniqid(mt_rand(), true));
 				break;
-
+			case 'sha256' :
+				return hash('sha256', uniqid(mt_rand(), true));
+				break;
+			case 'sha384' :
+				return hash('sha384', uniqid(mt_rand(), true));
+				break;
+			case 'sha512' :
+				return hash('sha512', uniqid(mt_rand(), true));
+				break;
+			case 'whirlpool' :
+				return hash('whirlpool', uniqid(mt_rand(), true));
+				break;
 			case 'uuid':
 				$pool = array('8', '9', 'a', 'b');
 
@@ -271,7 +281,36 @@ if ( ! function_exists('random_string'))
 							   random_string('hexdec', 3),
 							   $pool[array_rand($pool)],
 							   random_string('hexdec', 3),
-							   random_string('hexdec', 12));
+							   random_string('hexdec', 12)
+				);
+				break;
+			case 'binary':
+				if (function_exists('random_bytes')) {
+					try {
+						return random_bytes($length);
+					}catch (\Exception $e){
+						log_message('debug', 'Error Code: '.$e->getCode().' - File: '.$e->getFile().' - Line: '.$e->getLine().' - Message: '.$e->getMessage());
+						return null;
+					}
+				} else {
+					return null;
+				}
+				break;
+			case 'hex':
+			case 'crypto':
+				if ($length % 2 !== 0) {
+					throw new InvalidArgumentException('You must set an even number to the second parameter when you use `crypto`.');
+				}
+				if (function_exists('random_bytes')) {
+					try {
+						return bin2hex(random_bytes($length / 2));
+					}catch (\Exception $e){
+						log_message('debug', 'Error Code: '.$e->getCode().' - File: '.$e->getFile().' - Line: '.$e->getLine().' - Message: '.$e->getMessage());
+						return null;
+					}
+				} else {
+					return null;
+				}
 				break;
 		}
 	}
