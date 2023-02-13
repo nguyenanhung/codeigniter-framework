@@ -463,3 +463,47 @@ if ( ! function_exists('nbs'))
 		return str_repeat('&nbsp;', $num);
 	}
 }
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('html_tag'))
+{
+	/**
+	 * Create a XHTML tag
+	 *
+	 * @param	string			$tag		The tag name
+	 * @param	array|string	$attr		The tag attributes
+	 * @param	string|bool		$content	The content to place in the tag, or false for no closing tag
+	 * @return	string
+	 */
+	function html_tag($tag, $attr = array(), $content = false)
+	{
+		// list of void elements (tags that can not have content)
+		static $void_elements = array(
+			// html4
+			"area","base","br","col","hr","img","input","link","meta","param",
+			// html5
+			"command","embed","keygen","source","track","wbr",
+			// html5.1
+			"menuitem",
+		);
+
+		// construct the HTML
+		$html = '<'.$tag;
+		$html .= ( ! empty($attr)) ? ' '.(is_array($attr) ? array_to_attr($attr) : $attr) : '';
+
+		// a void element?
+		if (in_array(strtolower($tag), $void_elements))
+		{
+			// these can not have content
+			$html .= ' />';
+		}
+		else
+		{
+			// add the content and close the tag
+			$html .= '>'.$content.'</'.$tag.'>';
+		}
+
+		return $html;
+	}
+}
