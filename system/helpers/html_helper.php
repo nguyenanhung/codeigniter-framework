@@ -386,6 +386,52 @@ if ( ! function_exists('meta'))
 
 // ------------------------------------------------------------------------
 
+if (!function_exists('meta_property')) {
+	/**
+	 * Function meta_property
+	 *
+	 * @param string|array $property
+	 * @param string       $content
+	 * @param string       $type
+	 * @param string       $newline
+	 *
+	 * @return string
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 12/10/2020 31:45
+	 */
+	function meta_property($property = '', $content = '', $type = 'property', $newline = "\n")
+	{
+		// Since we allow the data to be passes as a string, a simple array
+		// or a multidimensional one, we need to do a little prepping.
+		if (!is_array($property)) {
+			$property = array(
+				array(
+					'property' => $property,
+					'content'  => $content,
+					'type'     => $type,
+					'newline'  => $newline
+				)
+			);
+		} elseif (isset($property['property'])) {
+			// Turn single array into multidimensional
+			$property = array($property);
+		}
+		$str = '';
+		foreach ($property as $meta) {
+			$type     = (isset($meta['type']) && $meta['type'] !== 'property') ? 'itemprop' : 'property';
+			$property = isset($meta['property']) ? $meta['property'] : '';
+			$content  = isset($meta['content']) ? $meta['content'] : '';
+			$newline  = isset($meta['newline']) ? $meta['newline'] : "\n";
+			$str      .= '<meta ' . $type . '="' . $property . '" content="' . $content . '" />' . $newline;
+		}
+
+		return $str;
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('br'))
 {
 	/**
