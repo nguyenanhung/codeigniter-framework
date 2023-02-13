@@ -76,6 +76,19 @@ if ( ! function_exists('is_php'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('is_windows'))
+{
+	/**
+	 * Check if we're running on a Windows platform
+	 */
+	function is_windows()
+	{
+		return DIRECTORY_SEPARATOR === '\\';
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('is_really_writable'))
 {
 	/**

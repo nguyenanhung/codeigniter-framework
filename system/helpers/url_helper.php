@@ -108,17 +108,22 @@ if (!function_exists('assets_url')) {
 		$fileExt = substr(trim($uri), strrpos(trim($uri), '.') + 1);
 		$fileExt = strtoupper($fileExt);
 		$version = '';
-		if ($fileExt === 'CSS' || $fileExt === 'JS') {
-			if (config_item('template_assets_version') !== null) {
+		if ($fileExt === 'CSS' || $fileExt === 'JS')
+		{
+			if (config_item('template_assets_version') !== null)
+			{
 				$version = config_item('template_assets_version');
-			} elseif (config_item('assets_version') !== null) {
+			}
+			elseif (config_item('assets_version') !== null)
+			{
 				$version = config_item('assets_version');
-			} else {
+			} else
+			{
 				$version = null;
 			}
 		}
 
-		return trim(base_url('assets/' . $uri, $protocol) . $version);
+		return trim(get_instance()->config->base_url('assets/' . $uri, $protocol) . $version);
 	}
 }
 
@@ -141,17 +146,22 @@ if (!function_exists('templates_url')) {
 		$fileExt = substr(trim($uri), strrpos(trim($uri), '.') + 1);
 		$fileExt = strtoupper($fileExt);
 		$version = '';
-		if ($fileExt === 'CSS' || $fileExt === 'JS') {
-			if (config_item('template_assets_version') !== null) {
+		if ($fileExt === 'CSS' || $fileExt === 'JS')
+		{
+			if (config_item('template_assets_version') !== null)
+			{
 				$version = config_item('template_assets_version');
-			} elseif (config_item('assets_version') !== null) {
+			}
+			elseif (config_item('assets_version') !== null)
+			{
 				$version = config_item('assets_version');
-			} else {
+			} else
+			{
 				$version = null;
 			}
 		}
 
-		return trim(base_url('assets/' . $uri, $protocol) . $version);
+		return trim(get_instance()->config->base_url('templates/' . $uri, $protocol) . $version);
 	}
 }
 
