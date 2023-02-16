@@ -78,6 +78,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		const OPERATOR_IS_NOT_NULL = 'IS NOT NULL';
 		const ORDER_ASCENDING = 'ASC';
 		const ORDER_DESCENDING = 'DESC';
+		const ORDER_RANDOM = 'RAND';
 		const DEFAULT_STATUS_IS_ACTIVE = 1;
 		const DEFAULT_STATUS_IS_DE_ACTIVE = 0;
 
@@ -86,6 +87,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 		/** @var string $tableName */
 		protected $tableName;
+
+		/** @var string $primary_key */
+		protected $primary_key;
 
 		/** @var string $is_not $is_not */
 		protected $is_not;
@@ -102,17 +106,14 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/** @var string $is_smaller */
 		protected $is_smaller;
 
+		/** @var array $field */
+		protected $field = array();
+
 		/** @var string $start_time */
 		protected $start_time;
 
 		/** @var string $end_time */
 		protected $end_time;
-
-		/** @var array $field */
-		protected $field = array();
-
-		/** @var string $primary_key */
-		protected $primary_key;
 
 		/** @var string $created_at */
 		protected $created_at;
@@ -122,6 +123,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 		/** @var string $deleted_at */
 		protected $deleted_at;
+
+		/** @var string $published_at */
+		protected $published_at;
 
 		/**
 		 * HungNG_Custom_Based_model constructor.
@@ -138,6 +142,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			$this->created_at = 'created_at';
 			$this->updated_at = 'updated_at';
 			$this->deleted_at = 'deleted_at';
+			$this->published_at = 'published_at';
 			$this->is_not = ' !=';
 			$this->or_higher = ' >=';
 			$this->is_higher = ' >';
@@ -215,6 +220,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		{
 			$this->db->close();
 		}
+
+		// ---------------------------------------------------------------------------------------------------------------------------------------- //
 
 		/**
 		 * Function page_limit
@@ -323,6 +330,420 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 			return $this->db;
 		}
+
+		/**
+		 * Function build_list_id_with_parent_id - Tạo 1 list các ID, trong đó chứa các tập con phụ thuộc của ID đ
+		 *
+		 * @param array|object|mixed $allSubId
+		 * @param string|int         $parentId
+		 *
+		 * @return array|string|int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 13:31
+		 */
+		public function build_list_id_with_parent_id($allSubId, $parentId)
+		{
+			if (is_array($allSubId) || is_object($allSubId)) {
+				// Xác định lấy toàn bộ tin tức ở các category con
+				$countSub = count($allSubId); // Đếm bảng ghi Category con
+				if ($countSub) {
+					// Nếu tồn tại các category con
+					$listSub = array();
+					$listSub[] = $parentId; // Push category cha
+					foreach ($allSubId as $item) {
+						$itemId = is_array($item) ? $item['id'] : $item->id;
+						$listSub[] = $itemId; // Push các category con vào mảng dữ liệu
+					}
+
+					return $listSub;
+				}
+			}
+
+			return $parentId;
+		}
+
+		/**
+		 * Function prepare_simple_wheres_not_statement
+		 *
+		 * @param $value
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 31:03
+		 */
+		public function prepare_simple_wheres_not_statement($value, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			if ($value !== null) {
+				if (is_array($value)) {
+					$this->db->where_not_in($tableName . '.' . $field, $value);
+				} else {
+					$this->db->where($tableName . '.' . $field . $this->is_not, $value);
+				}
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function prepare_simple_wheres_statement
+		 *
+		 * @param $value
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 31:11
+		 */
+		public function prepare_simple_wheres_statement($value, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			if ($value !== null) {
+				if (is_array($value)) {
+					$this->db->where_in($tableName . '.' . $field, $value);
+				} else {
+					$this->db->where($tableName . '.' . $field, $value);
+				}
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function prepare_wheres_statement
+		 *
+		 * @param $wheres
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 50:08
+		 */
+		public function prepare_wheres_statement($wheres)
+		{
+			if (!empty($wheres) && is_array($wheres) && count($wheres) > 0) {
+				foreach ($wheres as $field => $value) {
+					if (is_array($value)) {
+						if (isset($value['field'], $value['value'])) {
+							if (is_array($value['value'])) {
+								$this->db->where_in($value['field'], $value['value']);
+							} else {
+								$this->db->where($value['field'] . ' ' . trim($value['operator']), $value['value']);
+							}
+						} else {
+							$this->db->where_in($field, $value);
+						}
+					} else {
+						$this->db->where($field, $value);
+					}
+				}
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function prepare_wheres_not_statement
+		 *
+		 * @param $wheres
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 50:13
+		 */
+		public function prepare_wheres_not_statement($wheres)
+		{
+			if (!empty($wheres) && is_array($wheres) && count($wheres) > 0) {
+				foreach ($wheres as $field => $value) {
+					if (is_array($value)) {
+						if (isset($value['field'], $value['value'])) {
+							if (is_array($value['value'])) {
+								$this->db->where_not_in($value['field'], $value['value']);
+							} else {
+								$this->db->where($value['field'] . ' ' . trim($value['operator']), $value['value']);
+							}
+						} else {
+							$this->db->where_not_in($field, $value);
+						}
+					} else {
+						$this->db->where($field . $this->is_not, $value);
+					}
+				}
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function only_status_is_active
+		 *
+		 * @param $act
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 42:52
+		 */
+		public function only_status_is_active($act = true, $field = 'status', $table = '')
+		{
+			if ($act === true) {
+				$useTable = !empty($table) ? trim($table) : $this->tableName;
+				$useField = !empty($field) ? trim($field) : 'status';
+				$tableExists = $this->db->table_exists($useTable);
+				$fieldExists = $this->db->field_exists($useField, $useTable);
+				if ($tableExists === false || $fieldExists === false) {
+					return $this->db;
+				}
+
+				return $this->db->where($useTable . '.' . $useField, self::DEFAULT_STATUS_IS_ACTIVE);
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function only_status_is_de_active
+		 *
+		 * @param $act
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 42:52
+		 */
+		public function only_status_is_de_active($act = true, $field = 'status', $table = '')
+		{
+			if ($act === true) {
+				$tableName = !empty($table) ? trim($table) : $this->tableName;
+				$useField = !empty($field) ? trim($field) : 'status';
+				$tableExists = $this->db->table_exists($tableName);
+				$fieldExists = $this->db->field_exists($useField, $tableName);
+				if ($tableExists === false || $fieldExists === false) {
+					return $this->db;
+				}
+
+				return $this->db->where($tableName . '.' . $useField, self::DEFAULT_STATUS_IS_DE_ACTIVE);
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function bind_recursive_from_category
+		 *
+		 * @param $allSubId
+		 * @param $parentId
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 00:20
+		 */
+		public function bind_recursive_from_category($allSubId, $parentId, $field = 'categoryId', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$listID = $this->build_list_id_with_parent_id($allSubId, $parentId);
+			if (is_array($listID)) {
+				$this->db->where_in($tableName . '.' . $field, $listID);
+			} else {
+				$this->db->where($tableName . '.' . $field, $listID);
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function filter_by_primary_id
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 03:06
+		 */
+		public function filter_by_primary_id($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			if ($id !== null) {
+				if (is_array($id)) {
+					$this->db->where_in($tableName . '.' . $field, $id);
+				} else {
+					$this->db->where($tableName . '.' . $field, $id);
+				}
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function build_operator_equal_to
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 03:02
+		 */
+		public function build_operator_equal_to($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			if ($id !== null) {
+				if (is_array($id)) {
+					$this->db->where_in($tableName . '.' . $field, $id);
+				} else {
+					$this->db->where($tableName . '.' . $field, $id);
+				}
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function build_operator_not_equal_to
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 02:59
+		 */
+		public function build_operator_not_equal_to($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			if ($id !== null) {
+				if (is_array($id)) {
+					$this->db->where_not_in($tableName . '.' . $field, $id);
+				} else {
+					$this->db->where($tableName . '.' . $field . $this->is_not, $id);
+				}
+			}
+
+			return $this->db;
+		}
+
+		/**
+		 * Function build_operator_less_than_to
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 02:56
+		 */
+		public function build_operator_less_than_to($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN, $id);
+
+			return $this->db;
+		}
+
+		/**
+		 * Function build_operator_greater_than_to
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 02:53
+		 */
+		public function build_operator_greater_than_to($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN, $id);
+
+			return $this->db;
+		}
+
+		/**
+		 * Function build_operator_less_than_or_equal_to
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 02:50
+		 */
+		public function build_operator_less_than_or_equal_to($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN_OR_EQUAL_TO, $id);
+
+			return $this->db;
+		}
+
+		/**
+		 * Function build_operator_greater_than_or_equal_to
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 02:46
+		 */
+		public function build_operator_greater_than_or_equal_to($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN_OR_EQUAL_TO, $id);
+
+			return $this->db;
+		}
+
+		/**
+		 * Function build_operator_space_ship_to
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 02:41
+		 */
+		public function build_operator_space_ship_to($id, $field = 'id', $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_IS_SPACESHIP, $id);
+
+			return $this->db;
+		}
+
+		// ---------------------------------------------------------------------------------------------------------------------------------------- //
 
 		/**
 		 * Function check_exists
@@ -738,418 +1159,6 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 					}
 				}
 			}
-		}
-
-		/**
-		 * Function build_list_id_with_parent_id - Tạo 1 list các ID, trong đó chứa các tập con phụ thuộc của ID đ
-		 *
-		 * @param array|object|mixed $allSubId
-		 * @param string|int         $parentId
-		 *
-		 * @return array|string|int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 13:31
-		 */
-		public function build_list_id_with_parent_id($allSubId, $parentId)
-		{
-			if (is_array($allSubId) || is_object($allSubId)) {
-				// Xác định lấy toàn bộ tin tức ở các category con
-				$countSub = count($allSubId); // Đếm bảng ghi Category con
-				if ($countSub) {
-					// Nếu tồn tại các category con
-					$listSub = array();
-					$listSub[] = $parentId; // Push category cha
-					foreach ($allSubId as $item) {
-						$itemId = is_array($item) ? $item['id'] : $item->id;
-						$listSub[] = $itemId; // Push các category con vào mảng dữ liệu
-					}
-
-					return $listSub;
-				}
-			}
-
-			return $parentId;
-		}
-
-		/**
-		 * Function prepare_simple_wheres_not_statement
-		 *
-		 * @param $value
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 31:03
-		 */
-		public function prepare_simple_wheres_not_statement($value, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			if ($value !== null) {
-				if (is_array($value)) {
-					$this->db->where_not_in($tableName . '.' . $field, $value);
-				} else {
-					$this->db->where($tableName . '.' . $field . $this->is_not, $value);
-				}
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function prepare_simple_wheres_statement
-		 *
-		 * @param $value
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 31:11
-		 */
-		public function prepare_simple_wheres_statement($value, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			if ($value !== null) {
-				if (is_array($value)) {
-					$this->db->where_in($tableName . '.' . $field, $value);
-				} else {
-					$this->db->where($tableName . '.' . $field, $value);
-				}
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function prepare_wheres_statement
-		 *
-		 * @param $wheres
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 50:08
-		 */
-		public function prepare_wheres_statement($wheres)
-		{
-			if (!empty($wheres) && is_array($wheres) && count($wheres) > 0) {
-				foreach ($wheres as $field => $value) {
-					if (is_array($value)) {
-						if (isset($value['field'], $value['value'])) {
-							if (is_array($value['value'])) {
-								$this->db->where_in($value['field'], $value['value']);
-							} else {
-								$this->db->where($value['field'] . ' ' . trim($value['operator']), $value['value']);
-							}
-						} else {
-							$this->db->where_in($field, $value);
-						}
-					} else {
-						$this->db->where($field, $value);
-					}
-				}
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function prepare_wheres_not_statement
-		 *
-		 * @param $wheres
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 50:13
-		 */
-		public function prepare_wheres_not_statement($wheres)
-		{
-			if (!empty($wheres) && is_array($wheres) && count($wheres) > 0) {
-				foreach ($wheres as $field => $value) {
-					if (is_array($value)) {
-						if (isset($value['field'], $value['value'])) {
-							if (is_array($value['value'])) {
-								$this->db->where_not_in($value['field'], $value['value']);
-							} else {
-								$this->db->where($value['field'] . ' ' . trim($value['operator']), $value['value']);
-							}
-						} else {
-							$this->db->where_not_in($field, $value);
-						}
-					} else {
-						$this->db->where($field . $this->is_not, $value);
-					}
-				}
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function only_status_is_active
-		 *
-		 * @param $act
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 42:52
-		 */
-		public function only_status_is_active($act = true, $field = 'status', $table = '')
-		{
-			if ($act === true) {
-				$useTable = !empty($table) ? trim($table) : $this->tableName;
-				$useField = !empty($field) ? trim($field) : 'status';
-				$tableExists = $this->db->table_exists($useTable);
-				$fieldExists = $this->db->field_exists($useField, $useTable);
-				if ($tableExists === false || $fieldExists === false) {
-					return $this->db;
-				}
-
-				return $this->db->where($useTable . '.' . $useField, self::DEFAULT_STATUS_IS_ACTIVE);
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function only_status_is_de_active
-		 *
-		 * @param $act
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 42:52
-		 */
-		public function only_status_is_de_active($act = true, $field = 'status', $table = '')
-		{
-			if ($act === true) {
-				$tableName = !empty($table) ? trim($table) : $this->tableName;
-				$useField = !empty($field) ? trim($field) : 'status';
-				$tableExists = $this->db->table_exists($tableName);
-				$fieldExists = $this->db->field_exists($useField, $tableName);
-				if ($tableExists === false || $fieldExists === false) {
-					return $this->db;
-				}
-
-				return $this->db->where($tableName . '.' . $useField, self::DEFAULT_STATUS_IS_DE_ACTIVE);
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function bind_recursive_from_category
-		 *
-		 * @param $allSubId
-		 * @param $parentId
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 00:20
-		 */
-		public function bind_recursive_from_category($allSubId, $parentId, $field = 'categoryId', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			$listID = $this->build_list_id_with_parent_id($allSubId, $parentId);
-			if (is_array($listID)) {
-				$this->db->where_in($tableName . '.' . $field, $listID);
-			} else {
-				$this->db->where($tableName . '.' . $field, $listID);
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function filter_by_primary_id
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 03:06
-		 */
-		public function filter_by_primary_id($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			if ($id !== null) {
-				if (is_array($id)) {
-					$this->db->where_in($tableName . '.' . $field, $id);
-				} else {
-					$this->db->where($tableName . '.' . $field, $id);
-				}
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function build_operator_equal_to
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 03:02
-		 */
-		public function build_operator_equal_to($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			if ($id !== null) {
-				if (is_array($id)) {
-					$this->db->where_in($tableName . '.' . $field, $id);
-				} else {
-					$this->db->where($tableName . '.' . $field, $id);
-				}
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function build_operator_not_equal_to
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 02:59
-		 */
-		public function build_operator_not_equal_to($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			if ($id !== null) {
-				if (is_array($id)) {
-					$this->db->where_not_in($tableName . '.' . $field, $id);
-				} else {
-					$this->db->where($tableName . '.' . $field . $this->is_not, $id);
-				}
-			}
-
-			return $this->db;
-		}
-
-		/**
-		 * Function build_operator_less_than_to
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 02:56
-		 */
-		public function build_operator_less_than_to($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN, $id);
-
-			return $this->db;
-		}
-
-		/**
-		 * Function build_operator_greater_than_to
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 02:53
-		 */
-		public function build_operator_greater_than_to($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN, $id);
-
-			return $this->db;
-		}
-
-		/**
-		 * Function build_operator_less_than_or_equal_to
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 02:50
-		 */
-		public function build_operator_less_than_or_equal_to($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN_OR_EQUAL_TO, $id);
-
-			return $this->db;
-		}
-
-		/**
-		 * Function build_operator_greater_than_or_equal_to
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 02:46
-		 */
-		public function build_operator_greater_than_or_equal_to($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN_OR_EQUAL_TO, $id);
-
-			return $this->db;
-		}
-
-		/**
-		 * Function build_operator_space_ship_to
-		 *
-		 * @param $id
-		 * @param $field
-		 * @param $table
-		 *
-		 * @return bool|\CI_DB_query_builder|object
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 02:41
-		 */
-		public function build_operator_space_ship_to($id, $field = 'id', $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_IS_SPACESHIP, $id);
-
-			return $this->db;
 		}
 	}
 }
