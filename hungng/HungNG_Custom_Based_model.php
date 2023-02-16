@@ -743,6 +743,82 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			return $this->db;
 		}
 
+		// ------------------------------------------ Database Metadata ------------------------------------------ //
+
+		/**
+		 * Function list_tables
+		 *
+		 * @return array|false|string
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 21:09
+		 */
+		public function list_tables()
+		{
+			return $this->db->list_tables();
+		}
+
+		/**
+		 * Function table_exists
+		 *
+		 * @param $table
+		 *
+		 * @return bool
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 25:08
+		 */
+		public function table_exists($table)
+		{
+			return $this->db->table_exists($table);
+		}
+
+		/**
+		 * Function list_fields_on_table
+		 *
+		 * @param $table
+		 *
+		 * @return array|false|string
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 25:23
+		 */
+		public function list_fields_on_table($table)
+		{
+			return $this->db->list_fields($table);
+		}
+
+		/**
+		 * Function field_exists_on_table
+		 *
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 26:47
+		 */
+		public function field_exists_on_table($field, $table)
+		{
+			return $this->db->field_exists($field, $table);
+		}
+
+		/**
+		 * Function list_all_field_data
+		 *
+		 * @param $table
+		 *
+		 * @return array|false
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 26:44
+		 */
+		public function list_all_field_data($table)
+		{
+			return $this->db->field_data($table);
+		}
+
 		// ---------------------------------------------------------------------------------------------------------------------------------------- //
 
 		/**
@@ -758,7 +834,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function check_exists($value = '', $field = null)
 		{
-			$this->db->select('id');
+			$this->db->select($this->primary_key);
 			$this->db->from($this->tableName);
 			if ($field === null) {
 				$this->db->where($this->primary_key, $value);
@@ -862,18 +938,37 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/**
 		 * Function get_all_asc
 		 *
-		 * @param string $field
+		 * @param $field
 		 *
 		 * @return array|array[]|object|object[]
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 30:03
+		 * @time     : 16/02/2023 19:08
 		 */
 		public function get_all_asc($field = '*')
 		{
 			$this->db->select($field);
 			$this->db->from($this->tableName);
 			$this->db->order_by($field, 'ASC');
+
+			return $this->db->get()->result();
+		}
+
+		/**
+		 * Function get_all_desc
+		 *
+		 * @param $field
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 19:03
+		 */
+		public function get_all_desc($field = '*')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->order_by($field, 'DESC');
 
 			return $this->db->get()->result();
 		}
