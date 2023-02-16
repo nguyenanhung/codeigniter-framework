@@ -78,6 +78,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		const OPERATOR_IS_NOT_NULL = 'IS NOT NULL';
 		const ORDER_ASCENDING = 'ASC';
 		const ORDER_DESCENDING = 'DESC';
+		const ORDER_RANDOM = 'RAND';
 		const DEFAULT_STATUS_IS_ACTIVE = 1;
 		const DEFAULT_STATUS_IS_DE_ACTIVE = 0;
 
@@ -86,6 +87,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 		/** @var string $tableName */
 		protected $tableName;
+
+		/** @var string $primary_key */
+		protected $primary_key;
 
 		/** @var string $is_not $is_not */
 		protected $is_not;
@@ -102,17 +106,14 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/** @var string $is_smaller */
 		protected $is_smaller;
 
+		/** @var array $field */
+		protected $field = array();
+
 		/** @var string $start_time */
 		protected $start_time;
 
 		/** @var string $end_time */
 		protected $end_time;
-
-		/** @var array $field */
-		protected $field = array();
-
-		/** @var string $primary_key */
-		protected $primary_key;
 
 		/** @var string $created_at */
 		protected $created_at;
@@ -122,6 +123,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 		/** @var string $deleted_at */
 		protected $deleted_at;
+
+		/** @var string $published_at */
+		protected $published_at;
 
 		/**
 		 * HungNG_Custom_Based_model constructor.
@@ -138,6 +142,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			$this->created_at = 'created_at';
 			$this->updated_at = 'updated_at';
 			$this->deleted_at = 'deleted_at';
+			$this->published_at = 'published_at';
 			$this->is_not = ' !=';
 			$this->or_higher = ' >=';
 			$this->is_higher = ' >';
@@ -215,6 +220,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		{
 			$this->db->close();
 		}
+
+		// ---------------------------------------------------------------------------------------------------------------------------------------- //
 
 		/**
 		 * Function page_limit
@@ -322,422 +329,6 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			}
 
 			return $this->db;
-		}
-
-		/**
-		 * Function check_exists
-		 *
-		 * @param string $value
-		 * @param mixed  $field
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 30:20
-		 */
-		public function check_exists($value = '', $field = null)
-		{
-			$this->db->select('id');
-			$this->db->from($this->tableName);
-			if ($field === null) {
-				$this->db->where($this->primary_key, $value);
-			} else {
-				$this->db->where($field, $value);
-			}
-
-			return $this->db->count_all_results();
-		}
-
-		/**
-		 * Function get_last_id
-		 *
-		 * @param string $field
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 30:12
-		 */
-		public function get_last_id($field = 'id')
-		{
-			$this->db->select($field);
-			$this->db->from($this->tableName);
-			$this->db->limit(1);
-			$this->db->order_by($field, 'DESC');
-			$row = $this->db->get()->row();
-			if (is_object($row)) {
-				return $row->$field;
-			}
-
-			return 0;
-		}
-
-		/**
-		 * Function get_first_id
-		 *
-		 * @param $field
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 08:37
-		 */
-		public function get_first_id($field = 'id')
-		{
-			$this->db->select($field);
-			$this->db->from($this->tableName);
-			$this->db->limit(1);
-			$this->db->order_by($field, 'ASC');
-			$row = $this->db->get()->row();
-			if (is_object($row)) {
-				return $row->$field;
-			}
-
-			return 0;
-		}
-
-		/**
-		 * Function get_random_id
-		 *
-		 * @param $field
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 08:41
-		 */
-		public function get_random_id($field = 'id')
-		{
-			$this->db->select($field);
-			$this->db->from($this->tableName);
-			$this->db->limit(1);
-			$this->db->order_by($field, 'RANDOM');
-			$row = $this->db->get()->row();
-			if (is_object($row)) {
-				return $row->$field;
-			}
-
-			return 0;
-		}
-
-		/**
-		 * Function get_all
-		 *
-		 * @param string $field
-		 *
-		 * @return array|array[]|object|object[]
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 30:08
-		 */
-		public function get_all($field = '*')
-		{
-			$this->db->select($field);
-			$this->db->from($this->tableName);
-
-			return $this->db->get()->result();
-		}
-
-		/**
-		 * Function get_all_asc
-		 *
-		 * @param string $field
-		 *
-		 * @return array|array[]|object|object[]
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 30:03
-		 */
-		public function get_all_asc($field = '*')
-		{
-			$this->db->select($field);
-			$this->db->from($this->tableName);
-			$this->db->order_by($field, 'ASC');
-
-			return $this->db->get()->result();
-		}
-
-		/**
-		 * Function count_all
-		 *
-		 * @param string $field
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 30:00
-		 */
-		public function count_all($field = '*')
-		{
-			$this->db->select($field);
-			$this->db->from($this->tableName);
-
-			return $this->db->count_all_results();
-		}
-
-		/**
-		 * Function count_all_from_table
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 09/13/2021 07:51
-		 */
-		public function count_all_from_table()
-		{
-			return $this->db->count_all($this->tableName);
-		}
-
-		/**
-		 * Function get_list_distinct
-		 *
-		 * @param string $field
-		 *
-		 * @return array|array[]|object|object[]
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:58
-		 */
-		public function get_list_distinct($field = '*')
-		{
-			$this->db->distinct();
-			$this->db->select($field);
-			$this->db->from($this->tableName);
-
-			return $this->db->get()->result();
-		}
-
-		/**
-		 * Function get_data_simple_result
-		 *
-		 * @param string   $select
-		 * @param array    $wheres
-		 * @param int      $size
-		 * @param int      $page
-		 * @param string[] $orderBy
-		 *
-		 * @return array|array[]|object|object[]
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 09/13/2021 16:49
-		 */
-		public function get_data_simple_result($select = '*', $wheres = array(), $size = 75, $page = 0, $orderBy = array('id' => 'DESC'))
-		{
-			$this->db->select($select);
-			$this->db->from($this->tableName);
-			if (count($wheres) > 0) {
-				foreach ($wheres as $field => $value) {
-					if (is_array($value)) {
-						$this->db->where_in($this->tableName . '.' . $field, $value);
-					} else {
-						$this->db->where($this->tableName . '.' . $field, $value);
-					}
-				}
-			}
-			// Limit Result
-			$this->_page_limit($size, $page);
-			// Order Result
-			foreach ($orderBy as $key => $val) {
-				$this->db->order_by($this->tableName . '.' . $key, $val);
-			}
-
-			return $this->db->get()->result();
-		}
-
-		/**
-		 * Function get_all_data_simple_result
-		 *
-		 * @param mixed $options
-		 *
-		 * @return array|array[]|object|object[]
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 25/11/2021 46:10
-		 */
-		public function get_all_data_simple_result($options = null)
-		{
-			$this->db->from($this->tableName);
-			if (is_array($options)) {
-				foreach ($options as $field => $value) {
-					if (is_array($value)) {
-						$this->db->where_in($field, $value);
-					} else {
-						$this->db->where($field, $value);
-					}
-				}
-			}
-
-			return $this->db->get()->result();
-		}
-
-		/**
-		 * Function get_info
-		 *
-		 * @param string $value
-		 * @param mixed  $field
-		 * @param bool   $array
-		 *
-		 * @return array|mixed|object|null
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:55
-		 */
-		public function get_info($value = '', $field = null, $array = false)
-		{
-			$this->db->from($this->tableName);
-			if ($field === null) {
-				$this->db->where($this->primary_key, $value);
-			} else {
-				$this->db->where($field, $value);
-			}
-			if ($array === true) {
-				return $this->db->get()->row_array();
-			}
-
-			return $this->db->get()->row();
-		}
-
-		/**
-		 * Function get_value
-		 *
-		 * @param string $value_input
-		 * @param mixed  $field_input
-		 * @param mixed  $field_output
-		 *
-		 * @return array|mixed|object|null
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:51
-		 */
-		public function get_value($value_input = '', $field_input = null, $field_output = null)
-		{
-			if (null !== $field_output) {
-				$this->db->select($field_output);
-			}
-			$this->db->from($this->tableName);
-			if ($field_input === null) {
-				$this->db->where($this->primary_key, $value_input);
-			} else {
-				$this->db->where($field_input, $value_input);
-			}
-			$query = $this->db->get();
-			// Query
-			if (null !== $field_output) {
-				if (null === $query->row()) {
-					return null;
-				}
-
-				return $query->row()->$field_output;
-			}
-
-			return $query->row();
-		}
-
-		/**
-		 * Function add
-		 *
-		 * @param array $data
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:47
-		 */
-		public function add($data = array())
-		{
-			$this->db->insert($this->tableName, $data);
-
-			return $this->db->insert_id();
-		}
-
-		/**
-		 * Function insert_batch
-		 *
-		 * @param array $data
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:44
-		 */
-		public function insert_batch($data = array())
-		{
-			$this->db->insert_batch($this->tableName, $data);
-
-			return $this->db->insert_id();
-		}
-
-		/**
-		 * Function update
-		 *
-		 * @param string $id
-		 * @param array  $data
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:32
-		 */
-		public function update($id = '', $data = array())
-		{
-			$this->db->where($this->primary_key, $id);
-			$this->db->update($this->tableName, $data);
-
-			return $this->db->affected_rows();
-		}
-
-		/**
-		 * Function delete
-		 *
-		 * @param string $id
-		 *
-		 * @return int
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 09/20/2021 38:36
-		 */
-		public function delete($id = '')
-		{
-			if (empty($id)) {
-				return 0;
-			}
-			$this->db->where($this->primary_key, $id);
-			$this->db->delete($this->tableName);
-
-			return $this->db->affected_rows();
-		}
-
-		/**
-		 * Function request_builder
-		 *
-		 * @param $search
-		 * @param $table
-		 *
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 29:37
-		 */
-		public function request_builder($search, $table = '')
-		{
-			$tableName = !empty($table) ? trim($table) : $this->tableName;
-			if (!empty($search)) {
-				foreach ($search as $field => $value) {
-					if (!empty($value) && $this->db->field_exists($field, $tableName)) {
-						if (is_array($value)) {
-							$this->db->where_in($tableName . '.' . $field, $value);
-						} else {
-							$this->db->like($tableName . '.' . $field, $value);
-						}
-					}
-					if ($field === 'sort') {
-						$sort = (strpos($value, '-') === false) ? 'DESC' : 'ASC';
-						$column = (strpos($value, '-') === false) ? $value : substr($value, 1);
-						if ($this->db->field_exists($column, $tableName)) {
-							$this->db->order_by($tableName . '.' . $column, $sort);
-						}
-					}
-				}
-			}
 		}
 
 		/**
@@ -1150,6 +741,519 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_IS_SPACESHIP, $id);
 
 			return $this->db;
+		}
+
+		// ------------------------------------------ Database Metadata ------------------------------------------ //
+
+		/**
+		 * Function list_tables
+		 *
+		 * @return array|false|string
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 21:09
+		 */
+		public function list_tables()
+		{
+			return $this->db->list_tables();
+		}
+
+		/**
+		 * Function table_exists
+		 *
+		 * @param $table
+		 *
+		 * @return bool
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 25:08
+		 */
+		public function table_exists($table)
+		{
+			return $this->db->table_exists($table);
+		}
+
+		/**
+		 * Function list_fields_on_table
+		 *
+		 * @param $table
+		 *
+		 * @return array|false|string
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 25:23
+		 */
+		public function list_fields_on_table($table)
+		{
+			return $this->db->list_fields($table);
+		}
+
+		/**
+		 * Function field_exists_on_table
+		 *
+		 * @param $field
+		 * @param $table
+		 *
+		 * @return bool
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 26:47
+		 */
+		public function field_exists_on_table($field, $table)
+		{
+			return $this->db->field_exists($field, $table);
+		}
+
+		/**
+		 * Function list_all_field_data
+		 *
+		 * @param $table
+		 *
+		 * @return array|false
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 26:44
+		 */
+		public function list_all_field_data($table)
+		{
+			return $this->db->field_data($table);
+		}
+
+		// ---------------------------------------------------------------------------------------------------------------------------------------- //
+
+		/**
+		 * Function check_exists
+		 *
+		 * @param string $value
+		 * @param mixed  $field
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 30:20
+		 */
+		public function check_exists($value = '', $field = null)
+		{
+			$this->db->select($this->primary_key);
+			$this->db->from($this->tableName);
+			if ($field === null) {
+				$this->db->where($this->primary_key, $value);
+			} else {
+				$this->db->where($field, $value);
+			}
+
+			return $this->db->count_all_results();
+		}
+
+		/**
+		 * Function get_last_id
+		 *
+		 * @param string $field
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 30:12
+		 */
+		public function get_last_id($field = 'id')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->limit(1);
+			$this->db->order_by($field, 'DESC');
+			$row = $this->db->get()->row();
+			if (is_object($row)) {
+				return $row->$field;
+			}
+
+			return 0;
+		}
+
+		/**
+		 * Function get_first_id
+		 *
+		 * @param $field
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 08:37
+		 */
+		public function get_first_id($field = 'id')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->limit(1);
+			$this->db->order_by($field, 'ASC');
+			$row = $this->db->get()->row();
+			if (is_object($row)) {
+				return $row->$field;
+			}
+
+			return 0;
+		}
+
+		/**
+		 * Function get_random_id
+		 *
+		 * @param $field
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/02/2023 08:41
+		 */
+		public function get_random_id($field = 'id')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->limit(1);
+			$this->db->order_by($field, 'RANDOM');
+			$row = $this->db->get()->row();
+			if (is_object($row)) {
+				return $row->$field;
+			}
+
+			return 0;
+		}
+
+		/**
+		 * Function get_all
+		 *
+		 * @param string $field
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 30:08
+		 */
+		public function get_all($field = '*')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+
+			return $this->db->get()->result();
+		}
+
+		/**
+		 * Function get_all_asc
+		 *
+		 * @param $field
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 19:08
+		 */
+		public function get_all_asc($field = '*')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->order_by($field, 'ASC');
+
+			return $this->db->get()->result();
+		}
+
+		/**
+		 * Function get_all_desc
+		 *
+		 * @param $field
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 16/02/2023 19:03
+		 */
+		public function get_all_desc($field = '*')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+			$this->db->order_by($field, 'DESC');
+
+			return $this->db->get()->result();
+		}
+
+		/**
+		 * Function count_all
+		 *
+		 * @param string $field
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 30:00
+		 */
+		public function count_all($field = '*')
+		{
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+
+			return $this->db->count_all_results();
+		}
+
+		/**
+		 * Function count_all_from_table
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/13/2021 07:51
+		 */
+		public function count_all_from_table()
+		{
+			return $this->db->count_all($this->tableName);
+		}
+
+		/**
+		 * Function get_list_distinct
+		 *
+		 * @param string $field
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 29:58
+		 */
+		public function get_list_distinct($field = '*')
+		{
+			$this->db->distinct();
+			$this->db->select($field);
+			$this->db->from($this->tableName);
+
+			return $this->db->get()->result();
+		}
+
+		/**
+		 * Function get_data_simple_result
+		 *
+		 * @param string   $select
+		 * @param array    $wheres
+		 * @param int      $size
+		 * @param int      $page
+		 * @param string[] $orderBy
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/13/2021 16:49
+		 */
+		public function get_data_simple_result($select = '*', $wheres = array(), $size = 75, $page = 0, $orderBy = array('id' => 'DESC'))
+		{
+			$this->db->select($select);
+			$this->db->from($this->tableName);
+			if (count($wheres) > 0) {
+				foreach ($wheres as $field => $value) {
+					if (is_array($value)) {
+						$this->db->where_in($this->tableName . '.' . $field, $value);
+					} else {
+						$this->db->where($this->tableName . '.' . $field, $value);
+					}
+				}
+			}
+			// Limit Result
+			$this->_page_limit($size, $page);
+			// Order Result
+			foreach ($orderBy as $key => $val) {
+				$this->db->order_by($this->tableName . '.' . $key, $val);
+			}
+
+			return $this->db->get()->result();
+		}
+
+		/**
+		 * Function get_all_data_simple_result
+		 *
+		 * @param mixed $options
+		 *
+		 * @return array|array[]|object|object[]
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 25/11/2021 46:10
+		 */
+		public function get_all_data_simple_result($options = null)
+		{
+			$this->db->from($this->tableName);
+			if (is_array($options)) {
+				foreach ($options as $field => $value) {
+					if (is_array($value)) {
+						$this->db->where_in($field, $value);
+					} else {
+						$this->db->where($field, $value);
+					}
+				}
+			}
+
+			return $this->db->get()->result();
+		}
+
+		/**
+		 * Function get_info
+		 *
+		 * @param string $value
+		 * @param mixed  $field
+		 * @param bool   $array
+		 *
+		 * @return array|mixed|object|null
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 29:55
+		 */
+		public function get_info($value = '', $field = null, $array = false)
+		{
+			$this->db->from($this->tableName);
+			if ($field === null) {
+				$this->db->where($this->primary_key, $value);
+			} else {
+				$this->db->where($field, $value);
+			}
+			if ($array === true) {
+				return $this->db->get()->row_array();
+			}
+
+			return $this->db->get()->row();
+		}
+
+		/**
+		 * Function get_value
+		 *
+		 * @param string $value_input
+		 * @param mixed  $field_input
+		 * @param mixed  $field_output
+		 *
+		 * @return array|mixed|object|null
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 29:51
+		 */
+		public function get_value($value_input = '', $field_input = null, $field_output = null)
+		{
+			if (null !== $field_output) {
+				$this->db->select($field_output);
+			}
+			$this->db->from($this->tableName);
+			if ($field_input === null) {
+				$this->db->where($this->primary_key, $value_input);
+			} else {
+				$this->db->where($field_input, $value_input);
+			}
+			$query = $this->db->get();
+			// Query
+			if (null !== $field_output) {
+				if (null === $query->row()) {
+					return null;
+				}
+
+				return $query->row()->$field_output;
+			}
+
+			return $query->row();
+		}
+
+		/**
+		 * Function add
+		 *
+		 * @param array $data
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 29:47
+		 */
+		public function add($data = array())
+		{
+			$this->db->insert($this->tableName, $data);
+
+			return $this->db->insert_id();
+		}
+
+		/**
+		 * Function insert_batch
+		 *
+		 * @param array $data
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 29:44
+		 */
+		public function insert_batch($data = array())
+		{
+			$this->db->insert_batch($this->tableName, $data);
+
+			return $this->db->insert_id();
+		}
+
+		/**
+		 * Function update
+		 *
+		 * @param string $id
+		 * @param array  $data
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 29:32
+		 */
+		public function update($id = '', $data = array())
+		{
+			$this->db->where($this->primary_key, $id);
+			$this->db->update($this->tableName, $data);
+
+			return $this->db->affected_rows();
+		}
+
+		/**
+		 * Function delete
+		 *
+		 * @param string $id
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 09/20/2021 38:36
+		 */
+		public function delete($id = '')
+		{
+			if (empty($id)) {
+				return 0;
+			}
+			$this->db->where($this->primary_key, $id);
+			$this->db->delete($this->tableName);
+
+			return $this->db->affected_rows();
+		}
+
+		/**
+		 * Function request_builder
+		 *
+		 * @param $search
+		 * @param $table
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 08/16/2021 29:37
+		 */
+		public function request_builder($search, $table = '')
+		{
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			if (!empty($search)) {
+				foreach ($search as $field => $value) {
+					if (!empty($value) && $this->db->field_exists($field, $tableName)) {
+						if (is_array($value)) {
+							$this->db->where_in($tableName . '.' . $field, $value);
+						} else {
+							$this->db->like($tableName . '.' . $field, $value);
+						}
+					}
+					if ($field === 'sort') {
+						$sort = (strpos($value, '-') === false) ? 'DESC' : 'ASC';
+						$column = (strpos($value, '-') === false) ? $value : substr($value, 1);
+						if ($this->db->field_exists($column, $tableName)) {
+							$this->db->order_by($tableName . '.' . $column, $sort);
+						}
+					}
+				}
+			}
 		}
 	}
 }
