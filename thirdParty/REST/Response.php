@@ -9,7 +9,9 @@
  */
 
 namespace nguyenanhung\CodeIgniter\BaseREST;
+
 use Exception;
+
 /**
  * Response Component based on CI_Output
  *
@@ -40,13 +42,13 @@ class Response
 	/**
 	 * @var array the formatters that are supported by default
 	 */
-	public $contentTypes = [
-		self::FORMAT_RAW => 'text/plain;',
-		self::FORMAT_HTML => 'text/html;',
-		self::FORMAT_JSON => 'application/json;', // RFC 4627
+	public $contentTypes = array(
+		self::FORMAT_RAW   => 'text/plain;',
+		self::FORMAT_HTML  => 'text/html;',
+		self::FORMAT_JSON  => 'application/json;', // RFC 4627
 		self::FORMAT_JSONP => 'application/javascript;', // RFC 4329
-		self::FORMAT_XML => 'application/xml;', // RFC 2376
-	];
+		self::FORMAT_XML   => 'application/xml;', // RFC 2376
+	);
 	/**
 	 * @var string the response format. This determines how to convert [[data]] into [[content]]
 	 * when the latter is not set. The value of this property must be one of the keys declared in the [[formatters]] array.
@@ -77,7 +79,7 @@ class Response
 	function __construct()
 	{
 		// CI_Controller initialization
-		$this->ci = & get_instance();
+		$this->ci = &get_instance();
 	}
 
 	/**
@@ -90,8 +92,7 @@ class Response
 		$this->_format = $format;
 		// Use formatter content type if exists
 		if (isset($this->contentTypes[$this->_format])) {
-			$this->ci->output
-				->set_content_type($this->contentTypes[$this->_format]);
+			$this->ci->output->set_content_type($this->contentTypes[$this->_format]);
 		}
 
 		return $this;
@@ -101,7 +102,9 @@ class Response
 	 * Set Response Data into CI_Output
 	 *
 	 * @todo    Format data before send
+	 *
 	 * @param mixed Response data
+	 *
 	 * @return object self
 	 */
 	public function setData($data)
@@ -136,12 +139,14 @@ class Response
 	/**
 	 * Sets the response status code.
 	 * This method will set the corresponding status text if `$text` is null.
-	 * @param int $code the status code
+	 *
+	 * @param int    $code the status code
 	 * @param string $text HTTP status text base on PHP http_response_code().
+	 *
 	 * @throws Exception if the status code is invalid.
 	 * @return $this the response object itself
 	 */
-	public function setStatusCode($code, $text=null)
+	public function setStatusCode($code, $text = null)
 	{
 		if ($code === null) {
 			$code = 200;
@@ -150,7 +155,7 @@ class Response
 		$this->_statusCode = (int) $code;
 		// Check status code
 		if ($this->getIsInvalid()) {
-			throw new Exception("The HTTP status code is invalid: ". $this->_statusCode);
+			throw new Exception("The HTTP status code is invalid: " . $this->_statusCode);
 		}
 		// Set HTTP status code with options
 		if ($text) {
@@ -186,6 +191,7 @@ class Response
 	 *
 	 * @param array  Pre-handle array data
 	 * @param string Format
+	 *
 	 * @return string Formatted data by specified formatter
 	 */
 	public function format($data, $format)
@@ -197,8 +203,7 @@ class Response
 		if (method_exists($this, $formatFunc)) {
 
 			$data = $this->{$formatFunc}($data);
-		}
-		elseif (is_array($data)) {
+		} elseif (is_array($data)) {
 			// Use JSON while the Formatter not found and the data is array
 			$data = $this->formatJson($data);
 		}
@@ -210,6 +215,7 @@ class Response
 	 * Common format funciton by format types. {FORMAT}Format()
 	 *
 	 * @param array Pre-handle array data
+	 *
 	 * @return string Formatted data
 	 */
 	public static function formatJson($data)
@@ -226,7 +232,7 @@ class Response
 	 * @return string Response body data
 	 * @throws \Exception
 	 */
-	public function json($data, $statusCode=null)
+	public function json($data, $statusCode = null)
 	{
 		// Set Status Code
 		if ($statusCode) {
@@ -251,8 +257,9 @@ class Response
 	 *
 	 * PSR-7 standard
 	 *
-	 * @param string $name Case-insensitive header field name to add.
+	 * @param string          $name  Case-insensitive header field name to add.
 	 * @param string|string[] $value Header value(s).
+	 *
 	 * @return self
 	 */
 	public function withAddedHeader($name, $value)
