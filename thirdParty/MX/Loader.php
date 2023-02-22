@@ -509,7 +509,7 @@ class MX_Loader extends CI_Loader
 		}
 
 		if ($path != false) {
-			$this->_ci_view_paths = [$path => true] + $this->_ci_view_paths;
+			$this->_ci_view_paths = array($path => true) + $this->_ci_view_paths;
 			$view = $_view;
 		}
 

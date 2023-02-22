@@ -55,7 +55,7 @@ class CI_Format
 	 *
 	 * @var mixed
 	 */
-	protected $_data = [];
+	protected $_data = array();
 
 	/**
 	 * Type to convert from.
@@ -134,7 +134,7 @@ class CI_Format
 			$data = (array) $data;
 		}
 
-		$array = [];
+		$array = array();
 		foreach ((array) $data as $key => $value) {
 			if (is_object($value) === true || is_array($value) === true) {
 				$array[$key] = $this->to_array($value);
@@ -241,7 +241,7 @@ class CI_Format
 		} else {
 			// Single array
 			$headings = array_keys($data);
-			$data     = [$data];
+			$data = array($data);
 		}
 
 		// Load the table library
@@ -308,7 +308,7 @@ class CI_Format
 		} else {
 			// Single array
 			$headings = array_keys($data);
-			$data     = [$data];
+			$data = array($data);
 		}
 
 		// Apply the headings

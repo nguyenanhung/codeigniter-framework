@@ -99,7 +99,7 @@ class Request
 				// PHP has already parsed the body so we have all params in $_POST
 				$this->_bodyParams = $_POST;
 			} else {
-				$this->_bodyParams = [];
+				$this->_bodyParams = array();
 				mb_parse_str($this->getRawBody(), $this->_bodyParams);
 			}
 		}
