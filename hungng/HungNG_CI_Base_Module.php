@@ -368,6 +368,23 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 		}
 
 		/**
+		 * Function storeLogging
+		 *
+		 * @param $level
+		 * @param $name
+		 * @param $message
+		 * @param $context
+		 *
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 26/02/2023 18:26
+		 */
+		protected function storeLogging($level = 'info', $name = 'logger', $message = '', $context = array())
+		{
+			$this->log($name, $message, $context, $level);
+		}
+
+		/**
 		 * Function default_base_flush_logs
 		 *
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
