@@ -344,12 +344,14 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 						default:
 							$keyLevel = Monolog\Logger::INFO;
 					}
-					if (defined('APPPATH')) {
-						$applicationPath = APPPATH . '/logs-data/';
+					if (directory_exists(__DIR__ . '/../../../../storage/logs')) {
+						$logPath = realpath(__DIR__ . '/../../../../storage/logs') . '/';
+					} elseif (defined('APPPATH')) {
+						$logPath = APPPATH . '/logs-data/';
 					} else {
-						$applicationPath = dirname(__DIR__) . '/logs-data/';
+						$logPath = dirname(__DIR__) . '/logs-data/';
 					}
-					$fileName = $applicationPath . 'Log-' . date('Y-m-d') . '.log';
+					$fileName = $logPath . 'Log-' . date('Y-m-d') . '.log';
 					$formatter = new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n", "Y-m-d H:i:s u");
 					$stream = new Monolog\Handler\StreamHandler($fileName, $keyLevel, true, 0777);
 					$stream->setFormatter($formatter);
