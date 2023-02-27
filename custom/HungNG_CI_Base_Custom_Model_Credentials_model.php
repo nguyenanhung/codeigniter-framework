@@ -15,7 +15,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 	 * @author    713uk13m <dev@nguyenanhung.com>
 	 * @copyright 713uk13m <dev@nguyenanhung.com>
 	 *
-	 * @property CI_DB_pdo_driver|CI_DB_mysqli_driver|CI_DB_query_builder|CI_DB_driver $db  This is the platform-independent base Query Builder implementation class
+	 * @property CI_DB_pdo_driver|CI_DB_query_builder|CI_DB_driver $db  This is the platform-independent base Query Builder implementation class
 	 */
 	class HungNG_CI_Base_Custom_Model_Credentials_model extends HungNG_Custom_Based_model
 	{
@@ -61,6 +61,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 			$this->db->from($this->tableName);
 			$this->db->where($this->fieldUsername, $username);
 			$this->db->where($this->fieldStatus, self::IS_ACTIVE);
+
 			return $this->db->count_all_results();
 		}
 
