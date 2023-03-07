@@ -56,12 +56,12 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 	{
 		$this->driver = $driver;
 	}
-
+	#[\ReturnTypeWillChange]
 	public function open($save_path, $name)
 	{
 		return $this->driver->open($save_path, $name);
 	}
-
+	#[\ReturnTypeWillChange]
 	public function close()
 	{
 		return $this->driver->close();
@@ -72,12 +72,12 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 	{
 		return $this->driver->read($id);
 	}
-
+	#[\ReturnTypeWillChange]
 	public function write($id, $data)
 	{
 		return $this->driver->write($id, $data);
 	}
-
+	#[\ReturnTypeWillChange]
 	public function destroy($id)
 	{
 		return $this->driver->destroy($id);
@@ -88,12 +88,12 @@ class CI_SessionWrapper implements SessionHandlerInterface, SessionUpdateTimesta
 	{
 		return $this->driver->gc($maxlifetime);
 	}
-
+	#[\ReturnTypeWillChange]
 	public function updateTimestamp($id, $data)
 	{
 		return $this->driver->updateTimestamp($id, $data);
 	}
-
+	#[\ReturnTypeWillChange]
 	public function validateId($id)
 	{
 		return $this->driver->validateId($id);
