@@ -116,7 +116,7 @@ class Modules
 		}
 
 		// get the requested controller class name
-		$alias = strtolower(basename($module));
+		$alias = bear_str_to_lower(basename($module));
 
 		// create or return an existing controller from the registry
 		if (!isset(self::$registry[$alias])) {
@@ -309,7 +309,7 @@ class Modules
 		}
 
 		// Add http verb support for each module routing
-		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
+		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? bear_str_to_lower($_SERVER['REQUEST_METHOD']) : 'cli';
 
 		// parse module routes
 		foreach (self::$routes[$module] as $key => $val) {
