@@ -22,7 +22,8 @@
 		"ext-json": "*",
 		"ext-mbstring": "*",
 		"nguyenanhung/codeigniter-basic-helper": ">=1.0",
-		"symfony/polyfill-mbstring": ">=1.0"
+		"symfony/polyfill-mbstring": ">=1.0",
+		"ext-curl": "*"
 	},
 	"require-dev": {
 		"nguyenanhung/my-debug": "^4.0 || ^3.0 || ^2.0 || ^1.0"
