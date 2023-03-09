@@ -156,7 +156,7 @@ class CI_Validator
 			static::$_langDir = $dir;
 		}
 
-		return static::$_langDir ? : dirname(dirname(__DIR__)) . '/lang';
+		return static::$_langDir ? : __DIR__ . '/validator_lang';
 	}
 
 	/**
