@@ -45,11 +45,11 @@ class MX_Router extends CI_Router
 	private $located = 0;
 
 	/**
-	 * [fetch_module description]
+	 * Router fetch module
 	 *
 	 * @method fetch_module
 	 *
-	 * @return [type]       [description]
+	 * @return mixed
 	 */
 	public function fetch_module()
 	{
@@ -57,11 +57,14 @@ class MX_Router extends CI_Router
 	}
 
 	/**
-	 * [_set_request description]
+	 * Set request route
+	 *
+	 * Takes an array of URI segments as input and sets the class/method
+	 * to be called.
 	 *
 	 * @method _set_request
 	 *
-	 * @param array $segments [description]
+	 * @param array $segments URI segments
 	 */
 	protected function _set_request($segments = array())
 	{
@@ -99,7 +102,7 @@ class MX_Router extends CI_Router
 	}
 
 	/**
-	 * [_set_404override_controller description]
+	 * _set_404override_controller
 	 *
 	 * @method _set_404override_controller
 	 */
@@ -109,7 +112,7 @@ class MX_Router extends CI_Router
 	}
 
 	/**
-	 * [_set_default_controller description]
+	 * Set default controller
 	 *
 	 * @method _set_default_controller
 	 */
@@ -128,13 +131,13 @@ class MX_Router extends CI_Router
 	}
 
 	/**
-	 * [Locate the controller]
+	 * Locate the controller
 	 *
 	 * @method locate
 	 *
-	 * @param  [type] $segments [description]
+	 * @param $segments
 	 *
-	 * @return [type]           [description]
+	 * @return mixed|string[]|void           [description]
 	 */
 	public function locate($segments)
 	{
@@ -249,7 +252,7 @@ class MX_Router extends CI_Router
 			$sgs = sscanf($_route, '%[^/]/%[^/]/%[^/]/%s', $module, $directory, $class, $method);
 
 			// set the module/controller directory location if found
-			if ($this->locate([$module, $directory, $class])) {
+			if ($this->locate(array($module, $directory, $class))) {
 				//reset to class/method
 				switch ($sgs) {
 					case 1:
@@ -281,7 +284,7 @@ class MX_Router extends CI_Router
 		$suffix = $this->config->item('controller_suffix');
 		// Fixing Error Message: strpos(): Non-string needles will be interpreted as strings in the future.
 		// Use an explicit chr() call to preserve the current behavior.
-		if ($suffix && strpos($class, $suffix) === false) {
+		if ($suffix && mb_strpos($class, $suffix) === false) {
 			$class .= $suffix;
 		}
 		parent::set_class($class);
