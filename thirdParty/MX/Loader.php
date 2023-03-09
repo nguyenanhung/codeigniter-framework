@@ -35,6 +35,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  **/
+#[AllowDynamicProperties]
 class MX_Loader extends CI_Loader
 {
 	protected $_module;

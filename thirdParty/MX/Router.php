@@ -39,6 +39,7 @@ require dirname(__FILE__) . '/Modules.php';
  *
  * @property \CI_URI uri
  **/
+#[AllowDynamicProperties]
 class MX_Router extends CI_Router
 {
 	public $module;
