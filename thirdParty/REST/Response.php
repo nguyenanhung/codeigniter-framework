@@ -197,7 +197,7 @@ class Response
 	public function format($data, $format)
 	{
 		// Case handing. ex. json => Json
-		$format = ucfirst(strtolower($format));
+		$format = ucfirst(bear_str_to_lower($format));
 		$formatFunc = "format" . $format;
 		// Use formatter if exists
 		if (method_exists($this, $formatFunc)) {

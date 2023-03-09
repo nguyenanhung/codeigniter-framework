@@ -137,7 +137,7 @@ class Request
 			? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
 			: $authToken;
 
-		if ($authToken !== null && strpos(strtolower($_SERVER['HTTP_AUTHORIZATION']), 'basic ') === 0) {
+		if ($authToken !== null && strpos(bear_str_to_lower($_SERVER['HTTP_AUTHORIZATION']), 'basic ') === 0) {
 
 			$parts = array_map(function ($value) {
 				return strlen($value) === 0 ? null : $value;
@@ -164,7 +164,7 @@ class Request
 
 		if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
-			if (strpos(strtolower($_SERVER['HTTP_AUTHORIZATION']), 'bearer ') === 0) {
+			if (strpos(bear_str_to_lower($_SERVER['HTTP_AUTHORIZATION']), 'bearer ') === 0) {
 
 				$b64token = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
 			}

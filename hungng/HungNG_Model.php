@@ -191,8 +191,8 @@ if (!class_exists('HungNG_Model')) {
 			$this->_fetch_table();
 			$this->pagination_delimiters = (isset($this->pagination_delimiters)) ? $this->pagination_delimiters : array('<span>',
 																														'</span>');
-			$this->pagination_arrows     = (isset($this->pagination_arrows)) ? $this->pagination_arrows : array('&lt;',
-																												'&gt;');
+			$this->pagination_arrows = (isset($this->pagination_arrows)) ? $this->pagination_arrows : array('&lt;',
+																											'&gt;');
 			/* These below are implementation examples for before_create and before_update triggers.
 			Their respective functions - add_creator() and add_updater() - can be found at the end of the model.
 			They add user id on create and update. If you comment this out don't forget to do the same for the methods()
@@ -243,8 +243,8 @@ if (!class_exists('HungNG_Model')) {
 			$can_fill = $this->_can_be_filled;
 			// Let's make sure we receive an array...
 			$data_as_array = (is_object($data)) ? (array) $data : $data;
-			$new_data      = array();
-			$multi         = $this->is_multidimensional($data);
+			$new_data = array();
+			$multi = $this->is_multidimensional($data);
 			if ($multi === false) {
 				foreach ($data_as_array as $field => $value) {
 					if (in_array($field, $can_fill)) {
@@ -296,7 +296,7 @@ if (!class_exists('HungNG_Model')) {
 				foreach ($data as $row) {
 					$dropdown[$row[$this->primary_key]] = $row[$this->_dropdown_field];
 				}
-				$data                     = $dropdown;
+				$data = $dropdown;
 				$this->return_as_dropdown = null;
 			} elseif ($this->return_as == 'object') {
 				$data = json_decode(json_encode($data), false);
@@ -382,7 +382,7 @@ if (!class_exists('HungNG_Model')) {
 		public function insert($data = null)
 		{
 			if (!isset($data) && $this->validated != false) {
-				$data            = $this->validated;
+				$data = $this->validated;
 				$this->validated = false;
 			} elseif (!isset($data)) {
 				return false;
@@ -398,7 +398,7 @@ if (!class_exists('HungNG_Model')) {
 				$data = $this->trigger('before_create', $data);
 				if ($this->_database->insert($this->table, $data)) {
 					$this->_prep_after_write();
-					$id     = $this->_database->insert_id();
+					$id = $this->_database->insert_id();
 					$return = $this->trigger('after_create', $id);
 
 					return $return;
@@ -462,7 +462,7 @@ if (!class_exists('HungNG_Model')) {
 		public function update($data = null, $column_name_where = null, $escape = true)
 		{
 			if (!isset($data) && $this->validated != false) {
-				$data            = $this->validated;
+				$data = $this->validated;
 				$this->validated = false;
 			} elseif (!isset($data)) {
 				$this->_database->reset_query();
@@ -497,7 +497,7 @@ if (!class_exists('HungNG_Model')) {
 					if ($this->_database->update($this->table, $data)) {
 						$this->_prep_after_write();
 						$affected = $this->_database->affected_rows();
-						$return   = $this->trigger('after_update', $affected);
+						$return = $this->trigger('after_update', $affected);
 
 						return $return;
 					}
@@ -505,7 +505,7 @@ if (!class_exists('HungNG_Model')) {
 					if ($this->_database->set($data, null, false)->update($this->table)) {
 						$this->_prep_after_write();
 						$affected = $this->_database->affected_rows();
-						$return   = $this->trigger('after_update', $affected);
+						$return = $this->trigger('after_update', $affected);
 
 						return $return;
 					}
@@ -573,11 +573,11 @@ if (!class_exists('HungNG_Model')) {
 				$multi = $this->is_multidimensional($field_or_array);
 				if ($multi === true) {
 					foreach ($field_or_array as $where) {
-						$field             = $where[0];
+						$field = $where[0];
 						$operator_or_value = isset($where[1]) ? $where[1] : null;
-						$value             = isset($where[2]) ? $where[2] : null;
-						$with_or           = (isset($where[3])) ? true : false;
-						$with_not          = (isset($where[4])) ? true : false;
+						$value = isset($where[2]) ? $where[2] : null;
+						$with_or = (isset($where[3])) ? true : false;
+						$with_not = (isset($where[4])) ? true : false;
 						$this->where($field, $operator_or_value, $value, $with_or, $with_not);
 					}
 
@@ -607,7 +607,8 @@ if (!class_exists('HungNG_Model')) {
 				//exit;
 				$this->_database->{$where_or . $not . '_in'}($this->table . '.' . $field_or_array, $operator_or_value);
 			} elseif (isset($field_or_array) && isset($operator_or_value) && isset($value)) {
-				if (strtolower($operator_or_value) == 'like') {
+				$operator_or_value = bear_str_to_lower($operator_or_value);
+				if ($operator_or_value === 'like') {
 					if ($with_not === true) {
 						$like = 'not_like';
 					} else {
@@ -696,7 +697,7 @@ if (!class_exists('HungNG_Model')) {
 						//$row = $this->trigger('before_soft_delete',$row);
 						$row[$this->_deleted_at_field] = $this->_the_timestamp();
 					}
-					$affected_rows              = $this->_database->update_batch($this->table, $to_update, $this->primary_key);
+					$affected_rows = $this->_database->update_batch($this->table, $to_update, $this->primary_key);
 					$to_update['affected_rows'] = $affected_rows;
 					$this->_prep_after_write();
 					$this->trigger('after_soft_delete', $to_update);
@@ -708,8 +709,8 @@ if (!class_exists('HungNG_Model')) {
 					$affected_rows = $this->_database->affected_rows();
 					if (!empty($this->after_delete)) {
 						$to_update['affected_rows'] = $affected_rows;
-						$to_update                  = $this->trigger('after_delete', $to_update);
-						$affected_rows              = $to_update;
+						$to_update = $this->trigger('after_delete', $to_update);
+						$affected_rows = $to_update;
 					}
 					$this->_prep_after_write();
 
@@ -794,7 +795,7 @@ if (!class_exists('HungNG_Model')) {
 			$the_select = '';
 			if (!empty($requested['parameters'])) {
 				if (array_key_exists('fields', $requested['parameters'])) {
-					$fields     = explode(',', $requested['parameters']['fields']);
+					$fields = explode(',', $requested['parameters']['fields']);
 					$sub_select = array();
 					foreach ($fields as $field) {
 						$sub_select[] = ((strpos($field, '.') === false) ? '`' . $this->_relationships[$requested['request']]['foreign_table'] . '`.`' . trim($field) . '`' : trim($field)) . ' AS ' . $requested['request'] . '_' . trim($field);
@@ -947,7 +948,7 @@ if (!class_exists('HungNG_Model')) {
 			$this->_set_relationships();
 			if (array_key_exists($request, $this->_relationships)) {
 				$this->_requested[$request] = array('request' => $request);
-				$parameters                 = array();
+				$parameters = array();
 				if (isset($arguments)) {
 					foreach ($arguments as $argument) {
 						if (is_array($argument)) {
@@ -998,23 +999,23 @@ if (!class_exists('HungNG_Model')) {
 		 */
 		protected function join_temporary_results($data)
 		{
-			$order_by           = array();
+			$order_by = array();
 			$order_inside_array = array();
 			//$order_inside = '';
 			foreach ($this->_requested as $requested_key => $request) {
 				$pivot_table = null;
-				$relation    = $this->_relationships[$request['request']];
+				$relation = $this->_relationships[$request['request']];
 				$this->load->model($relation['foreign_model'], $relation['foreign_model_name']);
-				$foreign_key   = $relation['foreign_key'];
-				$local_key     = $relation['local_key'];
+				$foreign_key = $relation['foreign_key'];
+				$local_key = $relation['local_key'];
 				$foreign_table = $relation['foreign_table'];
-				$type          = $relation['relation'];
-				$relation_key  = $relation['relation_key'];
+				$type = $relation['relation'];
+				$relation_key = $relation['relation_key'];
 				if ($type == 'has_many_pivot') {
-					$pivot_table       = $relation['pivot_table'];
-					$pivot_local_key   = $relation['pivot_local_key'];
+					$pivot_table = $relation['pivot_table'];
+					$pivot_local_key = $relation['pivot_local_key'];
 					$pivot_foreign_key = $relation['pivot_foreign_key'];
-					$get_relate        = $relation['get_relate'];
+					$get_relate = $relation['get_relate'];
 				}
 				if (array_key_exists('order_inside', $request['parameters'])) {
 					//$order_inside = $request['parameters']['order_inside'];
@@ -1033,7 +1034,7 @@ if (!class_exists('HungNG_Model')) {
 				$local_key_values = array();
 				foreach ($data as $key => $element) {
 					if (isset($element[$local_key]) and !empty($element[$local_key])) {
-						$id                     = $element[$local_key];
+						$id = $element[$local_key];
 						$local_key_values[$key] = $id;
 					}
 				}
@@ -1043,12 +1044,12 @@ if (!class_exists('HungNG_Model')) {
 				}
 				if (!isset($pivot_table)) {
 					$sub_results = $this->{$relation['foreign_model_name']};
-					$select      = array();
-					$select[]    = '`' . $foreign_table . '`.`' . $foreign_key . '`';
+					$select = array();
+					$select[] = '`' . $foreign_table . '`.`' . $foreign_key . '`';
 					if (!empty($request['parameters'])) {
 						if (array_key_exists('fields', $request['parameters'])) {
 							if ($request['parameters']['fields'] == '*count*') {
-								$the_select  = '*count*';
+								$the_select = '*count*';
 								$sub_results = (isset($the_select)) ? $sub_results->fields($the_select) : $sub_results;
 								$sub_results = $sub_results->fields($foreign_key);
 							} else {
@@ -1056,7 +1057,7 @@ if (!class_exists('HungNG_Model')) {
 								foreach ($fields as $field) {
 									$select[] = (strpos($field, '.') === false) ? '`' . $foreign_table . '`.`' . trim($field) . '`' : trim($field);
 								}
-								$the_select  = implode(',', $select);
+								$the_select = implode(',', $select);
 								$sub_results = (isset($the_select)) ? $sub_results->fields($the_select) : $sub_results;
 							}
 						}
@@ -1128,7 +1129,7 @@ if (!class_exists('HungNG_Model')) {
 				if (isset($sub_results) && !empty($sub_results)) {
 					$subs = array();
 					foreach ($sub_results as $result) {
-						$result_array    = (array) $result;
+						$result_array = (array) $result;
 						$the_foreign_key = $result_array[$foreign_key];
 						if (isset($pivot_table)) {
 							$the_local_key = $result_array[$pivot_local_key];
@@ -1214,22 +1215,22 @@ if (!class_exists('HungNG_Model')) {
 							$single_query = false;
 							if (!is_array($relation)) {
 								$foreign_model = $relation;
-								$model         = $this->_parse_model_dir($foreign_model);
+								$model = $this->_parse_model_dir($foreign_model);
 								$foreign_model = $model['foreign_model'];
 								//$model_dir = $model['model_dir'];
 								$foreign_model_name = $model['foreign_model_name'];
 								$this->load->model($foreign_model, $foreign_model_name);
-								$foreign_table     = $this->{$foreign_model_name}->table;
-								$foreign_key       = $this->{$foreign_model_name}->primary_key;
-								$local_key         = $this->primary_key;
-								$pivot_local_key   = $this->table . '_' . $local_key;
+								$foreign_table = $this->{$foreign_model_name}->table;
+								$foreign_key = $this->{$foreign_model_name}->primary_key;
+								$local_key = $this->primary_key;
+								$pivot_local_key = $this->table . '_' . $local_key;
 								$pivot_foreign_key = $foreign_table . '_' . $foreign_key;
-								$get_relate        = false;
+								$get_relate = false;
 							} else {
 								if ($this->is_assoc($relation)) {
-									$foreign_model      = $relation['foreign_model'];
-									$model              = $this->_parse_model_dir($foreign_model);
-									$foreign_model      = $model['model_dir'] . $model['foreign_model'];
+									$foreign_model = $relation['foreign_model'];
+									$model = $this->_parse_model_dir($foreign_model);
+									$foreign_model = $model['model_dir'] . $model['foreign_model'];
 									$foreign_model_name = $model['foreign_model_name'];
 									if (array_key_exists('foreign_table', $relation)) {
 										$foreign_table = $relation['foreign_table'];
@@ -1238,29 +1239,29 @@ if (!class_exists('HungNG_Model')) {
 										$foreign_table = $this->{$foreign_model_name}->table;
 									}
 									$foreign_key = $relation['foreign_key'];
-									$local_key   = $relation['local_key'];
+									$local_key = $relation['local_key'];
 									if ($option == 'has_many_pivot') {
-										$pivot_table       = $relation['pivot_table'];
-										$pivot_local_key   = (array_key_exists('pivot_local_key', $relation)) ? $relation['pivot_local_key'] : $this->table . '_' . $this->primary_key;
+										$pivot_table = $relation['pivot_table'];
+										$pivot_local_key = (array_key_exists('pivot_local_key', $relation)) ? $relation['pivot_local_key'] : $this->table . '_' . $this->primary_key;
 										$pivot_foreign_key = (array_key_exists('pivot_foreign_key', $relation)) ? $relation['pivot_foreign_key'] : $foreign_table . '_' . $foreign_key;
-										$get_relate        = (array_key_exists('get_relate', $relation) && ($relation['get_relate'] === true)) ? true : false;
+										$get_relate = (array_key_exists('get_relate', $relation) && ($relation['get_relate'] === true)) ? true : false;
 									}
 									if ($option == 'has_one' && isset($relation['join']) && $relation['join'] === true) {
 										$single_query = true;
 									}
 								} else {
-									$foreign_model      = $relation[0];
-									$model              = $this->_parse_model_dir($foreign_model);
-									$foreign_model      = $model['model_dir'] . $model['foreign_model'];
+									$foreign_model = $relation[0];
+									$model = $this->_parse_model_dir($foreign_model);
+									$foreign_model = $model['model_dir'] . $model['foreign_model'];
 									$foreign_model_name = $model['foreign_model_name'];
 									$this->load->model($foreign_model);
 									$foreign_table = $this->{$foreign_model}->table;
-									$foreign_key   = $relation[1];
-									$local_key     = $relation[2];
+									$foreign_key = $relation[1];
+									$local_key = $relation[2];
 									if ($option == 'has_many_pivot') {
-										$pivot_local_key   = $this->table . '_' . $this->primary_key;
+										$pivot_local_key = $this->table . '_' . $this->primary_key;
 										$pivot_foreign_key = $foreign_table . '_' . $foreign_key;
-										$get_relate        = (isset($relation[3]) && ($relation[3] === TRUE())) ? true : false;
+										$get_relate = (isset($relation[3]) && ($relation[3] === TRUE())) ? true : false;
 									}
 								}
 							}
@@ -1272,16 +1273,16 @@ if (!class_exists('HungNG_Model')) {
 							}
 							$this->_relationships[$key] = array('relation'           => $option,
 																'relation_key'       => $key,
-																'foreign_model'      => strtolower($foreign_model),
-																'foreign_model_name' => strtolower($foreign_model_name),
+																'foreign_model'      => bear_str_to_lower($foreign_model),
+																'foreign_model_name' => bear_str_to_lower($foreign_model_name),
 																'foreign_table'      => $foreign_table,
 																'foreign_key'        => $foreign_key,
 																'local_key'          => $local_key);
 							if ($option == 'has_many_pivot') {
-								$this->_relationships[$key]['pivot_table']       = $pivot_table;
-								$this->_relationships[$key]['pivot_local_key']   = $pivot_local_key;
+								$this->_relationships[$key]['pivot_table'] = $pivot_table;
+								$this->_relationships[$key]['pivot_local_key'] = $pivot_local_key;
 								$this->_relationships[$key]['pivot_foreign_key'] = $pivot_foreign_key;
-								$this->_relationships[$key]['get_relate']        = $get_relate;
+								$this->_relationships[$key]['get_relate'] = $get_relate;
 							}
 							if ($single_query === true) {
 								$this->_relationships[$key]['joined'] = true;
@@ -1338,7 +1339,7 @@ if (!class_exists('HungNG_Model')) {
 				foreach ($this->$event as $method) {
 					if (strpos($method, '(')) {
 						preg_match('/([a-zA-Z0-9\_\-]+)(\(([a-zA-Z0-9\_\-\., ]+)\))?/', $method, $matches);
-						$method                    = $matches[1];
+						$method = $matches[1];
 						$this->callback_parameters = explode(',', $matches[3]);
 					}
 					$data = call_user_func_array(array($this,
@@ -1427,7 +1428,7 @@ if (!class_exists('HungNG_Model')) {
 					$this->_database->select('COUNT(*) AS counted_rows', false);
 				} else {
 					$this->_select = array();
-					$fields        = (!is_array($fields)) ? explode(',', $fields) : $fields;
+					$fields = (!is_array($fields)) ? explode(',', $fields) : $fields;
 					if (!empty($fields)) {
 						foreach ($fields as &$field) {
 							$exploded = explode('.', $field);
@@ -1494,9 +1495,9 @@ if (!class_exists('HungNG_Model')) {
 				exit;
 			}
 			$this->return_as_dropdown = 'dropdown';
-			$this->_dropdown_field    = $field;
-			$this->_select            = array($this->primary_key,
-											  $field);
+			$this->_dropdown_field = $field;
+			$this->_select = array($this->primary_key,
+								   $field);
 
 			return $this;
 		}
@@ -1506,7 +1507,7 @@ if (!class_exists('HungNG_Model')) {
 			if (isset($cache_name) || (isset($this->_cache) && !empty($this->_cache))) {
 				$this->load->driver('cache');
 				$cache_name = isset($cache_name) ? $cache_name : $this->_cache['cache_name'];
-				$data       = $this->cache->{$this->cache_driver}->get($cache_name);
+				$data = $this->cache->{$this->cache_driver}->get($cache_name);
 
 				return $data;
 			}
@@ -1517,7 +1518,7 @@ if (!class_exists('HungNG_Model')) {
 			if (isset($cache_name) || (isset($this->_cache) && !empty($this->_cache))) {
 				$this->load->driver('cache');
 				$cache_name = isset($cache_name) ? $cache_name : $this->_cache['cache_name'];
-				$seconds    = $this->_cache['seconds'];
+				$seconds = $this->_cache['seconds'];
 				if (isset($cache_name) && isset($seconds)) {
 					$this->cache->{$this->cache_driver}->save($cache_name, $data, $seconds);
 					$this->_reset_cache($cache_name);
@@ -1531,8 +1532,8 @@ if (!class_exists('HungNG_Model')) {
 
 		public function set_cache($string, $seconds = 86400)
 		{
-			$prefix       = (strlen($this->cache_prefix) > 0) ? $this->cache_prefix . '_' : '';
-			$prefix       .= $this->table . '_';
+			$prefix = (bear_str_length($this->cache_prefix) > 0) ? $this->cache_prefix . '_' : '';
+			$prefix .= $this->table . '_';
 			$this->_cache = array('cache_name' => $prefix . $string,
 								  'seconds'    => $seconds);
 
@@ -1551,7 +1552,7 @@ if (!class_exists('HungNG_Model')) {
 		public function delete_cache($string = null)
 		{
 			$this->load->driver('cache');
-			$prefix = (strlen($this->cache_prefix) > 0) ? $this->cache_prefix . '_' : '';
+			$prefix = (bear_str_length($this->cache_prefix) > 0) ? $this->cache_prefix . '_' : '';
 			$prefix .= $this->table . '_';
 			if (isset($string) && (strpos($string, '*') === false)) {
 				$this->cache->{$this->cache_driver}->delete($prefix . $string);
@@ -1628,9 +1629,9 @@ if (!class_exists('HungNG_Model')) {
 		public function paginate($rows_per_page, $total_rows = null, $page_number = 1)
 		{
 			$this->load->helper('url');
-			$segments  = $this->uri->total_segments();
+			$segments = $this->uri->total_segments();
 			$uri_array = $this->uri->segment_array();
-			$page      = $this->uri->segment($segments);
+			$page = $this->uri->segment($segments);
 			if (is_numeric($page)) {
 				$page_number = $page;
 			} else {
@@ -1638,17 +1639,17 @@ if (!class_exists('HungNG_Model')) {
 				$uri_array[] = $page_number;
 				++$segments;
 			}
-			$next_page     = $page_number + 1;
+			$next_page = $page_number + 1;
 			$previous_page = $page_number - 1;
 			if ($page_number == 1) {
 				$this->previous_page = $this->pagination_delimiters[0] . $this->pagination_arrows[0] . $this->pagination_delimiters[1];
 			} else {
 				$uri_array[$segments] = $previous_page;
-				$uri_string           = implode('/', $uri_array);
-				$this->previous_page  = $this->pagination_delimiters[0] . anchor($uri_string, $this->pagination_arrows[0]) . $this->pagination_delimiters[1];
+				$uri_string = implode('/', $uri_array);
+				$this->previous_page = $this->pagination_delimiters[0] . anchor($uri_string, $this->pagination_arrows[0]) . $this->pagination_delimiters[1];
 			}
 			$uri_array[$segments] = $next_page;
-			$uri_string           = implode('/', $uri_array);
+			$uri_string = implode('/', $uri_array);
 			if (isset($total_rows) && (ceil($total_rows / $rows_per_page) == $page_number)) {
 				$this->next_page = $this->pagination_delimiters[0] . $this->pagination_arrows[1] . $this->pagination_delimiters[1];
 			} else {
@@ -1658,15 +1659,15 @@ if (!class_exists('HungNG_Model')) {
 			if (isset($total_rows)) {
 				if ($total_rows != 0) {
 					$number_of_pages = ceil($total_rows / $rows_per_page);
-					$links           = $this->previous_page;
+					$links = $this->previous_page;
 					for ($i = 1; $i <= $number_of_pages; $i++) {
 						unset($uri_array[$segments]);
 						$uri_string = implode('/', $uri_array);
-						$links      .= $this->pagination_delimiters[0];
-						$links      .= (($page_number == $i) ? anchor($uri_string, $i) : anchor($uri_string . '/' . $i, $i));
-						$links      .= $this->pagination_delimiters[1];
+						$links .= $this->pagination_delimiters[0];
+						$links .= (($page_number == $i) ? anchor($uri_string, $i) : anchor($uri_string . '/' . $i, $i));
+						$links .= $this->pagination_delimiters[1];
 					}
-					$links           .= $this->next_page;
+					$links .= $this->next_page;
 					$this->all_pages = $links;
 				} else {
 					$this->all_pages = $this->pagination_delimiters[0] . $this->pagination_delimiters[1];
@@ -1675,8 +1676,8 @@ if (!class_exists('HungNG_Model')) {
 			if (isset($this->_cache) && !empty($this->_cache)) {
 				$this->load->driver('cache');
 				$cache_name = $this->_cache['cache_name'] . '_' . $page_number;
-				$seconds    = $this->_cache['seconds'];
-				$data       = $this->cache->{$this->cache_driver}->get($cache_name);
+				$seconds = $this->_cache['seconds'];
+				$data = $this->cache->{$this->cache_driver}->get($cache_name);
 			}
 			if (isset($data) && $data !== false) {
 				return $data;
@@ -1733,7 +1734,8 @@ if (!class_exists('HungNG_Model')) {
 
 		private function _get_table_name($model_name)
 		{
-			$table_name = plural(preg_replace('/(_m|_model|_mdl)?$/', '', strtolower($model_name)));
+			$model_name = bear_str_to_lower($model_name);
+			$table_name = plural(preg_replace('/(_m|_model|_mdl)?$/', '', $model_name));
 
 			return $table_name;
 		}
@@ -1814,14 +1816,16 @@ if (!class_exists('HungNG_Model')) {
 		private function _parse_model_dir($foreign_model)
 		{
 			$data['foreign_model'] = $foreign_model;
-			$data['model_dir']     = '';
-			$full_model            = explode('/', $data['foreign_model']);
+			$data['model_dir'] = '';
+			$full_model = explode('/', $data['foreign_model']);
 			if ($full_model) {
 				$data['foreign_model'] = end($full_model);
-				$data['model_dir']     = str_replace($data['foreign_model'], null, implode('/', $full_model));
+				$data['model_dir'] = str_replace($data['foreign_model'], null, implode('/', $full_model));
 			}
-			$foreign_model_name         = str_replace('/', '_', $data['model_dir'] . $data['foreign_model']);
-			$data['foreign_model_name'] = strtolower($foreign_model_name);
+			$foreign_model_name = str_replace('/', '_', $data['model_dir'] . $data['foreign_model']);
+			$foreign_model_name = bear_str_to_lower($foreign_model_name);
+
+			$data['foreign_model_name'] = $foreign_model_name;
 
 			return $data;
 		}

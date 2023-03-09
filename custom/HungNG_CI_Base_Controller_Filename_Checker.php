@@ -86,7 +86,7 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 				$prefix = config_item('subclass_prefix');
 
 				if ($this->hasPrefix($filename, $prefix)) {
-					$filename = substr($filename, strlen($prefix));
+					$filename = substr($filename, bear_str_length($prefix));
 				}
 			}
 
@@ -115,7 +115,7 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 
 		private function hasPrefix($filename, $prefix)
 		{
-			if (strncmp($prefix, $filename, strlen($prefix)) === 0) {
+			if (strncmp($prefix, $filename, bear_str_length($prefix)) === 0) {
 				return true;
 			}
 

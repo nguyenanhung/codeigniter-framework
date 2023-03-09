@@ -245,7 +245,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 			/* Table Name Guessing */
 			if (!$this->table) {
-				$this->table = str_replace('_model', '', strtolower(get_called_class()));
+				$this->table = str_replace('_model', '', bear_str_to_lower(get_called_class()));
 			}
 		}
 
@@ -827,7 +827,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				// Last batch check: First single query & Max length
 				// The first single query needs to be sent ahead to prevent the limitation that PDO transaction could not
 				// use multiple SQL line in one query, but allows if the multi-line query is behind a single query.
-				if (($count == 0 && $sqlBatch) || strlen($sqlBatch) >= $maxLength) {
+				if (($count == 0 && $sqlBatch) || bear_str_length($sqlBatch) >= $maxLength) {
 					// Each batch of query
 					$result = $this->_db->query($sqlBatch);
 					$sqlBatch = "";

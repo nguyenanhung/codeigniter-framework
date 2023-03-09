@@ -1445,7 +1445,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		public function order_by($fields = array())
 		{
 			foreach ($fields as $col => $val) {
-				if ($val == -1 || $val === false || strtolower($val) == 'desc') {
+				if ($val == -1 || $val === false || bear_str_to_lower($val) == 'desc') {
 					$this->sorts[$col] = -1;
 				} else {
 					$this->sorts[$col] = 1;
@@ -1603,7 +1603,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			}
 
 			foreach ($keys as $col => $val) {
-				if ($val == -1 || $val === false || strtolower($val) == 'desc') {
+				if ($val == -1 || $val === false || bear_str_to_lower($val) == 'desc') {
 					$keys[$col] = -1;
 				} else {
 					$keys[$col] = 1;

@@ -279,7 +279,7 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 
 				// Filename validations
 				if (preg_match('/^\d{3}_(\w+)$/', $name, $match)) {
-					$match[1] = strtolower($match[1]);
+					$match[1] = bear_str_to_lower($match[1]);
 
 					// Cannot repeat a migration at different steps
 					if (in_array($match[1], $migrations)) {
@@ -325,7 +325,9 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 			// Loop through the migrations
 			foreach ($migrations as $migration) {
 				// Run the migration class
-				$class = 'Migration_' . ucfirst(strtolower($migration));
+
+				$class = 'Migration_' . ucfirst(bear_str_to_lower($migration));
+
 				call_user_func(array(new $class, $method));
 
 				$current_version += $step;

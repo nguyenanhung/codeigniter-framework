@@ -318,7 +318,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		{
 			try {
 				if (class_exists('Monolog\Logger') && class_exists('Monolog\Formatter\LineFormatter') && class_exists('Monolog\Handler\StreamHandler')) {
-					$useLevel = strtolower($inputLevel);
+					$useLevel = bear_str_to_lower($inputLevel);
 					switch ($useLevel) {
 						case 'debug':
 							$keyLevel = Monolog\Logger::DEBUG;

@@ -251,14 +251,13 @@ class MX_Loader extends CI_Loader
 		if (is_array($library)) {
 			return $this->libraries($library);
 		}
-
-		$class = strtolower(basename($library));
+		$class = bear_str_to_lower(basename($library));
 
 		if (isset($this->_ci_classes[$class]) && $_alias = $this->_ci_classes[$class]) {
 			return $this;
 		}
 
-		($_alias = strtolower($object_name)) or $_alias = $class;
+		($_alias = bear_str_to_lower($object_name)) or $_alias = $class;
 
 		// Backward function
 		// Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
@@ -343,9 +342,9 @@ class MX_Loader extends CI_Loader
 		if (version_compare(phpversion(), '7.1', '<')) {
 			// php version isn't high enough
 			// check module
-			list($path, $_model) = Modules::find(strtolower($model), $this->_module, 'models/');
+			list($path, $_model) = Modules::find(bear_str_to_lower($model), $this->_module, 'models/');
 		} else {
-			[$path, $_model] = Modules::find(strtolower($model), $this->_module, 'models/');
+			[$path, $_model] = Modules::find(bear_str_to_lower($model), $this->_module, 'models/');
 		}
 
 		if ($path === false) {
@@ -406,7 +405,8 @@ class MX_Loader extends CI_Loader
 			return $this->modules($module);
 		}
 
-		$_alias = strtolower(basename($module));
+		$_alias = bear_str_to_lower(basename($module));
+
 		CI::$APP->$_alias = Modules::load([$module => $params]);
 
 		return $this;
@@ -694,7 +694,7 @@ class MX_Loader extends CI_Loader
 
 		// autoload database & libraries
 		if (isset($autoload['libraries'])) {
-			if (!$db = CI::$APP->config->item('database') && in_array('database', $autoload['libraries'])) {
+			if (!$db = (CI::$APP->config->item('database') && in_array('database', $autoload['libraries']))) {
 				$this->database();
 
 				$autoload['libraries'] = array_diff($autoload['libraries'], ['database']);
