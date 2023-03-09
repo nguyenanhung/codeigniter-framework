@@ -407,7 +407,7 @@ class MX_Loader extends CI_Loader
 
 		$_alias = bear_str_to_lower(basename($module));
 
-		CI::$APP->$_alias = Modules::load([$module => $params]);
+		CI::$APP->$_alias = Modules::load(array($module => $params));
 
 		return $this;
 	}
@@ -514,9 +514,21 @@ class MX_Loader extends CI_Loader
 		}
 
 		if (method_exists($this, '_ci_object_to_array')) {
-			return $this->_ci_load(['_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return]);
+			return $this->_ci_load(
+				array(
+					'_ci_view' => $view,
+					'_ci_vars' => $this->_ci_object_to_array($vars),
+					'_ci_return' => $return
+				)
+			);
 		} else {
-			return $this->_ci_load(['_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return]);
+			return $this->_ci_load(
+				array(
+					'_ci_view' => $view,
+					'_ci_vars' => $this->_ci_prepare_view_vars($vars),
+					'_ci_return' => $return
+				)
+			);
 		}
 	}
 
@@ -677,7 +689,8 @@ class MX_Loader extends CI_Loader
 		}
 
 		// autoload helpers, plugins, languages
-		foreach (['helper', 'plugin', 'language'] as $type) {
+		$listAutoload = array('helper', 'plugin', 'language');
+		foreach ($listAutoload as $type) {
 			if (isset($autoload[$type])) {
 				foreach ($autoload[$type] as $item) {
 					$this->$type($item);

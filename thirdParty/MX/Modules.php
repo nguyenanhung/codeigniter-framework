@@ -76,14 +76,14 @@ class Modules
 			if (method_exists($class, $method)) {
 				ob_start();
 				$args = func_get_args();
-				$output = call_user_func_array([$class, $method], array_slice($args, 1));
+				$output = call_user_func_array(array($class, $method), array_slice($args, 1));
 				$buffer = ob_get_clean();
 
 				return ($output !== null) ? $output : $buffer;
 			}
 		}
 
-		log_message('error', "Module controller failed to run: {$module}/{$method}");
+		log_message('error', "Module controller failed to run: " . $module . "/" . $method);
 	}
 
 	/**
@@ -324,7 +324,7 @@ class Modules
 				}
 			}
 
-			$key = str_replace([':any', ':num'], ['.+', '[0-9]+'], $key);
+			$key = str_replace(array(':any', ':num'), array('.+', '[0-9]+'), $key);
 
 			if (preg_match('#^' . $key . '$#', $uri)) {
 				if (strpos($val, '$') !== false && strpos($key, '(') !== false) {

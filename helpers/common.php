@@ -1,4 +1,12 @@
 <?php
+/**
+ * Project codeigniter-framework
+ * Created by PhpStorm
+ * User: 713uk13m <dev@nguyenanhung.com>
+ * Copyright: 713uk13m <dev@nguyenanhung.com>
+ * Date: 09/03/2023
+ * Time: 23:00
+ */
 if (!function_exists('bear_str_to_lower')) {
 	function bear_str_to_lower($str)
 	{

@@ -100,7 +100,7 @@ class Format
 		// If the provided data is already formatted we should probably convert it to an array
 		if ($from_type !== null) {
 			if (method_exists($this, '_from_' . $from_type)) {
-				$data = call_user_func([$this, '_from_' . $from_type], $data);
+				$data = call_user_func(array($this, '_from_' . $from_type), $data);
 			} else {
 				throw new Exception('Format class does not support conversion from "' . $from_type . '".');
 			}
