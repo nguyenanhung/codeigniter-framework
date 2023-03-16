@@ -36,7 +36,7 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 			$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '') ? ltrim($config['log_file_extension'], '.') : 'php';
 			$this->_file_prefix = (isset($config['query_log_file_prefix']) && $config['query_log_file_prefix'] !== '') ? rtrim($config['query_log_file_prefix'], '-') . '-' : 'log-';
 
-			file_exists($this->_log_path) or mkdir($this->_log_path, 0755, true);
+			file_exists($this->_log_path) || mkdir($concurrentDirectory = $this->_log_path, 0755, true) || is_dir($concurrentDirectory);
 
 			if (!is_dir($this->_log_path) or !is_really_writable($this->_log_path)) {
 				$this->_enabled = false;
@@ -58,6 +58,9 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 			}
 		}
 
+		/**
+		 * @throws \Exception
+		 */
 		public function run()
 		{
 			if ($this->_enabled === false) {
