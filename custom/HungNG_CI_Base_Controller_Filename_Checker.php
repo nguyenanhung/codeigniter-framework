@@ -13,7 +13,7 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 	{
 		protected $dir;
 		protected $output_ = array();
-		protected $fix = false;
+		protected $fix     = false;
 
 		public function __construct()
 		{
@@ -99,27 +99,19 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 				}
 
 				return false;
-			} else {
-				return true;
-			}
-		}
-
-		private function checkUcFirst($filename)
-		{
-			if (ucfirst($filename) !== $filename) {
-				return false;
 			}
 
 			return true;
 		}
 
+		private function checkUcFirst($filename)
+		{
+			return ucfirst($filename) === $filename;
+		}
+
 		private function hasPrefix($filename, $prefix)
 		{
-			if (strncmp($prefix, $filename, bear_str_length($prefix)) === 0) {
-				return true;
-			}
-
-			return false;
+			return strncmp($prefix, $filename, bear_str_length($prefix)) === 0;
 		}
 	}
 }
