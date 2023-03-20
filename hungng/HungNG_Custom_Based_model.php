@@ -316,8 +316,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				$tableName = '';
 			}
 			if (isset($order_by_field) && is_array($order_by_field) && count($order_by_field) > 0) {
-				foreach ($order_by_field as $field) {
-					$this->db->order_by($tableName . $field['field_name'], $field['order_value']);
+				foreach ($order_by_field as $f) {
+					$this->db->order_by($tableName . $f['field_name'], $f['order_value']);
 				}
 			} else {
 				$direction = strtoupper(trim($direction));
