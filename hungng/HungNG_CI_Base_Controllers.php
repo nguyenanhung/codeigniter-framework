@@ -344,7 +344,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 						default:
 							$keyLevel = Monolog\Logger::INFO;
 					}
-					if (directory_exists(__DIR__ . '/../../../../storage/logs')) {
+					if (is_dir(__DIR__ . '/../../../../storage/logs')) {
 						$logPath = realpath(__DIR__ . '/../../../../storage/logs') . '/';
 					} elseif (defined('APPPATH')) {
 						$logPath = APPPATH . '/logs-data/';
