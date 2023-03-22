@@ -224,6 +224,33 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		// ---------------------------------------------------------------------------------------------------------------------------------------- //
 
 		/**
+		 * Function get_off_set
+		 *
+		 * @param $size
+		 * @param $page
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 22/03/2023 13:24
+		 */
+		public function get_off_set($size = 500, $page = 0)
+		{
+			$size = (int) $size;
+			$page = (int) $page;
+			if ($page !== 0) {
+				if ($page <= 0 || empty($page)) {
+					$page = 1;
+				}
+				$start = ($page - 1) * $size;
+			} else {
+				$start = $page;
+			}
+
+			return (int) $start;
+		}
+
+		/**
 		 * Function page_limit
 		 *
 		 * @param int $size
@@ -237,14 +264,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function page_limit($size = 500, $page = 0)
 		{
 			if ($size !== 'no_limit') {
-				if ($page !== 0) {
-					if ($page <= 0 || empty($page)) {
-						$page = 1;
-					}
-					$start = ($page - 1) * $size;
-				} else {
-					$start = $page;
-				}
+				$start = $this->get_off_set($size, $page);
 
 				return $this->db->limit($size, $start);
 			}
@@ -253,11 +273,12 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
-		 * Function _page_limit
+		 * Function _page_limit alias of page_limit
 		 *
 		 * @param int $size
 		 * @param int $page
 		 *
+		 * @deprecated use page_limit method
 		 * @return \CI_DB_query_builder
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
