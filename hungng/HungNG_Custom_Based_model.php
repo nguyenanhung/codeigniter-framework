@@ -224,6 +224,33 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		// ---------------------------------------------------------------------------------------------------------------------------------------- //
 
 		/**
+		 * Function get_off_set
+		 *
+		 * @param $size
+		 * @param $page
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 22/03/2023 13:24
+		 */
+		public function get_off_set($size = 500, $page = 0)
+		{
+			$size = (int) $size;
+			$page = (int) $page;
+			if ($page !== 0) {
+				if ($page <= 0 || empty($page)) {
+					$page = 1;
+				}
+				$start = ($page - 1) * $size;
+			} else {
+				$start = $page;
+			}
+
+			return (int) $start;
+		}
+
+		/**
 		 * Function page_limit
 		 *
 		 * @param int $size
@@ -237,14 +264,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function page_limit($size = 500, $page = 0)
 		{
 			if ($size !== 'no_limit') {
-				if ($page !== 0) {
-					if ($page <= 0 || empty($page)) {
-						$page = 1;
-					}
-					$start = ($page - 1) * $size;
-				} else {
-					$start = $page;
-				}
+				$start = $this->get_off_set($size, $page);
 
 				return $this->db->limit($size, $start);
 			}
@@ -253,15 +273,16 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
-		 * Function _page_limit
+		 * Function _page_limit alias of page_limit
 		 *
 		 * @param int $size
 		 * @param int $page
 		 *
+		 * @deprecated use page_limit method
 		 * @return \CI_DB_query_builder
-		 * @author   : 713uk13m <dev@nguyenanhung.com>
-		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/16/2021 30:54
+		 * @author     : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright  : 713uk13m <dev@nguyenanhung.com>
+		 * @time       : 08/16/2021 30:54
 		 */
 		public function _page_limit($size = 500, $page = 0)
 		{
@@ -1050,9 +1071,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 					}
 				}
 			}
-			// Limit Result
-			$this->_page_limit($size, $page);
-			// Order Result
+			$this->page_limit($size, $page);
 			foreach ($orderBy as $key => $val) {
 				$this->db->order_by($this->tableName . '.' . $key, $val);
 			}
@@ -1137,7 +1156,6 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				$this->db->where($field_input, $value_input);
 			}
 			$query = $this->db->get();
-			// Query
 			if (null !== $field_output) {
 				if (null === $query->row()) {
 					return null;
@@ -1196,8 +1214,39 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function update($id = '', $data = array())
 		{
+			if (empty($id)) {
+				log_message('error', 'Update method give Input Primary Key is Empty');
+
+				return 0;
+			}
 			$this->db->where($this->primary_key, $id);
 			$this->db->update($this->tableName, $data);
+
+			return $this->db->affected_rows();
+		}
+
+		/**
+		 * Function where_update
+		 *
+		 * @param $wheres
+		 * @param $data
+		 * @param $table
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 22/03/2023 32:40
+		 */
+		public function where_update($wheres, $data, $table = '')
+		{
+			if (empty($wheres)) {
+				log_message('error', 'Update method give Input Wheres is Empty');
+
+				return 0;
+			}
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->prepare_wheres_statement($wheres);
+			$this->db->update($tableName, $data);
 
 			return $this->db->affected_rows();
 		}
@@ -1215,10 +1264,38 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function delete($id = '')
 		{
 			if (empty($id)) {
+				log_message('error', 'Delete method give Input Primary Key is Empty');
+
 				return 0;
 			}
 			$this->db->where($this->primary_key, $id);
 			$this->db->delete($this->tableName);
+
+			return $this->db->affected_rows();
+		}
+
+		/**
+		 * Function where_delete
+		 *
+		 * @param $wheres
+		 * @param $data
+		 * @param $table
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 22/03/2023 33:27
+		 */
+		public function where_delete($wheres, $data, $table = '')
+		{
+			if (empty($wheres)) {
+				log_message('error', 'Delete method give Input Wheres is Empty');
+
+				return 0;
+			}
+			$tableName = !empty($table) ? trim($table) : $this->tableName;
+			$this->prepare_wheres_statement($wheres);
+			$this->db->delete($tableName, $data);
 
 			return $this->db->affected_rows();
 		}
