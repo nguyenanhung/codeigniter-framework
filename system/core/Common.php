@@ -89,6 +89,19 @@ if ( ! function_exists('is_windows'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('is_linux')) {
+	/**
+	 * Check if we're running on a Linux platform
+	 */
+	function is_linux()
+	{
+		$OS = strtoupper(substr(PHP_OS, 0, 3));
+		return $OS !== 'WIN';
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('is_really_writable'))
 {
 	/**
