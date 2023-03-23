@@ -184,7 +184,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		public function __construct()
 		{
 			// CLI only
-			if (php_sapi_name() != "cli") {
+			if (PHP_SAPI !== "cli") {
 				die('Access denied');
 			}
 
@@ -212,15 +212,15 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 			}
 
 			// Pre-work check
-			if (!method_exists($this, 'handleListen'))
-				throw new Exception("You need to declare `handleListen()` method in your worker controller.", 500);
-			if (!method_exists($this, 'handleWork'))
-				throw new Exception("You need to declare `handleWork()` method in your worker controller.", 500);
-			if ($this->logPath && !file_exists($this->logPath)) {
-				// Try to access or create log file
-				if ($this->_log('')) {
-					throw new Exception("Log file doesn't exist: `" . $this->logPath . "`.", 500);
-				}
+			if (!method_exists($this, 'handleListen')) {
+				throw new \RuntimeException("You need to declare `handleListen()` method in your worker controller.", 500);
+			}
+			if (!method_exists($this, 'handleWork')) {
+				throw new \RuntimeException("You need to declare `handleWork()` method in your worker controller.", 500);
+			}
+			// Try to access or create log file
+			if ($this->logPath && !file_exists($this->logPath) && $this->_log('')) {
+				throw new \RuntimeException("Log file doesn't exist: `" . $this->logPath . "`.", 500);
 			}
 
 			// INI setting
@@ -233,8 +233,8 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 			// Worker command builder
 			// Be careful to avoid infinite loop by opening listener itself
 			$workerAction = 'work';
-			$route = $this->router->fetch_directory() . $this->router->fetch_class() . "/{$workerAction}";
-			$workerCmd = "{$this->phpCommand} " . FCPATH . "index.php {$route}";
+			$route = $this->router->fetch_directory() . $this->router->fetch_class() . "/" . $workerAction;
+			$workerCmd = $this->phpCommand . " " . FCPATH . "index.php " . $route;
 
 			// Static variables
 			$startTime = 0;
@@ -333,8 +333,9 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		public function work($id = 1)
 		{
 			// Pre-work check
-			if (!method_exists($this, 'handleWork'))
-				throw new Exception("You need to declare `handleWork()` method in your worker controller.", 500);
+			if (!method_exists($this, 'handleWork')) {
+				throw new \RuntimeException("You need to declare `handleWork()` method in your worker controller.", 500);
+			}
 
 			// INI setting
 			if ($this->debug) {
@@ -439,8 +440,9 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		public function single($force = false)
 		{
 			// Pre-work check
-			if (!method_exists($this, 'handleSingle'))
-				throw new Exception("You need to declare `handleSingle()` method in your worker controller.", 500);
+			if (!method_exists($this, 'handleSingle')) {
+				throw new \RuntimeException("You need to declare `handleSingle()` method in your worker controller.", 500);
+			}
 
 			// Shared lock flag builder
 			$lockFile = sys_get_temp_dir() . "/yidas-codeiginiter-queue-worker_" . str_replace('/', '_', $this->router->fetch_directory()) . get_called_class() . '.lock';
@@ -457,7 +459,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			// Start Single - Set identified lock
 			// Close Single - Release identified lock
-			register_shutdown_function(function() use ($lockFile) {
+			register_shutdown_function(function () use ($lockFile) {
 				@unlink($lockFile);
 			});
 
@@ -593,9 +595,11 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			$logPath = ($logPath) ? $logPath : $this->logPath;
 
-			if ($logPath)
-				return file_put_contents($logPath, $this->_formatTextLine($textLine), FILE_APPEND); else
-				return false;
+			if ($logPath) {
+				return file_put_contents($logPath, $this->_formatTextLine($textLine), FILE_APPEND);
+			}
+
+			return false;
 		}
 
 		/**
@@ -633,9 +637,9 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		{
 			if (((function_exists('posix_getpgid') && posix_getpgid($pid)) || file_exists("/proc/{$pid}"))) {
 				return true;
-			} else {
-				return false;
 			}
+
+			return false;
 		}
 
 		/**
@@ -648,9 +652,9 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 			// Just make sure that it's not Windows
 			if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')) {
 				return false;
-			} else {
-				return true;
 			}
+
+			return true;
 		}
 
 		/**
