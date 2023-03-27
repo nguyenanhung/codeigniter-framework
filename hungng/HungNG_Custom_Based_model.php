@@ -1026,6 +1026,36 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
+		 * Function count_all_by_wheres
+		 *
+		 * @param $wheres
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 27/03/2023 04:52
+		 */
+		public function count_all_by_wheres($wheres)
+		{
+			return $this->prepare_wheres_statement($wheres)->count_all_results($this->tableName);
+		}
+
+		/**
+		 * Function count_all_by_not_wheres
+		 *
+		 * @param $wheres
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 27/03/2023 05:47
+		 */
+		public function count_all_by_not_wheres($wheres)
+		{
+			return $this->prepare_wheres_not_statement($wheres)->count_all_results($this->tableName);
+		}
+
+		/**
 		 * Function get_list_distinct
 		 *
 		 * @param string $field
