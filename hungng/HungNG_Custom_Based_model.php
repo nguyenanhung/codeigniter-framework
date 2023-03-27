@@ -470,6 +470,21 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		}
 
 		/**
+		 * Function apply_wheres
+		 *
+		 * @param $wheres
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 27/03/2023 07:52
+		 */
+		public function apply_wheres($wheres)
+		{
+			return $this->prepare_wheres_statement($wheres);
+		}
+
+		/**
 		 * Function prepare_wheres_not_statement
 		 *
 		 * @param $wheres
@@ -500,6 +515,21 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			}
 
 			return $this->db;
+		}
+
+		/**
+		 * Function apply_not_wheres
+		 *
+		 * @param $wheres
+		 *
+		 * @return bool|\CI_DB_query_builder|object
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 27/03/2023 08:21
+		 */
+		public function apply_not_wheres($wheres)
+		{
+			return $this->prepare_wheres_not_statement($wheres);
 		}
 
 		/**
@@ -1023,6 +1053,36 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function count_all_from_table()
 		{
 			return $this->db->count_all($this->tableName);
+		}
+
+		/**
+		 * Function count_all_by_wheres
+		 *
+		 * @param $wheres
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 27/03/2023 04:52
+		 */
+		public function count_all_by_wheres($wheres)
+		{
+			return $this->prepare_wheres_statement($wheres)->count_all_results($this->tableName);
+		}
+
+		/**
+		 * Function count_all_by_not_wheres
+		 *
+		 * @param $wheres
+		 *
+		 * @return int
+		 * @author   : 713uk13m <dev@nguyenanhung.com>
+		 * @copyright: 713uk13m <dev@nguyenanhung.com>
+		 * @time     : 27/03/2023 05:47
+		 */
+		public function count_all_by_not_wheres($wheres)
+		{
+			return $this->prepare_wheres_not_statement($wheres)->count_all_results($this->tableName);
 		}
 
 		/**
