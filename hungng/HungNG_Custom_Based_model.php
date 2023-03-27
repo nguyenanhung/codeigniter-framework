@@ -331,7 +331,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			if (!empty($table)) {
 				$tableName = trim($table) . '.';
 			} else {
-				$tableName = $this->tableName . '.';
+				$tableName = '';
 			}
 			if ($table === 'order_by_field') {
 				$tableName = '';
@@ -1065,15 +1065,15 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 			if (count($wheres) > 0) {
 				foreach ($wheres as $field => $value) {
 					if (is_array($value)) {
-						$this->db->where_in($this->tableName . '.' . $field, $value);
+						$this->db->where_in($field, $value);
 					} else {
-						$this->db->where($this->tableName . '.' . $field, $value);
+						$this->db->where($field, $value);
 					}
 				}
 			}
 			$this->page_limit($size, $page);
 			foreach ($orderBy as $key => $val) {
-				$this->db->order_by($this->tableName . '.' . $key, $val);
+				$this->db->order_by($key, $val);
 			}
 
 			return $this->db->get()->result();
