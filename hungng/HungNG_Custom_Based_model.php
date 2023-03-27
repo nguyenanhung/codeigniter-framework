@@ -529,9 +529,10 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
+		 * @throws \HungNG_CI_Exception
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 42:52
+		 * @time     : 27/03/2023 15:20
 		 */
 		public function only_status_is_active($act = true, $field = 'status', $table = '')
 		{
@@ -540,11 +541,11 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				$useField = !empty($field) ? trim($field) : 'status';
 				$tableExists = $this->db->table_exists($tableName);
 				if ($tableExists === false) {
-					return $this->db;
+					throw new HungNG_CI_Exception('Table ' . $tableName . ' không tồn tại', 404);
 				}
 				$fieldExists = $this->db->field_exists($useField, $tableName);
 				if ($fieldExists === false) {
-					return $this->db;
+					throw new HungNG_CI_Exception('Field ' . $useField . ' không tìm thấy trong bảng ' . $tableName, 404);
 				}
 
 				return $this->db->where($tableName . '.' . $useField, self::DEFAULT_STATUS_IS_ACTIVE);
@@ -561,9 +562,10 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @param $table
 		 *
 		 * @return bool|\CI_DB_query_builder|object
+		 * @throws \HungNG_CI_Exception
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
-		 * @time     : 08/02/2023 42:52
+		 * @time     : 27/03/2023 17:52
 		 */
 		public function only_status_is_de_active($act = true, $field = 'status', $table = '')
 		{
@@ -572,11 +574,11 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				$useField = !empty($field) ? trim($field) : 'status';
 				$tableExists = $this->db->table_exists($tableName);
 				if ($tableExists === false) {
-					return $this->db;
+					throw new HungNG_CI_Exception('Table ' . $tableName . ' không tồn tại', 404);
 				}
 				$fieldExists = $this->db->field_exists($useField, $tableName);
 				if ($fieldExists === false) {
-					return $this->db;
+					throw new HungNG_CI_Exception('Field ' . $useField . ' không tìm thấy trong bảng ' . $tableName, 404);
 				}
 
 				return $this->db->where($tableName . '.' . $useField, self::DEFAULT_STATUS_IS_DE_ACTIVE);
