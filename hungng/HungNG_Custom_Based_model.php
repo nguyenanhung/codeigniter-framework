@@ -329,7 +329,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function build_order_result($order_by_field, $direction = 'desc', $field = 'id', $table = '')
 		{
 			if (!empty($table)) {
-				$tableName = trim($table) . '.';
+				$tableName = $this->db->dbprefix(trim($table)) . '.';
 			} else {
 				$tableName = $this->db->dbprefix($this->tableName) . '.';
 			}
@@ -398,7 +398,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function prepare_simple_wheres_not_statement($value, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			if ($value !== null) {
 				if (is_array($value)) {
 					$this->db->where_not_in($tableName . '.' . $field, $value);
@@ -424,7 +424,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function prepare_simple_wheres_statement($value, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			if ($value !== null) {
 				if (is_array($value)) {
 					$this->db->where_in($tableName . '.' . $field, $value);
@@ -576,7 +576,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function only_status_is_de_active($act = true, $field = 'status', $table = '')
 		{
 			if ($act === true) {
-				$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+				$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 				$useField = !empty($field) ? trim($field) : 'status';
 				$tableExists = $this->db->table_exists($tableName);
 				$fieldExists = $this->db->field_exists($useField, $tableName);
@@ -605,7 +605,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function bind_recursive_from_category($allSubId, $parentId, $field = 'categoryId', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$listID = $this->build_list_id_with_parent_id($allSubId, $parentId);
 			if (is_array($listID)) {
 				$this->db->where_in($tableName . '.' . $field, $listID);
@@ -630,7 +630,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function filter_by_primary_id($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			if ($id !== null) {
 				if (is_array($id)) {
 					$this->db->where_in($tableName . '.' . $field, $id);
@@ -656,7 +656,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function build_operator_equal_to($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			if ($id !== null) {
 				if (is_array($id)) {
 					$this->db->where_in($tableName . '.' . $field, $id);
@@ -682,7 +682,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function build_operator_not_equal_to($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			if ($id !== null) {
 				if (is_array($id)) {
 					$this->db->where_not_in($tableName . '.' . $field, $id);
@@ -708,7 +708,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function build_operator_less_than_to($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN, $id);
 
 			return $this->db;
@@ -728,7 +728,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function build_operator_greater_than_to($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN, $id);
 
 			return $this->db;
@@ -748,7 +748,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function build_operator_less_than_or_equal_to($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_LESS_THAN_OR_EQUAL_TO, $id);
 
 			return $this->db;
@@ -768,7 +768,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function build_operator_greater_than_or_equal_to($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_GREATER_THAN_OR_EQUAL_TO, $id);
 
 			return $this->db;
@@ -788,7 +788,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function build_operator_space_ship_to($id, $field = 'id', $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$this->db->where($tableName . '.' . $field . ' ' . self::OPERATOR_IS_SPACESHIP, $id);
 
 			return $this->db;
@@ -1305,7 +1305,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 				return 0;
 			}
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$this->prepare_wheres_statement($wheres);
 			$this->db->update($tableName, $data);
 
@@ -1354,7 +1354,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 
 				return 0;
 			}
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			$this->prepare_wheres_statement($wheres);
 			$this->db->delete($tableName, $data);
 
@@ -1373,7 +1373,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function request_builder($search, $table = '')
 		{
-			$tableName = !empty($table) ? trim($table) : $this->db->dbprefix($this->tableName);
+			$tableName = !empty($table) ? $this->db->dbprefix(trim($table)) : $this->db->dbprefix($this->tableName);
 			if (!empty($search)) {
 				foreach ($search as $field => $value) {
 					if (!empty($value) && $this->db->field_exists($field, $tableName)) {
