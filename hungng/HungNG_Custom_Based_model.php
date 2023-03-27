@@ -348,7 +348,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function build_order_result($order_by_field, $direction = 'desc', $field = 'id', $table = '')
 		{
 			if (!empty($table)) {
-				$tableName = trim($table) . '.';
+				$tableName = $this->bindDBPrefix(trim($table)) . '.';
 			} else {
 				$tableName = $this->bindDBPrefix($this->tableName) . '.';
 			}
