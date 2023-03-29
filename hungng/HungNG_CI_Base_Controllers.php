@@ -205,9 +205,8 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		 */
 		protected function errorExceptionResponse($exception)
 		{
-			$errorMessage = "Error Code: " . $exception->getCode() . " - Error File: " . $exception->getFile() . " - Error Line: " . $exception->getLine() . " - Error Message: " . $exception->getMessage();
-			log_message('error', $errorMessage);
-			log_message('error', $exception->getTraceAsString());
+			log_message('error', __get_error_message__($exception));
+			log_message('error', __get_error_trace__($exception));
 
 			$response = array();
 			$response['code'] = StatusCodes::HTTP_BAD_REQUEST;
@@ -366,11 +365,11 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 					log_message($inputLevel, $name . " | Error Message: " . $message . ' | Context: ' . json_encode($context));
 				}
 			} catch (InvalidArgumentException $exception) {
-				log_message('error', $exception->getMessage());
-				log_message('error', $exception->getTraceAsString());
+				log_message('error', __get_error_message__($exception));
+				log_message('error', __get_error_trace__($exception));
 			} catch (Exception $exception) {
-				log_message('error', $exception->getMessage());
-				log_message('error', $exception->getTraceAsString());
+				log_message('error', __get_error_message__($exception));
+				log_message('error', __get_error_trace__($exception));
 			}
 		}
 
@@ -422,7 +421,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 					$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output($output . PHP_EOL)->_display();
 					exit;
 				} catch (Exception $e) {
-					$message = 'Code: ' . $e->getCode() . ' - File: ' . $e->getFile() . ' - Line: ' . $e->getLine() . ' - Message: ' . $e->getMessage();
+					$message = __get_error_message__($e);
 					log_message('error', $message);
 					echo $message . PHP_EOL;
 					exit;
