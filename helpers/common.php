@@ -37,3 +37,35 @@ if (!function_exists('bear_str_length')) {
 		return strlen($str);
 	}
 }
+if (!function_exists('__get_error_message__')) {
+	/**
+	 * Function __get_error_message__
+	 *
+	 * @param \Exception $e
+	 *
+	 * @return string
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 29/03/2023 53:17
+	 */
+	function __get_error_message__($e)
+	{
+		return "Error Code: " . $e->getCode() . " - File: " . $e->getFile() . " - Line: " . $e->getLine() . " - Message: " . $e->getMessage();
+	}
+}
+if (!function_exists('__get_error_trace__')) {
+	/**
+	 * Function __get_error_trace__
+	 *
+	 * @param \Exception $e
+	 *
+	 * @return string
+	 * @author   : 713uk13m <dev@nguyenanhung.com>
+	 * @copyright: 713uk13m <dev@nguyenanhung.com>
+	 * @time     : 29/03/2023 53:48
+	 */
+	function __get_error_trace__($e)
+	{
+		return "Error Trace: " . $e->getTraceAsString();
+	}
+}
