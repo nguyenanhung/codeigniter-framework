@@ -498,6 +498,11 @@ if ( ! function_exists('log_message'))
 			$_log[0] =& load_class('Log', 'core');
 		}
 
+		// 2023-03-29: In log_message - If message not string, force string with json_encode
+		if (!is_string($message)) {
+			$message = json_encode($message);
+		}
+
 		$_log[0]->write_log($level, $message);
 	}
 }
