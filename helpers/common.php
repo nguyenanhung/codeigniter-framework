@@ -41,7 +41,7 @@ if (!function_exists('__get_error_message__')) {
 	/**
 	 * Function __get_error_message__
 	 *
-	 * @param \Exception $e
+	 * @param \Exception|\Throwable $e
 	 *
 	 * @return string
 	 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -57,7 +57,7 @@ if (!function_exists('__get_error_trace__')) {
 	/**
 	 * Function __get_error_trace__
 	 *
-	 * @param \Exception $e
+	 * @param \Exception|\Throwable $e
 	 *
 	 * @return string
 	 * @author   : 713uk13m <dev@nguyenanhung.com>
