@@ -135,12 +135,11 @@ class CI_Utf8 {
 	 */
 	public function convert_to_utf8($str, $encoding)
 	{
-		if (MB_ENABLED)
-		{
+		if (MB_ENABLED) {
 			return mb_convert_encoding($str, 'UTF-8', $encoding);
 		}
-		elseif (ICONV_ENABLED)
-		{
+
+		if (ICONV_ENABLED) {
 			return @iconv($encoding, 'UTF-8', $str);
 		}
 
