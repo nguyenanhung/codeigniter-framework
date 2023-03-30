@@ -562,7 +562,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *  $this->Model->findOne();
 		 * @throws \Exception
 		 */
-		public static function findOne($condition = )
+		public static function findOne($condition)
 		{
 			if ((isset($this))) {
 				$instance = $this;
