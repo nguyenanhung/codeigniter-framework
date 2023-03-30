@@ -60,9 +60,9 @@ class CI_Unzip {
 	 * @param     string
 	 *
 	 */
-	function __construct()
+	public function __construct()
 	{
-		log_message('debug', 'Unzip Class Initialized');
+		log_message('info', 'Unzip Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

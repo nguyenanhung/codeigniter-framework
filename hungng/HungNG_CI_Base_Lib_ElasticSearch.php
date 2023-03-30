@@ -24,6 +24,9 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		public function __construct($host = 'http://127.0.0.1:9200')
 		{
 			$this->CI =& get_instance();
+
+			log_message('info', 'HungNG_CI_Base_Lib_ElasticSearch Class Initialized');
+
 			if (defined('HOST_ELASTICSEARCH')) {
 				$this->esHost = HOST_ELASTICSEARCH;
 			} else {

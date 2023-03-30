@@ -30,6 +30,8 @@ class CI_Seo_onpage
 	public function __construct()
 	{
 		$this->CI =& get_instance();
+		log_message('info', 'SEO OnPage Class Initialized');
+
 		$this->CI->load->helper('url');
 	}
 

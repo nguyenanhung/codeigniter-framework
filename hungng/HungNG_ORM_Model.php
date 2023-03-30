@@ -197,6 +197,10 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 */
 		public function __construct()
 		{
+			parent::__construct();
+
+			log_message('info', 'HungNG_ORM_Model Class Initialized');
+
 			/* Database Connection Setting */
 			// Master
 			if ($this->database) {
@@ -449,7 +453,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 					$attributes = (is_array($attributes)) ? $attributes : [$attributes];
 
 					// Filter each attribute
-					foreach ($attributes as $key => $attribute) {
+					foreach ($attributes as $key2 => $attribute) {
 
 						if (!isset($data[$attribute]))
 							continue;
@@ -556,6 +560,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *  // Query builder ORM usage
 		 *  $this->Model->find()->where('id', 123);
 		 *  $this->Model->findOne();
+		 * @throws \Exception
 		 */
 		public static function findOne($condition = )
 		{
@@ -590,6 +595,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *  // Query builder ORM usage
 		 *  $this->Model->find()->where_in('id', [3,21,135]);
 		 *  $this->Model->findAll();
+		 * @throws \Exception
 		 */
 		public static function findAll($condition = array(), $limit = null)
 		{

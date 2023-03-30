@@ -76,10 +76,12 @@ class Response
 	 */
 	private $_statusCode = 200;
 
-	function __construct()
+	public function __construct()
 	{
 		// CI_Controller initialization
 		$this->ci = &get_instance();
+
+		log_message('info', 'Third Party Response Class Initialized');
 	}
 
 	/**

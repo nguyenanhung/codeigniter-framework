@@ -77,6 +77,8 @@ class CI_Format
 		// Get the CodeIgniter reference
 		$this->_CI = &get_instance();
 
+		log_message('info', 'Format Class Initialized');
+
 		// Load the inflector helper
 		$this->_CI->load->helper('inflector');
 

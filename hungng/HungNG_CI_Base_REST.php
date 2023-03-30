@@ -92,6 +92,8 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		{
 			parent::__construct();
 
+			log_message('info', 'HungNG_CI_Base_REST Class Initialized');
+
 			// Request initialization
 			$this->request = new Request;
 			// Response initialization

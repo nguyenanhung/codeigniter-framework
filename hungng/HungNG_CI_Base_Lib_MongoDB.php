@@ -68,6 +68,9 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error("The MongoDB PECL extension has not been installed or enabled", 500);
 			}
 			$this->CI =& get_instance();
+
+			log_message('info', 'HungNG_CI_Base_Lib_MongoDB Class Initialized');
+
 			$this->CI->load->config('mongo_db');
 			$this->config = $this->CI->config->item('mongo_db');
 			$this->param = $param;

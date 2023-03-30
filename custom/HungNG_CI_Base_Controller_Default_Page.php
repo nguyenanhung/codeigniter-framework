@@ -28,6 +28,9 @@ if (!class_exists('HungNG_CI_Base_Controller_Default_Page')) {
 		public function __construct()
 		{
 			parent::__construct();
+
+			log_message('info', 'HungNG_CI_Base_Controller_Default_Page Class Initialized');
+
 			$this->load->helper(array('url', 'html'));
 			$this->load->library('parser');
 		}

@@ -190,6 +190,8 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			parent::__construct();
 
+			log_message('info', 'HungNG_CI_Base_Queue_Worker Class Initialized');
+
 			// Init constructor hook
 			if (method_exists($this, 'init')) {
 				// You may need to set config to prevent any continuous growth usage

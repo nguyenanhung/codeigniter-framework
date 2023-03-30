@@ -154,6 +154,7 @@ class CI_Request
 		if (!extension_loaded('curl')) {
 			throw new \RuntimeException('The cURL extensions is not loaded, make sure you have installed the cURL extension: https://php.net/manual/curl.setup.php');
 		}
+		log_message('info', 'cURL Request Class Initialized');
 
 		$this->init();
 	}
