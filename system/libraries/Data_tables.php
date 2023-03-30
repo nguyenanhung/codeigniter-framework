@@ -68,6 +68,8 @@ class CI_Data_tables
 	 */
 	public function __construct($params)
 	{
+		log_message('info', 'CI_Data_tables Class Initialized');
+
 		$this->table = (array_key_exists('table', $params) === true && is_string($params['table']) === true) ? $params['table'] : '';
 
 		$this->primary_key = (array_key_exists('primary_key', $params) === true && is_string($params['primary_key']) === true) ? $params['primary_key'] : '';
