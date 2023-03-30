@@ -37,6 +37,9 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 		public function __construct()
 		{
 			parent::__construct();
+
+			log_message('info', 'HungNG_CI_Base_Custom_Model_Credentials_model Class Initialized');
+
 			$this->db = $this->load->database('default', true, true);
 			$this->tableName = 'credentials';
 			$this->primary_key = 'id';

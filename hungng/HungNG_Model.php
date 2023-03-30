@@ -185,6 +185,9 @@ if (!class_exists('HungNG_Model')) {
 		public function __construct()
 		{
 			parent::__construct();
+
+			log_message('info', 'HungNG_Model Class Initialized');
+
 			$this->load->helper('inflector');
 			$this->_set_connection();
 			$this->_set_timestamps();

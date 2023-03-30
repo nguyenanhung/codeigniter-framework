@@ -139,7 +139,8 @@ if ( ! function_exists('is_really_writable'))
 			@unlink($file);
 			return TRUE;
 		}
-		elseif ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
+
+		if ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
 		{
 			return FALSE;
 		}
@@ -379,16 +380,15 @@ if ( ! function_exists('is_https'))
 	 */
 	function is_https()
 	{
-		if ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
-		{
+		if (! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
 			return TRUE;
 		}
-		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
-		{
+
+		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
 			return TRUE;
 		}
-		elseif ( ! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off')
-		{
+
+		if (! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
 			return TRUE;
 		}
 
@@ -738,8 +738,8 @@ if ( ! function_exists('remove_invisible_characters'))
 	 * This prevents sandwiching null characters
 	 * between ascii characters, like Java\0script.
 	 *
-	 * @param	string
-	 * @param	bool
+	 * @param	string $str
+	 * @param	bool $url_encoded
 	 * @return	string
 	 */
 	function remove_invisible_characters($str, $url_encoded = TRUE)

@@ -71,6 +71,8 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 		public function __construct()
 		{
 			parent::__construct();
+
+			log_message('info', 'HungNG_CI_Base_Module Class Initialized');
 		}
 
 		/**

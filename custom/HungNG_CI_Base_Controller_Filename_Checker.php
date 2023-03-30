@@ -18,6 +18,9 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 		public function __construct()
 		{
 			parent::__construct();
+
+			log_message('info', 'HungNG_CI_Base_Controller_Filename_Checker Class Initialized');
+
 			$this->dir = array(
 				'controllers',
 				'libraries',

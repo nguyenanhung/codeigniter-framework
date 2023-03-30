@@ -92,6 +92,8 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 				return;
 			}
 
+			log_message('info', 'HungNG_CI_Base_Lib_Hmvc_Migration Class Initialized');
+
 			$this->_core_config = $config;
 
 			$this->init_module();

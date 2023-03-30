@@ -136,6 +136,9 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		public function __construct()
 		{
 			parent::__construct();
+
+			log_message('info', 'HungNG_Custom_Based_model Class Initialized');
+
 			$this->db = $this->load->database('default', true, true);
 			$this->tableName = '';
 			$this->primary_key = 'id';

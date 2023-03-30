@@ -11,6 +11,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 if (!class_exists('HungNG_CI_Base_Controller_Command')) {
 	class HungNG_CI_Base_Controller_Command extends HungNG_CI_Base_Controllers
 	{
+		public function __construct()
+		{
+			parent::__construct();
+
+			log_message('info', 'HungNG_CI_Base_Controller_Command Class Initialized');
+		}
+
 		/**
 		 * Function flush_opcache
 		 *

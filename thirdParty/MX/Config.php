@@ -39,6 +39,8 @@ class MX_Config extends CI_Config
 {
 	public function load($file = '', $use_sections = false, $fail_gracefully = false, $_module = '')
 	{
+		log_message('info', 'MX_Config Class Initialized');
+
 		if (in_array($file, $this->is_loaded, true)) {
 			return $this->item($file);
 		}

@@ -77,6 +77,8 @@ if (!class_exists('HungNG_Lang')) {
 		public function __construct()
 		{
 			parent::__construct();
+
+			log_message('info', 'HungNG_Lang Class Initialized');
 		}
 		// --------------------------------------------------------------------
 
@@ -93,6 +95,7 @@ if (!class_exists('HungNG_Lang')) {
 		 */
 		public function load($langfile, $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
 		{
+
 			if (is_array($langfile)) {
 				foreach ($langfile as $value) {
 					$this->load($value, $idiom, $return, $add_suffix, $alt_path);

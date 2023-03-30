@@ -29,6 +29,10 @@ class Request
 	 */
 	private $_bodyParams;
 
+	public function __construct(){
+		log_message('info', 'Third Party Psr Request Class Initialized');
+	}
+
 	/**
 	 * Retrieves the HTTP method of the request.
 	 *

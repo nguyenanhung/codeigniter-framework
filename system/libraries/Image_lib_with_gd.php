@@ -14,6 +14,10 @@ class CI_Image_lib_with_gd
 	protected $image;
 	protected $imageFormat;
 
+	public function __construct(){
+		log_message('info', 'CI_Image_lib_with_gd Class Initialized');
+	}
+
 	public function load($imageFile)
 	{
 		$imageInfo = getImageSize($imageFile);

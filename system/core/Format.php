@@ -77,6 +77,8 @@ class CI_Format
 		// Get the CodeIgniter reference
 		$this->_CI = &get_instance();
 
+		log_message('info', 'Format Class Initialized');
+
 		// Load the inflector helper
 		$this->_CI->load->helper('inflector');
 
@@ -85,7 +87,7 @@ class CI_Format
 			if (method_exists($this, '_from_' . $from_type)) {
 				$data = $this->{'_from_' . $from_type}($data);
 			} else {
-				throw new Exception('Format class does not support conversion from "' . $from_type . '".');
+				throw new \RuntimeException('Format class does not support conversion from "' . $from_type . '".');
 			}
 		}
 
