@@ -100,6 +100,7 @@ class CI_Exceptions {
 	 * @param	int	$line		Line number
 	 * @return	void
 	 */
+	#[\ReturnTypeWillChange]
 	public function log_exception($severity, $message, $filepath, $line)
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
