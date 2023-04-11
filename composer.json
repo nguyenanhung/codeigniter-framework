@@ -35,7 +35,6 @@
 			"nguyenanhung\\CodeIgniter\\BaseREST\\": "thirdParty/REST/"
 		},
 		"files": [
-			"helpers/codeigniter_modular.php",
 			"helpers/common.php"
 		]
 	},
