@@ -16,12 +16,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @copyright 713uk13m <dev@nguyenanhung.com>
  *
  *            $config['canonical_url']    = null;
-$config['site_title']       = "Site Title";
-$config['site_description'] = "Site Description";
-$config['site_image']       = null;
-$config['twitter_user']     = "@tw_username";
-$config['fb_app_id']        = null;
-$config['fb_page_id']       = null;
+ * $config['site_title']       = "Site Title";
+ * $config['site_description'] = "Site Description";
+ * $config['site_image']       = null;
+ * $config['twitter_user']     = "@tw_username";
+ * $config['fb_app_id']        = null;
+ * $config['fb_page_id']       = null;
  */
 class CI_Seo_onpage
 {
@@ -30,7 +30,14 @@ class CI_Seo_onpage
 	public function __construct()
 	{
 		$this->CI =& get_instance();
+		log_message('info', 'SEO OnPage Class Initialized');
+
 		$this->CI->load->helper('url');
+	}
+
+	public function published($title = "", $description = "", $image = "")
+	{
+		$this->set_tags($title, $description, $image);
 	}
 
 	public function set_tags($title = "", $description = "", $image = "")
@@ -46,7 +53,7 @@ class CI_Seo_onpage
 		$this->set_canonical();
 	}
 
-	private function set_title_tags($title)
+	protected function set_title_tags($title)
 	{
 		if ($title !== "") {
 			echo "<title>$title</title>\n";
@@ -61,7 +68,7 @@ class CI_Seo_onpage
 
 	}
 
-	private function set_description_tags($description)
+	protected function set_description_tags($description)
 	{
 		if ($description !== "") {
 			echo "<meta name='description' content='$description'/>\n";
@@ -74,7 +81,7 @@ class CI_Seo_onpage
 		}
 	}
 
-	private function set_image_tags($image)
+	protected function set_image_tags($image)
 	{
 		$image_path = null;
 
@@ -94,14 +101,14 @@ class CI_Seo_onpage
 		}
 	}
 
-	private function set_twitter_tags()
+	protected function set_twitter_tags()
 	{
 		if ($this->CI->config->item('twitter_user') !== "") {
 			echo "<meta name='twitter:site' content='" . $this->CI->config->item('twitter_user') . "' />\n";
 		}
 	}
 
-	private function set_facebook_tags()
+	protected function set_facebook_tags()
 	{
 		if ($this->CI->config->item('fb_page_id') !== "") {
 			echo "<meta property='fb:pages' content='" . $this->CI->config->item('fb_page_id') . "' />\n";
@@ -112,14 +119,14 @@ class CI_Seo_onpage
 		}
 	}
 
-	private function set_canonical()
+	protected function set_canonical()
 	{
 		if ($this->CI->config->item('canonical_url') !== "") {
 			echo "<link rel='canonical' href='" . $this->CI->config->item('canonical_url') . "' />\n";
 		}
 	}
 
-	private function format_image_tags($image_path)
+	protected function format_image_tags($image_path)
 	{
 		$path = parse_url($image_path);
 
