@@ -30,22 +30,17 @@ if (!function_exists('codeigniter_hmvc_modules_list')) {
 	 */
 	function codeigniter_hmvc_modules_list($with_location = true)
 	{
-		if (!function_exists('directory_map'))
-		{
+		if (!function_exists('directory_map')) {
 			get_instance()->load->helper('directory');
 		}
 
 		$modules = array();
 
-		foreach (Modules::$locations as $location => $offset)
-		{
+		foreach (Modules::$locations as $location => $offset) {
 			$files = directory_map($location, 1);
-			if (is_array($files))
-			{
-				foreach ($files as $name)
-				{
-					if (is_dir($location . $name))
-					{
+			if (is_array($files)) {
+				foreach ($files as $name) {
+					if (is_dir($location . $name)) {
 						$modules[] = $with_location ? array($location, $name) : $name;
 					}
 				}
