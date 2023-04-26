@@ -20,6 +20,7 @@ Mục lục
 	- [Hướng dẫn tích hợp mô hình HMVC (Modular) vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
 	- [Hướng dẫn viết Model kế thừa Base Model](#hướng-dẫn-viết-model-kế-thừa-base-model)
 	- [Hướng dẫn viết Model kế thừa Base ORM Model](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
+	- [Hướng dẫn viết tích hợp SEO cơ bản](#hướng-dẫn-tích-hợp-seo-cơ-bản)
 	- [Hướng dẫn sử dụng CSDL MongoDB trong dự án](#hướng-dẫn-sử-dụng-csdl-mongodb-trong-dự-án)
 	- [Hướng dẫn sử dụng Elasticsearch trong dự án](#hướng-dẫn-sử-dụng-elasticsearch-trong-dự-án)
 	- [Hướng dẫn sử dụng kiểm tra các filename trong dự án của bạn đã đúng chuẩn của CodeIgniter hay chưa](#hướng-dẫn-sử-dụng-kiểm-tra-các-filename-trong-dự-án-của-bạn-đã-đúng-chuẩn-của-codeigniter-hay-chưa)
@@ -236,6 +237,12 @@ class Credentials_model extends HungNG_Custom_Based_model
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model)
 
+### Hướng dẫn viết tích hợp SEO cơ bản
+
+1. Package này bổ sung thêm 1 thư viện và helper SEO đơn giản
+2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
+   thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/blob/main/codeigniter3-basic-seo/README.md](https://github.com/nguyenanhung/codeigniter-framework-sample/blob/main/codeigniter3-basic-seo/README.md)
+
 ### Hướng dẫn sử dụng CSDL MongoDB trong dự án
 
 1. Mặc định, CodeIgniter v3 không hỗ trợ MongoDB. Tuy nhiên không vì thế mà hạn chế, CodeIgniter là framework mở, vì vậy tôi đã bổ sung thêm 1 thư viện hỗ trợ việc gọi, tương tác, xử lý với CSDL MongoDB mà cách sử dụng cũng tương đối giống với Query
@@ -376,7 +383,6 @@ class TestModule extends HungNG_CI_Base_Module
 - Trong nhiều năm làm lập trình với CodeIgniter, tôi đã sưu tập, xây dựng và viết được kha khá helper, tôi đã đóng gói chúng lại thành gói `nguyenanhung/codeigniter-basic-helper` và tích hợp vào bên trong gói này.
 - Gói helper này vẫn đang được tôi vận hành và phát triển hàng ngày, số project tích hợp các hàm trong gói này đã lên con số hàng nghìn
 - Thông tin chi tiết hơn về bộ helper này [https://github.com/nguyenanhung/codeigniter-basic-helper](https://github.com/nguyenanhung/codeigniter-basic-helper)
-
 
 ## Liên hệ
 
