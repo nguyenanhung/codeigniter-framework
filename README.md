@@ -1,4 +1,4 @@
-# CodeIgniter v3.1.14 - vendor packages build
+# CodeIgniter v3.1-stable - vendor packages build
 
 [![Latest Stable Version](http://poser.pugx.org/nguyenanhung/codeigniter-framework/v)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![Total Downloads](http://poser.pugx.org/nguyenanhung/codeigniter-framework/downloads)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![Latest Unstable Version](http://poser.pugx.org/nguyenanhung/codeigniter-framework/v/unstable)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![License](http://poser.pugx.org/nguyenanhung/codeigniter-framework/license)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![PHP Version Require](http://poser.pugx.org/nguyenanhung/codeigniter-framework/require/php)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
 
