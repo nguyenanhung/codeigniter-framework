@@ -237,7 +237,7 @@ class Credentials_model extends HungNG_Custom_Based_model
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model)
 
-### Hướng dẫn viết tích hợp SEO cơ bản
+### Hướng dẫn tích hợp SEO cơ bản
 
 1. Package này bổ sung thêm 1 thư viện và helper SEO đơn giản
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
