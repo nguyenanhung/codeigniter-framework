@@ -21,7 +21,6 @@ if (!function_exists('codeigniter_hmvc_module_exists')) {
 		return in_array($module_name, codeigniter_hmvc_modules_list(false));
 	}
 }
-
 if (!function_exists('codeigniter_hmvc_modules_list')) {
 	/**
 	 * Return the CodeIgniter modules list
