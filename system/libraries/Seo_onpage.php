@@ -15,7 +15,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @author    713uk13m <dev@nguyenanhung.com>
  * @copyright 713uk13m <dev@nguyenanhung.com>
  *
- *            $config['canonical_url']    = null;
+ * $config['canonical_url']    = null;
  * $config['site_title']       = "Site Title";
  * $config['site_description'] = "Site Description";
  * $config['site_image']       = null;
