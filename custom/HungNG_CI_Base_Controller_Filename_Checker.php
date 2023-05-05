@@ -13,7 +13,7 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 	{
 		protected $dir;
 		protected $output_ = array();
-		protected $fix     = false;
+		protected $fix = false;
 
 		public function __construct()
 		{
