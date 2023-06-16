@@ -53,6 +53,9 @@ if (!function_exists('codeigniter_hmvc_modules_list')) {
 if (!function_exists('bear_str_to_lower')) {
 	function bear_str_to_lower($str)
 	{
+		if ($str === null) {
+			return null;
+		}
 		if (function_exists('mb_strtolower')) {
 			return mb_strtolower($str, 'UTF-8');
 		}
@@ -63,6 +66,9 @@ if (!function_exists('bear_str_to_lower')) {
 if (!function_exists('bear_str_to_upper')) {
 	function bear_str_to_upper($str)
 	{
+		if ($str === null) {
+			return null;
+		}
 		if (function_exists('mb_strtoupper')) {
 			return mb_strtoupper($str, 'UTF-8');
 		}
@@ -73,6 +79,9 @@ if (!function_exists('bear_str_to_upper')) {
 if (!function_exists('bear_str_length')) {
 	function bear_str_length($str)
 	{
+		if ($str === null) {
+			return null;
+		}
 		if (function_exists('mb_strlen')) {
 			return mb_strlen($str);
 		}
