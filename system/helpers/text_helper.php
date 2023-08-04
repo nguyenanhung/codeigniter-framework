@@ -395,6 +395,10 @@ if (!function_exists('convert_accented_characters')) {
 			$array_to = array_values($foreign_characters);
 		}
 
+		if (is_null($str)) {
+			$str = '';
+		}
+
 		return preg_replace($array_from, $array_to, $str);
 	}
 }
