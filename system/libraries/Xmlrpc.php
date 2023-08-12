@@ -744,7 +744,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 			{
 				break;
 			}
-			// See https://bugs.php.net/bug.php?id=39598 and http://php.net/manual/en/function.fwrite.php#96951
+			// See https://bugs.php.net/bug.php?id=39598 and https://secure.php.net/manual/en/function.fwrite.php#96951
 			elseif ($result === 0)
 			{
 				if ($timestamp === 0)
@@ -837,9 +837,7 @@ class XML_RPC_Response
 		{
 			// error
 			$this->errno = $code;
-			$this->errstr = htmlspecialchars($fstr,
-							(is_php('5.4') ? ENT_XML1 | ENT_NOQUOTES : ENT_NOQUOTES),
-							'UTF-8');
+			$this->errstr = htmlspecialchars($fstr, ENT_XML1 | ENT_NOQUOTES, 'UTF-8');
 		}
 		elseif ( ! is_object($val))
 		{
@@ -1153,11 +1151,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 		//-------------------------------------
 
 		$parser = xml_parser_create($this->xmlrpc_defencoding);
-		if (function_exists('spl_object_id')) {
-			$pname = spl_object_id($parser);
-		} else {
-			$pname = (string) $parser;
-		}
+		$pname = (string) $parser;
 		$this->xh[$pname] = array(
 			'isf'		=> 0,
 			'ac'		=> '',
@@ -1285,11 +1279,8 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 */
 	public function open_tag($the_parser, $name)
 	{
-		if (function_exists('spl_object_id')) {
-			$the_parser = spl_object_id($the_parser);
-		} else {
-			$the_parser = (string) $the_parser;
-		}
+		$the_parser = (string) $the_parser;
+
 		// If invalid nesting, then return
 		if ($this->xh[$the_parser]['isf'] > 1) return;
 
@@ -1389,11 +1380,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 */
 	public function closing_tag($the_parser, $name)
 	{
-		if (function_exists('spl_object_id')) {
-			$the_parser = spl_object_id($the_parser);
-		} else {
-			$the_parser = (string) $the_parser;
-		}
+		$the_parser = (string) $the_parser;
 
 		if ($this->xh[$the_parser]['isf'] > 1) return;
 
@@ -1527,11 +1514,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	 */
 	public function character_data($the_parser, $data)
 	{
-		if (function_exists('spl_object_id')) {
-			$the_parser = spl_object_id($the_parser);
-		} else {
-			$the_parser = (string) $the_parser;
-		}
+		$the_parser = (string) $the_parser;
 
 		if ($this->xh[$the_parser]['isf'] > 1) return; // XML Fault found already
 

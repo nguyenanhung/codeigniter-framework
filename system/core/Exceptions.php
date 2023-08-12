@@ -100,7 +100,6 @@ class CI_Exceptions {
 	 * @param	int	$line		Line number
 	 * @return	void
 	 */
-	#[\ReturnTypeWillChange]
 	public function log_exception($severity, $message, $filepath, $line)
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
@@ -163,6 +162,10 @@ class CI_Exceptions {
 		{
 			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
 		}
+		else
+		{
+			$templates_path = rtrim($templates_path, '/\\').DIRECTORY_SEPARATOR;
+		}
 
 		if (is_cli())
 		{
@@ -172,17 +175,6 @@ class CI_Exceptions {
 		else
 		{
 			set_status_header($status_code);
-			if (is_array($message))
-			{
-				foreach ($message as &$value)
-				{
-					$value = htmlspecialchars($value);
-				}
-			}
-			else
-			{
-				$message = htmlspecialchars($message);
-			}
 			$message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
 			$template = 'html'.DIRECTORY_SEPARATOR.$template;
 		}
@@ -206,6 +198,10 @@ class CI_Exceptions {
 		if (empty($templates_path))
 		{
 			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
+		else
+		{
+			$templates_path = rtrim($templates_path, '/\\').DIRECTORY_SEPARATOR;
 		}
 
 		$message = $exception->getMessage();
@@ -252,6 +248,10 @@ class CI_Exceptions {
 		if (empty($templates_path))
 		{
 			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
+		}
+		else
+		{
+			$templates_path = rtrim($templates_path, '/\\').DIRECTORY_SEPARATOR;
 		}
 
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;

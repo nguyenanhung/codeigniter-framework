@@ -50,33 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('trim_slashes'))
-{
-	/**
-	 * Trim Slashes
-	 *
-	 * Removes any leading/trailing slashes from a string:
-	 *
-	 * /this/that/theother/
-	 *
-	 * becomes:
-	 *
-	 * this/that/theother
-	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	This is just an alias for PHP's native trim()
-	 *
-	 * @param	string
-	 * @return	string
-	 */
-	function trim_slashes($str)
-	{
-		return trim($str, '/');
-	}
-}
-
-// ------------------------------------------------------------------------
-
 if ( ! function_exists('strip_slashes'))
 {
 	/**
@@ -193,125 +166,45 @@ if ( ! function_exists('reduce_multiples'))
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('random_string')) {
+if ( ! function_exists('random_string'))
+{
 	/**
-	 * Creates a random string of characters
+	 * Create a "Random" String
 	 *
-	 * From FuelPHP
-	 *
-	 * @param string $type   the type of string
-	 * @param int    $length the number of characters
-	 *
-	 * @return  string  the random string
+	 * @param	string	type of random string.  basic, alpha, alnum, numeric, nozero, md5 and sha1
+	 * @param	int	number of characters
+	 * @return	string
 	 */
-	function random_string($type = 'alnum', $length = 16)
+	function random_string($type = 'alnum', $len = 8)
 	{
-		switch ($type) {
+		switch ($type)
+		{
 			case 'basic':
 				return mt_rand();
-				break;
-
-			default:
 			case 'alnum':
 			case 'numeric':
 			case 'nozero':
 			case 'alpha':
-			case 'distinct':
-			case 'hexdec':
-				switch ($type) {
+				switch ($type)
+				{
 					case 'alpha':
 						$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 						break;
-
-					default:
 					case 'alnum':
 						$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 						break;
-
 					case 'numeric':
 						$pool = '0123456789';
 						break;
-
 					case 'nozero':
 						$pool = '123456789';
 						break;
-
-					case 'distinct':
-						$pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
-						break;
-
-					case 'hexdec':
-						$pool = '0123456789abcdef';
-						break;
 				}
-
-				$str = '';
-				for ($i = 0; $i < $length; $i++) {
-					$str .= substr($pool, mt_rand(0, strlen($pool) - 1), 1);
-				}
-
-				return $str;
-				break;
-
+				return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
 			case 'md5':
-			case 'unique':
-				return md5(uniqid(mt_rand(), true));
-				break;
-			case 'sha1' :
-				return sha1(uniqid(mt_rand(), true));
-				break;
-			case 'sha256' :
-				return hash('sha256', uniqid(mt_rand(), true));
-				break;
-			case 'sha384' :
-				return hash('sha384', uniqid(mt_rand(), true));
-				break;
-			case 'sha512' :
-				return hash('sha512', uniqid(mt_rand(), true));
-				break;
-			case 'whirlpool' :
-				return hash('whirlpool', uniqid(mt_rand(), true));
-				break;
-			case 'uuid':
-				$pool = array('8', '9', 'a', 'b');
-
-				return sprintf('%s-%s-4%s-%s%s-%s',
-							   random_string('hexdec', 8),
-							   random_string('hexdec', 4),
-							   random_string('hexdec', 3),
-							   $pool[array_rand($pool)],
-							   random_string('hexdec', 3),
-							   random_string('hexdec', 12)
-				);
-				break;
-			case 'binary':
-				if (function_exists('random_bytes')) {
-					try {
-						return random_bytes($length);
-					}catch (\Exception $e){
-						log_message('debug', 'Error Code: '.$e->getCode().' - File: '.$e->getFile().' - Line: '.$e->getLine().' - Message: '.$e->getMessage());
-						return null;
-					}
-				} else {
-					return null;
-				}
-				break;
-			case 'hex':
-			case 'crypto':
-				if ($length % 2 !== 0) {
-					throw new InvalidArgumentException('You must set an even number to the second parameter when you use `crypto`.');
-				}
-				if (function_exists('random_bytes')) {
-					try {
-						return bin2hex(random_bytes($length / 2));
-					}catch (\Exception $e){
-						log_message('debug', 'Error Code: '.$e->getCode().' - File: '.$e->getFile().' - Line: '.$e->getLine().' - Message: '.$e->getMessage());
-						return null;
-					}
-				} else {
-					return null;
-				}
-				break;
+				return md5(uniqid(mt_rand()));
+			case 'sha1':
+				return sha1(uniqid(mt_rand(), TRUE));
 		}
 	}
 }
@@ -359,25 +252,5 @@ if ( ! function_exists('alternator'))
 
 		$args = func_get_args();
 		return $args[($i++ % count($args))];
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('repeater'))
-{
-	/**
-	 * Repeater function
-	 *
-	 * @todo	Remove in version 3.1+.
-	 * @deprecated	3.0.0	This is just an alias for PHP's native str_repeat()
-	 *
-	 * @param	string	$data	String to repeat
-	 * @param	int	$num	Number of repeats
-	 * @return	string
-	 */
-	function repeater($data, $num = 1)
-	{
-		return ($num > 0) ? str_repeat($data, $num) : '';
 	}
 }

@@ -91,125 +91,6 @@ if ( ! function_exists('base_url'))
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('assets_url')) {
-	/**
-	 * Function assets_url
-	 *
-	 * @param string      $uri
-	 * @param string|null $protocol
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 08/07/2021 11:56
-	 */
-	function assets_url($uri = '', $protocol = null)
-	{
-		$fileExt = substr(trim($uri), strrpos(trim($uri), '.') + 1);
-		$fileExt = strtoupper($fileExt);
-		$version = '';
-		if ($fileExt === 'CSS' || $fileExt === 'JS')
-		{
-			if (config_item('template_assets_version') !== null)
-			{
-				$version = config_item('template_assets_version');
-			}
-			elseif (config_item('assets_version') !== null)
-			{
-				$version = config_item('assets_version');
-			} else
-			{
-				$version = null;
-			}
-		}
-
-		return trim(get_instance()->config->base_url('assets/' . $uri, $protocol) . $version);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if (!function_exists('templates_url')) {
-	/**
-	 * Function templates_url
-	 *
-	 * @param string      $uri
-	 * @param string|null $protocol
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 08/07/2021 11:56
-	 */
-	function templates_url($uri = '', $protocol = null)
-	{
-		$fileExt = substr(trim($uri), strrpos(trim($uri), '.') + 1);
-		$fileExt = strtoupper($fileExt);
-		$version = '';
-		if ($fileExt === 'CSS' || $fileExt === 'JS')
-		{
-			if (config_item('template_assets_version') !== null)
-			{
-				$version = config_item('template_assets_version');
-			}
-			elseif (config_item('assets_version') !== null)
-			{
-				$version = config_item('assets_version');
-			} else
-			{
-				$version = null;
-			}
-		}
-
-		return trim(get_instance()->config->base_url('templates/' . $uri, $protocol) . $version);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if (!function_exists('favicon_url')) {
-	/**
-	 * Function favicon_url
-	 *
-	 * @param string      $uri
-	 * @param string|null $protocol
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 12/09/2020 47:51
-	 */
-	function favicon_url($uri = '', $protocol = null)
-	{
-		$uri = 'favicon/' . $uri;
-
-		return assets_url($uri, $protocol);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if (!function_exists('fav_url')) {
-	/**
-	 * Function fav_url - alias of favicon_url
-	 *
-	 * @param string      $uri
-	 * @param string|null $protocol
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 12/09/2020 47:51
-	 */
-	function fav_url($uri = '', $protocol = null)
-	{
-		$uri = 'fav/' . $uri;
-
-		return assets_url($uri, $protocol);
-	}
-}
-// ------------------------------------------------------------------------
-
 if ( ! function_exists('current_url'))
 {
 	/**
@@ -331,7 +212,7 @@ if ( ! function_exists('anchor_popup'))
 		{
 			$attributes = array($attributes);
 
-			// Ref: http://www.w3schools.com/jsref/met_win_open.asp
+			// Ref: https://www.w3schools.com/jsref/met_win_open.asp
 			$window_name = '_blank';
 		}
 		elseif ( ! empty($attributes['window_name']))
@@ -563,7 +444,7 @@ if ( ! function_exists('prep_url'))
 	 */
 	function prep_url($str = '')
 	{
-		if ($str === 'http://' OR $str === '')
+		if ($str === '')
 		{
 			return '';
 		}
@@ -590,31 +471,20 @@ if ( ! function_exists('url_title'))
 	 * human-friendly URL string with a "separator" string
 	 * as the word separator.
 	 *
-	 * @todo	Remove old 'dash' and 'underscore' usage in 3.1+.
 	 * @param	string	$str		Input string
-	 * @param	string	$separator	Word separator
-	 *			(usually '-' or '_')
+	 * @param	string	$separator	Word separator (usually '-' or '_')
 	 * @param	bool	$lowercase	Whether to transform the output string to lowercase
 	 * @return	string
 	 */
 	function url_title($str, $separator = '-', $lowercase = FALSE)
 	{
-		if ($separator === 'dash')
-		{
-			$separator = '-';
-		}
-		elseif ($separator === 'underscore')
-		{
-			$separator = '_';
-		}
-
 		$q_separator = preg_quote($separator, '#');
 
 		$trans = array(
 			'&.+?;'			=> '',
 			'[^\w\d _-]'		=> '',
 			'\s+'			=> $separator,
-			'('.$q_separator.')+'	=> $separator
+			'('.$q_separator.')+'	=> $separator,
 		);
 
 		$str = strip_tags($str);
@@ -666,7 +536,7 @@ if ( ! function_exists('redirect'))
 			if (isset($_SERVER['SERVER_PROTOCOL'], $_SERVER['REQUEST_METHOD']) && $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1')
 			{
 				$code = ($_SERVER['REQUEST_METHOD'] !== 'GET')
-					? 303	// reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
+					? 303	// reference: https://en.wikipedia.org/wiki/Post/Redirect/Get
 					: 307;
 			}
 			else
@@ -685,68 +555,5 @@ if ( ! function_exists('redirect'))
 				break;
 		}
 		exit;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if (!function_exists('cdn_js_url')) {
-	/**
-	 * Function cdn_js_url
-	 *
-	 * @param string $uri
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 09/11/2021 18:15
-	 */
-	function cdn_js_url($uri = '')
-	{
-		$cdnJs = '//cdnjs.cloudflare.com/ajax/libs/';
-
-		return $cdnJs . trim($uri);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if (!function_exists('google_fonts_url')) {
-	/**
-	 * Function google_fonts_url
-	 *
-	 * @param string $family
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 09/11/2021 19:14
-	 */
-	function google_fonts_url($family = '')
-	{
-		$fonts = '//fonts.googleapis.com/css?family=';
-
-		return $fonts . trim($family);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if (!function_exists('bootstrapcdn_url')) {
-	/**
-	 * Function bootstrapcdn_url
-	 *
-	 * @param string $uri
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 09/11/2021 22:45
-	 */
-	function bootstrapcdn_url($uri = '')
-	{
-		$cdn = '//maxcdn.bootstrapcdn.com/bootstrap/';
-
-		return $cdn . trim($uri);
 	}
 }

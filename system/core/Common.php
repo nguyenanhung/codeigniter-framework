@@ -57,7 +57,7 @@ if ( ! function_exists('is_php'))
 	/**
 	 * Determines if the current version of PHP is equal to or greater than the supplied value
 	 *
-	 * @param	string $version
+	 * @param	string
 	 * @return	bool	TRUE if the current version is $version or higher
 	 */
 	function is_php($version)
@@ -76,49 +76,22 @@ if ( ! function_exists('is_php'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('is_windows'))
-{
-	/**
-	 * Check if we're running on a Windows platform
-	 */
-	function is_windows()
-	{
-		return DIRECTORY_SEPARATOR === '\\';
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('is_linux')) {
-	/**
-	 * Check if we're running on a Linux platform
-	 */
-	function is_linux()
-	{
-		$OS = strtoupper(substr(PHP_OS, 0, 3));
-		return $OS !== 'WIN';
-	}
-}
-
-// ------------------------------------------------------------------------
-
 if ( ! function_exists('is_really_writable'))
 {
 	/**
 	 * Tests for file writability
 	 *
 	 * is_writable() returns TRUE on Windows servers when you really can't write to
-	 * the file, based on the read-only attribute. is_writable() is also unreliable
-	 * on Unix servers if safe_mode is on.
+	 * the file, based on the read-only attribute.
 	 *
 	 * @link	https://bugs.php.net/bug.php?id=54709
-	 * @param	string $file
+	 * @param	string
 	 * @return	bool
 	 */
 	function is_really_writable($file)
 	{
-		// If we're on a Unix server with safe_mode off we call is_writable
-		if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') OR ! ini_get('safe_mode')))
+		// If we're on a UNIX-like server, just is_writable()
+		if (DIRECTORY_SEPARATOR === '/')
 		{
 			return is_writable($file);
 		}
@@ -139,8 +112,7 @@ if ( ! function_exists('is_really_writable'))
 			@unlink($file);
 			return TRUE;
 		}
-
-		if ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
+		elseif ( ! is_file($file) OR ($fp = @fopen($file, 'ab')) === FALSE)
 		{
 			return FALSE;
 		}
@@ -161,9 +133,9 @@ if ( ! function_exists('load_class'))
 	 * exist it is instantiated and set to a static variable. If it has
 	 * previously been instantiated the variable is returned.
 	 *
-	 * @param	string	$class the class name being requested
-	 * @param	string	$directory the directory where the class should be found
-	 * @param	mixed	$param an optional argument to pass to the class constructor
+	 * @param	string	the class name being requested
+	 * @param	string	the directory where the class should be found
+	 * @param	mixed	an optional argument to pass to the class constructor
 	 * @return	object
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
@@ -234,7 +206,7 @@ if ( ! function_exists('is_loaded'))
 	 * Keeps track of which libraries have been loaded. This function is
 	 * called by the load_class() function above
 	 *
-	 * @param	string $class
+	 * @param	string
 	 * @return	array
 	 */
 	function &is_loaded($class = '')
@@ -260,10 +232,10 @@ if ( ! function_exists('get_config'))
 	 * This function lets us grab the config file even if the Config class
 	 * hasn't been instantiated yet
 	 *
-	 * @param	array $replace
+	 * @param	array
 	 * @return	array
 	 */
-	function &get_config(array $replace = array())
+	function &get_config(Array $replace = array())
 	{
 		static $config;
 
@@ -315,7 +287,7 @@ if ( ! function_exists('config_item'))
 	/**
 	 * Returns the specified config item
 	 *
-	 * @param	string $item
+	 * @param	string
 	 * @return	mixed
 	 */
 	function config_item($item)
@@ -347,14 +319,9 @@ if ( ! function_exists('get_mimes'))
 
 		if (empty($_mimes))
 		{
-			$_mimes = file_exists(__DIR__.'/../../config/mimes.php')
-				? include(__DIR__.'/../../config/mimes.php')
+			$_mimes = file_exists(APPPATH.'config/mimes.php')
+				? include(APPPATH.'config/mimes.php')
 				: array();
-
-			if (file_exists(APPPATH.'config/mimes.php'))
-			{
-				$_mimes = array_merge($_mimes, include(APPPATH.'config/mimes.php'));
-			}
 
 			if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 			{
@@ -380,15 +347,16 @@ if ( ! function_exists('is_https'))
 	 */
 	function is_https()
 	{
-		if (! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+		if ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+		{
 			return TRUE;
 		}
-
-		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
+		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
+		{
 			return TRUE;
 		}
-
-		if (! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
+		elseif ( ! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off')
+		{
 			return TRUE;
 		}
 
@@ -427,9 +395,9 @@ if ( ! function_exists('show_error'))
 	 * This function will send the error page directly to the
 	 * browser and exit.
 	 *
-	 * @param	string $message
-	 * @param	int|float $status_code
-	 * @param	string $heading
+	 * @param	string
+	 * @param	int
+	 * @param	string
 	 * @return	void
 	 */
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
@@ -462,8 +430,8 @@ if ( ! function_exists('show_404'))
 	 * However, instead of the standard error template it displays
 	 * 404 errors.
 	 *
-	 * @param	string $page
-	 * @param	bool $log_error
+	 * @param	string
+	 * @param	bool
 	 * @return	void
 	 */
 	function show_404($page = '', $log_error = TRUE)
@@ -484,8 +452,8 @@ if ( ! function_exists('log_message'))
 	 * We use this as a simple mechanism to access the logging
 	 * class and send messages to be logged.
 	 *
-	 * @param	string	$level the error level: 'error', 'debug' or 'info'
-	 * @param	string	$message the error message
+	 * @param	string	the error level: 'error', 'debug' or 'info'
+	 * @param	string	the error message
 	 * @return	void
 	 */
 	function log_message($level, $message)
@@ -496,11 +464,6 @@ if ( ! function_exists('log_message'))
 		{
 			// references cannot be directly assigned to static variables, so we use an array
 			$_log[0] =& load_class('Log', 'core');
-		}
-
-		// 2023-03-29: In log_message - If message not string, force string with json_encode
-		if (!is_string($message)) {
-			$message = json_encode($message);
 		}
 
 		$_log[0]->write_log($level, $message);
@@ -514,8 +477,8 @@ if ( ! function_exists('set_status_header'))
 	/**
 	 * Set HTTP Status Header
 	 *
-	 * @param	int $code	the status code
-	 * @param	string $text
+	 * @param	int	the status code
+	 * @param	string
 	 * @return	void
 	 */
 	function set_status_header($code = 200, $text = '')
@@ -536,6 +499,7 @@ if ( ! function_exists('set_status_header'))
 			$stati = array(
 				100	=> 'Continue',
 				101	=> 'Switching Protocols',
+				103	=> 'Early Hints',
 
 				200	=> 'OK',
 				201	=> 'Created',
@@ -544,6 +508,7 @@ if ( ! function_exists('set_status_header'))
 				204	=> 'No Content',
 				205	=> 'Reset Content',
 				206	=> 'Partial Content',
+				207	=> 'Multi-Status',
 
 				300	=> 'Multiple Choices',
 				301	=> 'Moved Permanently',
@@ -552,6 +517,7 @@ if ( ! function_exists('set_status_header'))
 				304	=> 'Not Modified',
 				305	=> 'Use Proxy',
 				307	=> 'Temporary Redirect',
+				308	=> 'Permanent Redirect',
 
 				400	=> 'Bad Request',
 				401	=> 'Unauthorized',
@@ -571,11 +537,13 @@ if ( ! function_exists('set_status_header'))
 				415	=> 'Unsupported Media Type',
 				416	=> 'Requested Range Not Satisfiable',
 				417	=> 'Expectation Failed',
+				421	=> 'Misdirected Request',
 				422	=> 'Unprocessable Entity',
 				426	=> 'Upgrade Required',
 				428	=> 'Precondition Required',
 				429	=> 'Too Many Requests',
 				431	=> 'Request Header Fields Too Large',
+				451	=> 'Unavailable For Legal Reasons',
 
 				500	=> 'Internal Server Error',
 				501	=> 'Not Implemented',
@@ -662,7 +630,7 @@ if ( ! function_exists('_error_handler'))
 
 		// If the error is fatal, the execution of the script should be stopped because
 		// errors can't be recovered from. Halting the script conforms with PHP's
-		// default error handling. See http://www.php.net/manual/en/errorfunc.constants.php
+		// default error handling. See https://secure.php.net/manual/en/errorfunc.constants.php
 		if ($is_error)
 		{
 			exit(1); // EXIT_ERROR
@@ -738,8 +706,8 @@ if ( ! function_exists('remove_invisible_characters'))
 	 * This prevents sandwiching null characters
 	 * between ascii characters, like Java\0script.
 	 *
-	 * @param	string $str
-	 * @param	bool $url_encoded
+	 * @param	string
+	 * @param	bool
 	 * @return	string
 	 */
 	function remove_invisible_characters($str, $url_encoded = TRUE)
@@ -809,8 +777,8 @@ if ( ! function_exists('_stringify_attributes'))
 	 * Helper function used to convert a string, array, or object
 	 * of attributes to a string.
 	 *
-	 * @param	mixed	$attributes string, array, object
-	 * @param	bool	$js
+	 * @param	mixed	string, array, object
+	 * @param	bool
 	 * @return	string
 	 */
 	function _stringify_attributes($attributes, $js = FALSE)

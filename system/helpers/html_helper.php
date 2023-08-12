@@ -229,16 +229,12 @@ if ( ! function_exists('doctype'))
 	 * @param	string	type	The doctype to be generated
 	 * @return	string
 	 */
-	function doctype($type = 'xhtml1-strict')
+	function doctype($type = 'html5')
 	{
 		static $doctypes;
 
 		if ( ! is_array($doctypes))
 		{
-			if (file_exists(__DIR__.'/../../config/doctypes.php'))
-			{
-				include(__DIR__.'/../../config/doctypes.php');
-			}
 			if (file_exists(APPPATH.'config/doctypes.php'))
 			{
 				include(APPPATH.'config/doctypes.php');
@@ -364,146 +360,32 @@ if ( ! function_exists('meta'))
 			$name = array($name);
 		}
 
+		$allowed_types = array('charset', 'http-equiv', 'name', 'property');
 		$str = '';
 		foreach ($name as $meta)
 		{
-			$type		= (isset($meta['type']) && $meta['type'] !== 'name')	? 'http-equiv' : 'name';
-			$name		= isset($meta['name'])					? $meta['name'] : '';
-			$content	= isset($meta['content'])				? $meta['content'] : '';
-			$newline	= isset($meta['newline'])				? $meta['newline'] : "\n";
+			// This is to preserve BC with pre-3.1 versions where only
+			// 'http-equiv' (default) and 'name' were supported.
+			if (isset($meta['type']))
+			{
+				if ($meta['type'] === 'equiv')
+				{
+					$meta['type'] = 'http-equiv';
+				}
+				elseif ( ! in_array($meta['type'], $allowed_types, TRUE))
+				{
+					$meta['type'] = 'name';
+				}
+			}
 
-			// Remove XSS or HTML Tags in Meta Name or Meta Content
-			$name = strip_tags($name);
-			$content = strip_tags($content);
-			$type = strip_tags($content);
+			$type    = isset($meta['type'])    ? $meta['type']    : 'name';
+			$name    = isset($meta['name'])    ? $meta['name']    : '';
+			$content = isset($meta['content']) ? $meta['content'] : '';
+			$newline = isset($meta['newline']) ? $meta['newline'] : "\n";
 
-			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
+			$str .= '<meta '.$type.'="'.$name.($type === 'charset' ? '' : '" content="'.$content).'" />'.$newline;
 		}
 
 		return $str;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if (!function_exists('meta_property')) {
-	/**
-	 * Function meta_property
-	 *
-	 * @param string|array $property
-	 * @param string       $content
-	 * @param string       $type
-	 * @param string       $newline
-	 *
-	 * @return string
-	 * @author   : 713uk13m <dev@nguyenanhung.com>
-	 * @copyright: 713uk13m <dev@nguyenanhung.com>
-	 * @time     : 12/10/2020 31:45
-	 */
-	function meta_property($property = '', $content = '', $type = 'property', $newline = "\n")
-	{
-		// Since we allow the data to be passes as a string, a simple array
-		// or a multidimensional one, we need to do a little prepping.
-		if (!is_array($property)) {
-			$property = array(
-				array(
-					'property' => $property,
-					'content'  => $content,
-					'type'     => $type,
-					'newline'  => $newline
-				)
-			);
-		} elseif (isset($property['property'])) {
-			// Turn single array into multidimensional
-			$property = array($property);
-		}
-		$str = '';
-		foreach ($property as $meta) {
-			$type     = (isset($meta['type']) && $meta['type'] !== 'property') ? 'itemprop' : 'property';
-			$property = isset($meta['property']) ? $meta['property'] : '';
-			$content  = isset($meta['content']) ? $meta['content'] : '';
-			$newline  = isset($meta['newline']) ? $meta['newline'] : "\n";
-			$str      .= '<meta ' . $type . '="' . $property . '" content="' . $content . '" />' . $newline;
-		}
-
-		return $str;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('br'))
-{
-	/**
-	 * Generates HTML BR tags based on number supplied
-	 *
-	 * @deprecated	3.0.0	Use str_repeat() instead
-	 * @param	int	$count	Number of times to repeat the tag
-	 * @return	string
-	 */
-	function br($count = 1)
-	{
-		return str_repeat('<br />', $count);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('nbs'))
-{
-	/**
-	 * Generates non-breaking space entities based on number supplied
-	 *
-	 * @deprecated	3.0.0	Use str_repeat() instead
-	 * @param	int
-	 * @return	string
-	 */
-	function nbs($num = 1)
-	{
-		return str_repeat('&nbsp;', $num);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('html_tag'))
-{
-	/**
-	 * Create a XHTML tag
-	 *
-	 * @param	string			$tag		The tag name
-	 * @param	array|string	$attr		The tag attributes
-	 * @param	string|bool		$content	The content to place in the tag, or false for no closing tag
-	 * @return	string
-	 */
-	function html_tag($tag, $attr = array(), $content = false)
-	{
-		// list of void elements (tags that can not have content)
-		static $void_elements = array(
-			// html4
-			"area","base","br","col","hr","img","input","link","meta","param",
-			// html5
-			"command","embed","keygen","source","track","wbr",
-			// html5.1
-			"menuitem",
-		);
-
-		// construct the HTML
-		$html = '<'.$tag;
-		$html .= ( ! empty($attr)) ? ' '.(is_array($attr) ? array_to_attr($attr) : $attr) : '';
-
-		// a void element?
-		if (in_array(strtolower($tag), $void_elements))
-		{
-			// these can not have content
-			$html .= ' />';
-		}
-		else
-		{
-			// add the content and close the tag
-			$html .= '>'.$content.'</'.$tag.'>';
-		}
-
-		return $html;
 	}
 }

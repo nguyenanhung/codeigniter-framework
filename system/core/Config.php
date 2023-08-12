@@ -124,7 +124,6 @@ class CI_Config {
 	 * @param	bool	$fail_gracefully	Whether to just return FALSE or display an error message
 	 * @return	bool	TRUE if the file was loaded correctly or FALSE on failure
 	 */
-	#[\ReturnTypeWillChange]
 	public function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
 	{
 		$file = ($file === '') ? 'config' : str_replace('.php', '', $file);
@@ -171,15 +170,16 @@ class CI_Config {
 				$this->is_loaded[] = $file_path;
 				$config = NULL;
 				$loaded = TRUE;
-				log_message('debug', 'Config file loaded: '.$file_path);
+				log_message('info', 'Config file loaded: '.$file_path);
 			}
 		}
 
-		if ($loaded === TRUE) {
+		if ($loaded === TRUE)
+		{
 			return TRUE;
 		}
-
-		if ($fail_gracefully === TRUE) {
+		elseif ($fail_gracefully === TRUE)
+		{
 			return FALSE;
 		}
 
@@ -219,8 +219,7 @@ class CI_Config {
 		{
 			return NULL;
 		}
-
-		if (trim($this->config[$item]) === '')
+		elseif (trim($this->config[$item]) === '')
 		{
 			return '';
 		}
@@ -265,7 +264,8 @@ class CI_Config {
 
 		$uri = $this->_uri_string($uri);
 
-		if ($this->item('enable_query_strings') === FALSE) {
+		if ($this->item('enable_query_strings') === FALSE)
+		{
 			$suffix = isset($this->config['url_suffix']) ? $this->config['url_suffix'] : '';
 
 			if ($suffix !== '')
@@ -282,8 +282,8 @@ class CI_Config {
 
 			return $base_url.$this->slash_item('index_page').$uri;
 		}
-
-		if (strpos($uri, '?') === FALSE) {
+		elseif (strpos($uri, '?') === FALSE)
+		{
 			$uri = '?'.$uri;
 		}
 
@@ -336,30 +336,17 @@ class CI_Config {
 	 */
 	protected function _uri_string($uri)
 	{
-		if ($this->item('enable_query_strings') === FALSE) {
+		if ($this->item('enable_query_strings') === FALSE)
+		{
 			is_array($uri) && $uri = implode('/', $uri);
 			return ltrim($uri, '/');
 		}
-
-		if (is_array($uri)) {
+		elseif (is_array($uri))
+		{
 			return http_build_query($uri);
 		}
 
 		return $uri;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * System URL
-	 *
-	 * @deprecated	3.0.0	Encourages insecure practices
-	 * @return	string
-	 */
-	public function system_url()
-	{
-		$x = explode('/', preg_replace('|/*(.+?)/*$|', '\\1', BASEPATH));
-		return $this->slash_item('base_url').end($x).'/';
 	}
 
 	// --------------------------------------------------------------------
