@@ -402,6 +402,11 @@ if ( ! function_exists('convert_accented_characters'))
 
 		if ( ! is_array($array_from))
 		{
+			if (file_exists(__DIR__.'/../../config/foreign_chars.php'))
+			{
+				include(__DIR__.'/../../config/foreign_chars.php');
+			}
+
 			if (file_exists(APPPATH.'config/foreign_chars.php'))
 			{
 				include(APPPATH.'config/foreign_chars.php');
