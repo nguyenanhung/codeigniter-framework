@@ -73,6 +73,31 @@ if ( ! function_exists('is_php'))
 		return $_is_php[$version];
 	}
 }
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('is_windows'))
+{
+	/**
+	 * Check if we're running on a Windows platform
+	 */
+	function is_windows()
+	{
+		return DIRECTORY_SEPARATOR === '\\';
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('is_linux')) {
+	/**
+	 * Check if we're running on a Linux platform
+	 */
+	function is_linux()
+	{
+		$OS = strtoupper(substr(PHP_OS, 0, 3));
+		return $OS !== 'WIN';
+	}
+}
 
 // ------------------------------------------------------------------------
 
