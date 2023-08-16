@@ -383,7 +383,7 @@ class Format
 		if (empty($callback) === true) {
 			return json_encode($data, JSON_UNESCAPED_UNICODE);
 		} // We only honour a jsonp callback which are valid javascript identifiers
-		elseif (preg_match('/^[a-z_\$][a-z0-9\$_]*(\.[a-z_\$][a-z0-9\$_]*)*$/i', $callback)) {
+		if (preg_match('/^[a-z_\$][a-z0-9\$_]*(\.[a-z_\$][a-z0-9\$_]*)*$/i', $callback)) {
 			// Return the data as encoded json with a callback
 			return $callback . '(' . json_encode($data, JSON_UNESCAPED_UNICODE) . ');';
 		}

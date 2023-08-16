@@ -87,7 +87,7 @@ class Response
 	/**
 	 * Set Response Format into CI_Output
 	 *
-	 * @param string Response format
+	 * @param string $format Response format
 	 */
 	public function setFormat($format)
 	{
@@ -105,7 +105,7 @@ class Response
 	 *
 	 * @todo    Format data before send
 	 *
-	 * @param mixed Response data
+	 * @param mixed $data Response data
 	 *
 	 * @return object self
 	 */
@@ -189,10 +189,10 @@ class Response
 	}
 
 	/**
-	 * Common format funciton by format types. {FORMAT}Format()
+	 * Common format function by format types. {FORMAT}Format()
 	 *
-	 * @param array  Pre-handle array data
-	 * @param string Format
+	 * @param array  $data Pre-handle array data
+	 * @param string $format Format
 	 *
 	 * @return string Formatted data by specified formatter
 	 */
@@ -207,16 +207,16 @@ class Response
 			$data = $this->{$formatFunc}($data);
 		} elseif (is_array($data)) {
 			// Use JSON while the Formatter not found and the data is array
-			$data = $this->formatJson($data);
+			$data = self::formatJson($data);
 		}
 
 		return $data;
 	}
 
 	/**
-	 * Common format funciton by format types. {FORMAT}Format()
+	 * Common format function by format types. {FORMAT}Format()
 	 *
-	 * @param array Pre-handle array data
+	 * @param array $data Pre-handle array data
 	 *
 	 * @return string Formatted data
 	 */
@@ -228,10 +228,10 @@ class Response
 	/**
 	 * JSON output shortcut
 	 *
-	 * @param array|mixed Callback data body, false will remove body key
-	 * @param int Callback status code
+	 * @param array|mixed $data Callback data body, false will remove body key
+	 * @param int $statusCode Callback status code
 	 *
-	 * @return string Response body data
+	 * @return string|void Response body data
 	 * @throws \Exception
 	 */
 	public function json($data, $statusCode = null)
@@ -241,7 +241,7 @@ class Response
 			$this->setStatusCode($statusCode);
 		}
 
-		$this->setFormat(Response::FORMAT_JSON);
+		$this->setFormat(self::FORMAT_JSON);
 
 		if (!is_null($data)) {
 			$this->setData($data);
