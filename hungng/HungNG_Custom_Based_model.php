@@ -221,8 +221,10 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function bindDBPrefix($table)
 		{
-			if (strpos($table, $this->db->dbprefix)) {
-				return $table;
+			if (!empty($this->db->dbprefix)) {
+				if (strpos($table, $this->db->dbprefix)) {
+					return $table;
+				}
 			}
 
 			return $this->db->dbprefix($table);
