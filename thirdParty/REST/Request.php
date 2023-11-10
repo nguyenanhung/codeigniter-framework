@@ -96,7 +96,7 @@ class Request
 
 			$contentType = $this->getContentType();
 
-			if (strcasecmp($contentType, 'application/json') == 0) {
+			if (strcasecmp($contentType, 'application/json') === 0) {
 				// JSON content type
 				$this->_bodyParams = json_decode($this->getRawBody(), true);
 			} elseif ($this->getMethod() === 'POST') {
@@ -131,7 +131,7 @@ class Request
 	 */
 	public function getAuthCredentialsWithBasic()
 	{
-		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+		if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
 
 			return [$_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']];
 		}
@@ -166,12 +166,9 @@ class Request
 	{
 		$b64token = null;
 
-		if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+		if (isset($_SERVER['HTTP_AUTHORIZATION']) && strpos(bear_str_to_lower($_SERVER['HTTP_AUTHORIZATION']), 'bearer ') === 0) {
 
-			if (strpos(bear_str_to_lower($_SERVER['HTTP_AUTHORIZATION']), 'bearer ') === 0) {
-
-				$b64token = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
-			}
+			$b64token = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
 		}
 
 		return $b64token;
