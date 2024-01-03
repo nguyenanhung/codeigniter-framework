@@ -9,7 +9,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Time: 00:38
  */
 if (!class_exists('MY_Loader')) {
-	class MY_Loader extends HungNG_Loader
-	{
+	if (!file_exists(APPPATH . 'core/MY_Loader.php')) {
+		class MY_Loader extends HungNG_Loader
+		{
+		}
 	}
 }

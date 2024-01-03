@@ -9,7 +9,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Time: 00:39
  */
 if (!class_exists('MY_Router')) {
-	class MY_Router extends HungNG_Router
-	{
+	if (!file_exists(APPPATH . 'core/MY_Router.php')) {
+		class MY_Router extends HungNG_Router
+		{
+		}
 	}
 }
