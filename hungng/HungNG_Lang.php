@@ -85,11 +85,11 @@ if (!class_exists('HungNG_Lang')) {
 		/**
 		 * Load a language file, with fallback to english.
 		 *
-		 * @param mixed  $langfile   Language file name
-		 * @param string $idiom      Language name (english, etc.)
-		 * @param bool   $return     Whether to return the loaded array of translations
-		 * @param bool   $add_suffix Whether to add suffix to $langfile
-		 * @param string $alt_path   Alternative path to look for the language file
+		 * @param mixed $langfile Language file name
+		 * @param string $idiom Language name (english, etc.)
+		 * @param bool $return Whether to return the loaded array of translations
+		 * @param bool $add_suffix Whether to add suffix to $langfile
+		 * @param string $alt_path Alternative path to look for the language file
 		 *
 		 * @return    void|string[]    Array containing translations, if $return is set to TRUE
 		 */
@@ -110,7 +110,7 @@ if (!class_exists('HungNG_Lang')) {
 			$langfile .= '.php';
 			if (empty($idiom) || !preg_match('/^[a-z_-]+$/i', $idiom)) {
 				$config =& get_config();
-				$idiom  = empty($config['language']) ? $this->base_language : $config['language'];
+				$idiom = empty($config['language']) ? $this->base_language : $config['language'];
 			}
 			if ($return === false && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom) {
 				return;
@@ -158,7 +158,7 @@ if (!class_exists('HungNG_Lang')) {
 				return $lang;
 			}
 			$this->is_loaded[$langfile] = $idiom;
-			$this->language             = array_merge($this->language, $lang);
+			$this->language = array_merge($this->language, $lang);
 			log_message('info', 'Language file loaded: language/' . $idiom . '/' . $langfile);
 
 			return true;

@@ -43,7 +43,7 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 			}
 
 			if (is_numeric($config['log_threshold'])) {
-				$this->_threshold = (int) $config['log_threshold'];
+				$this->_threshold = (int)$config['log_threshold'];
 			} elseif (is_array($config['log_threshold'])) {
 				$this->_threshold = 0;
 				$this->_threshold_array = array_flip($config['log_threshold']);
@@ -143,8 +143,8 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 		 * Byte-safe substr()
 		 *
 		 * @param string $str
-		 * @param int    $start
-		 * @param int    $length
+		 * @param int $start
+		 * @param int $length
 		 *
 		 * @return    string
 		 */

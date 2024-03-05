@@ -69,15 +69,15 @@ if (!class_exists('HungNG_CI_Base_Controller_Default_Page')) {
 		public function under_construction()
 		{
 			$data = array(
-				'title'         => 'Coming Soon',
-				'heading'       => 'I\'ll be back',
-				'site_name'     => config_item('cms_site_name'),
-				'site_author'   => POWERED_HUNGNG_NAME . ' - ' . POWERED_HUNGNG_EMAIL,
-				'url_assets'    => assets_themes('Clouds'),
-				'url_facebook'  => site_url(),
-				'url_twitter'   => site_url(),
+				'title' => 'Coming Soon',
+				'heading' => 'I\'ll be back',
+				'site_name' => config_item('cms_site_name'),
+				'site_author' => POWERED_HUNGNG_NAME . ' - ' . POWERED_HUNGNG_EMAIL,
+				'url_assets' => assets_themes('Clouds'),
+				'url_facebook' => site_url(),
+				'url_twitter' => site_url(),
 				'url_briefcase' => site_url(),
-				'url_transit'   => site_url()
+				'url_transit' => site_url()
 			);
 			$this->parser->parse($this->template . 'Clouds_under_construction', $data);
 		}
@@ -92,17 +92,17 @@ if (!class_exists('HungNG_CI_Base_Controller_Default_Page')) {
 		public function error404()
 		{
 			$data = array(
-				'name'          => '404',
-				'title'         => 'PAGE NOT FOUND',
-				'heading'       => 'The page you requested was not found.',
-				'site_name'     => config_item('cms_site_name'),
-				'site_author'   => POWERED_HUNGNG_NAME . ' - ' . POWERED_HUNGNG_EMAIL,
-				'site_link'     => config_item('base_url'),
-				'url_assets'    => assets_themes('Sailors'),
-				'url_facebook'  => site_url(),
-				'url_twitter'   => site_url(),
+				'name' => '404',
+				'title' => 'PAGE NOT FOUND',
+				'heading' => 'The page you requested was not found.',
+				'site_name' => config_item('cms_site_name'),
+				'site_author' => POWERED_HUNGNG_NAME . ' - ' . POWERED_HUNGNG_EMAIL,
+				'site_link' => config_item('base_url'),
+				'url_assets' => assets_themes('Sailors'),
+				'url_facebook' => site_url(),
+				'url_twitter' => site_url(),
 				'url_briefcase' => site_url(),
-				'url_transit'   => site_url()
+				'url_transit' => site_url()
 			);
 			$this->parser->parse($this->template . 'Sailor_error', $data);
 		}

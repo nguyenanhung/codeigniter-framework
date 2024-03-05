@@ -88,7 +88,7 @@ if (!class_exists('HungNG_Model')) {
 	 *        }
 	 *    }
 	 *
-	 * @property \CI_Loader          load
+	 * @property \CI_Loader load
 	 * @property \CI_Form_validation form_validation
 	 **/
 	class HungNG_Model extends CI_Model
@@ -125,12 +125,12 @@ if (!class_exists('HungNG_Model')) {
 		 * @var array
 		 * Sets protected fields
 		 */
-		public  $protected      = array();
+		public $protected = array();
 		private $_can_be_filled = null;
 		/** @var bool | array
 		 * Enables created_at and updated_at fields
 		 */
-		protected $timestamps        = true;
+		protected $timestamps = true;
 		protected $timestamps_format = 'Y-m-d H:i:s';
 		protected $_created_at_field;
 		protected $_updated_at_field;
@@ -140,18 +140,18 @@ if (!class_exists('HungNG_Model')) {
 		 */
 		protected $soft_deletes = false;
 		/** relationships variables */
-		private $_relationships      = array();
-		public  $has_one             = array();
-		public  $has_many            = array();
-		public  $has_many_pivot      = array();
-		public  $separate_subqueries = true;
-		private $_requested          = array();
+		private $_relationships = array();
+		public $has_one = array();
+		public $has_many = array();
+		public $has_many_pivot = array();
+		public $separate_subqueries = true;
+		private $_requested = array();
 		/** end relationships variables */
 		/*caching*/
-		public    $cache_driver         = 'file';
-		public    $cache_prefix         = 'mm';
-		protected $_cache               = array();
-		public    $delete_cache_on_save = false;
+		public $cache_driver = 'file';
+		public $cache_prefix = 'mm';
+		protected $_cache = array();
+		public $delete_cache_on_save = false;
 		/*pagination*/
 		public $next_page;
 		public $previous_page;
@@ -159,28 +159,28 @@ if (!class_exists('HungNG_Model')) {
 		public $pagination_delimiters;
 		public $pagination_arrows;
 		/* validation */
-		private $validated            = true;
+		private $validated = true;
 		private $row_fields_to_update = array();
 		/**
 		 * The various callbacks available to the model. Each are
 		 * simple lists of method names (methods will be run on $this).
 		 */
-		protected $before_create       = array();
-		protected $after_create        = array();
-		protected $before_update       = array();
-		protected $after_update        = array();
-		protected $before_get          = array();
-		protected $after_get           = array();
-		protected $before_delete       = array();
-		protected $after_delete        = array();
-		protected $before_soft_delete  = array();
-		protected $after_soft_delete   = array();
+		protected $before_create = array();
+		protected $after_create = array();
+		protected $before_update = array();
+		protected $after_update = array();
+		protected $before_get = array();
+		protected $after_get = array();
+		protected $before_delete = array();
+		protected $after_delete = array();
+		protected $before_soft_delete = array();
+		protected $after_soft_delete = array();
 		protected $callback_parameters = array();
-		protected $return_as           = 'object';
-		protected $return_as_dropdown  = null;
-		protected $_dropdown_field     = '';
-		private   $_trashed            = 'without';
-		private   $_select             = '*';
+		protected $return_as = 'object';
+		protected $return_as_dropdown = null;
+		protected $_dropdown_field = '';
+		private $_trashed = 'without';
+		private $_select = '*';
 
 		public function __construct()
 		{
@@ -193,9 +193,9 @@ if (!class_exists('HungNG_Model')) {
 			$this->_set_timestamps();
 			$this->_fetch_table();
 			$this->pagination_delimiters = (isset($this->pagination_delimiters)) ? $this->pagination_delimiters : array('<span>',
-																														'</span>');
+				'</span>');
 			$this->pagination_arrows = (isset($this->pagination_arrows)) ? $this->pagination_arrows : array('&lt;',
-																											'&gt;');
+				'&gt;');
 			/* These below are implementation examples for before_create and before_update triggers.
 			Their respective functions - add_creator() and add_updater() - can be found at the end of the model.
 			They add user id on create and update. If you comment this out don't forget to do the same for the methods()
@@ -245,7 +245,7 @@ if (!class_exists('HungNG_Model')) {
 			// We make sure we have the fields that can be filled
 			$can_fill = $this->_can_be_filled;
 			// Let's make sure we receive an array...
-			$data_as_array = (is_object($data)) ? (array) $data : $data;
+			$data_as_array = (is_object($data)) ? (array)$data : $data;
 			$new_data = array();
 			$multi = $this->is_multidimensional($data);
 			if ($multi === false) {
@@ -315,9 +315,9 @@ if (!class_exists('HungNG_Model')) {
 		 * public function from_form($rules = NULL,$additional_values = array(), $row_fields_to_update = array())
 		 * Gets data from form, after validating it and waits for an insert() or update() method in the query chain
 		 *
-		 * @param null  $rules                Gets the validation rules. If nothing is passed (NULL), will look for the
+		 * @param null $rules Gets the validation rules. If nothing is passed (NULL), will look for the
 		 *                                    validation rules inside the model $rules public property
-		 * @param array $additional_values    Accepts additional fields to be filled, fields that are not to be found
+		 * @param array $additional_values Accepts additional fields to be filled, fields that are not to be found
 		 *                                    inside
 		 *                                    the form. The values are inserted as an array with "field_name" =>
 		 *                                    "field_value"
@@ -456,9 +456,9 @@ if (!class_exists('HungNG_Model')) {
 		 * Updates data into table. Can receive an array or a multidimensional array depending on what kind of update we're
 		 * talking about.
 		 *
-		 * @param array     $data
+		 * @param array $data
 		 * @param array|int $column_name_where
-		 * @param bool      $escape should the values be escaped or not - defaults to true
+		 * @param bool $escape should the values be escaped or not - defaults to true
 		 *
 		 * @return str/array Returns id/ids of inserted rows
 		 */
@@ -553,13 +553,13 @@ if (!class_exists('HungNG_Model')) {
 		 * public function where($field_or_array = NULL, $operator_or_value = NULL, $value = NULL, $with_or = FALSE,
 		 * $with_not = FALSE, $custom_string = FALSE) Sets a where method for the $this object
 		 *
-		 * @param null $field_or_array    - can receive a field name or an array with more wheres...
+		 * @param null $field_or_array - can receive a field name or an array with more wheres...
 		 * @param null $operator_or_value - can receive a database operator or, if it has a field, the value to equal with
-		 * @param null $value             - a value if it received a field name and an operator
-		 * @param bool $with_or           - if set to true will create a or_where query type pr a or_like query type,
+		 * @param null $value - a value if it received a field name and an operator
+		 * @param bool $with_or - if set to true will create a or_where query type pr a or_like query type,
 		 *                                depending on the operator
-		 * @param bool $with_not          - if set to true will also add "NOT" in the where
-		 * @param bool $custom_string     - if set to true, will simply assume that $field_or_array is actually a string
+		 * @param bool $with_not - if set to true will also add "NOT" in the where
+		 * @param bool $custom_string - if set to true, will simply assume that $field_or_array is actually a string
 		 *                                and pass it to the where query
 		 *
 		 * @return $this
@@ -942,7 +942,7 @@ if (!class_exists('HungNG_Model')) {
 		 * the constructor
 		 *
 		 * @param string $request
-		 * @param array  $arguments
+		 * @param array $arguments
 		 *
 		 * @return $this
 		 */
@@ -1027,10 +1027,10 @@ if (!class_exists('HungNG_Model')) {
 						$order = explode(' ', $element);
 						if (sizeof($order) == 2) {
 							$order_inside_array[] = array(trim($order[0]),
-														  trim($order[1]));
+								trim($order[1]));
 						} else {
 							$order_inside_array[] = array(trim($order[0]),
-														  'desc');
+								'desc');
 						}
 					}
 				}
@@ -1132,7 +1132,7 @@ if (!class_exists('HungNG_Model')) {
 				if (isset($sub_results) && !empty($sub_results)) {
 					$subs = array();
 					foreach ($sub_results as $result) {
-						$result_array = (array) $result;
+						$result_array = (array)$result;
 						$the_foreign_key = $result_array[$foreign_key];
 						if (isset($pivot_table)) {
 							$the_local_key = $result_array[$pivot_local_key];
@@ -1166,10 +1166,10 @@ if (!class_exists('HungNG_Model')) {
 					$elements = explode(',', $request['parameters']['order_by']);
 					if (sizeof($elements) == 2) {
 						$order_by[$relation_key] = array(trim($elements[0]),
-														 trim($elements[1]));
+							trim($elements[1]));
 					} else {
 						$order_by[$relation_key] = array(trim($elements[0]),
-														 'desc');
+							'desc');
 					}
 				}
 				unset($this->_requested[$requested_key]);
@@ -1210,8 +1210,8 @@ if (!class_exists('HungNG_Model')) {
 		{
 			if (empty($this->_relationships)) {
 				$options = array('has_one',
-								 'has_many',
-								 'has_many_pivot');
+					'has_many',
+					'has_many_pivot');
 				foreach ($options as $option) {
 					if (isset($this->{$option}) && !empty($this->{$option})) {
 						foreach ($this->{$option} as $key => $relation) {
@@ -1270,17 +1270,17 @@ if (!class_exists('HungNG_Model')) {
 							}
 							if ($option == 'has_many_pivot' && !isset($pivot_table)) {
 								$tables = array($this->table,
-												$foreign_table);
+									$foreign_table);
 								sort($tables);
 								$pivot_table = $tables[0] . '_' . $tables[1];
 							}
-							$this->_relationships[$key] = array('relation'           => $option,
-																'relation_key'       => $key,
-																'foreign_model'      => bear_str_to_lower($foreign_model),
-																'foreign_model_name' => bear_str_to_lower($foreign_model_name),
-																'foreign_table'      => $foreign_table,
-																'foreign_key'        => $foreign_key,
-																'local_key'          => $local_key);
+							$this->_relationships[$key] = array('relation' => $option,
+								'relation_key' => $key,
+								'foreign_model' => bear_str_to_lower($foreign_model),
+								'foreign_model_name' => bear_str_to_lower($foreign_model_name),
+								'foreign_table' => $foreign_table,
+								'foreign_key' => $foreign_key,
+								'local_key' => $local_key);
 							if ($option == 'has_many_pivot') {
 								$this->_relationships[$key]['pivot_table'] = $pivot_table;
 								$this->_relationships[$key]['pivot_local_key'] = $pivot_local_key;
@@ -1346,8 +1346,8 @@ if (!class_exists('HungNG_Model')) {
 						$this->callback_parameters = explode(',', $matches[3]);
 					}
 					$data = call_user_func_array(array($this,
-													   $method), array($data,
-																	   $last));
+						$method), array($data,
+						$last));
 				}
 			}
 
@@ -1500,7 +1500,7 @@ if (!class_exists('HungNG_Model')) {
 			$this->return_as_dropdown = 'dropdown';
 			$this->_dropdown_field = $field;
 			$this->_select = array($this->primary_key,
-								   $field);
+				$field);
 
 			return $this;
 		}
@@ -1538,7 +1538,7 @@ if (!class_exists('HungNG_Model')) {
 			$prefix = (bear_str_length($this->cache_prefix) > 0) ? $this->cache_prefix . '_' : '';
 			$prefix .= $this->table . '_';
 			$this->_cache = array('cache_name' => $prefix . $string,
-								  'seconds'    => $seconds);
+				'seconds' => $seconds);
 
 			return $this;
 		}
@@ -1759,7 +1759,7 @@ if (!class_exists('HungNG_Model')) {
 			}
 			if (method_exists($this->_database, $method)) {
 				call_user_func_array(array($this->_database,
-										   $method), $arguments);
+					$method), $arguments);
 
 				return $this;
 			}
@@ -1792,7 +1792,7 @@ if (!class_exists('HungNG_Model')) {
 			}
 
 			return array_map(array($this,
-								   'object_to_array'), $object);
+				'object_to_array'), $object);
 		}
 
 		/**
@@ -1804,7 +1804,7 @@ if (!class_exists('HungNG_Model')) {
 		 */
 		protected function is_assoc(array $array)
 		{
-			return (bool) count(array_filter(array_keys($array), 'is_string'));
+			return (bool)count(array_filter(array_keys($array), 'is_string'));
 		}
 
 		/**

@@ -25,8 +25,8 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 	{
 
 		private $CI;
-		private $config    = array();
-		private $param     = array();
+		private $config = array();
+		private $param = array();
 		private $activate;
 		private $connect;
 		private $db;
@@ -41,14 +41,14 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		private $read_concern;
 		private $read_preference;
 		private $journal;
-		private $selects   = array();
-		private $updates   = array();
-		private $wheres    = array();
-		private $limit     = 999999;
-		private $offset    = 0;
-		private $sorts     = array();
+		private $selects = array();
+		private $updates = array();
+		private $wheres = array();
+		private $limit = 999999;
+		private $offset = 0;
+		private $sorts = array();
 		private $return_as = 'array';
-		public  $benchmark = array();
+		public $benchmark = array();
 
 		/**
 		 * --------------------------------------------------------------------------------
@@ -719,9 +719,9 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error("Mongo field's value is require to like query.", 500);
 			}
 
-			$field = (string) trim($field);
+			$field = (string)trim($field);
 			$this->_w($field);
-			$value = (string) trim($value);
+			$value = (string)trim($value);
 			$value = quotemeta($value);
 			if ($enable_start_wildcard !== true) {
 				$value = "^" . $value;
@@ -758,8 +758,8 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				$options = array();
 				$options['projection'] = $this->selects;
 				$options['sort'] = $this->sorts;
-				$options['skip'] = (int) $this->offset;
-				$options['limit'] = (int) $this->limit;
+				$options['skip'] = (int)$this->offset;
+				$options['limit'] = (int)$this->limit;
 				$options['readConcern'] = $read_concern;
 
 				$query = new MongoDB\Driver\Query($this->wheres, $options);
@@ -773,18 +773,18 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 					$it = new \IteratorIterator($cursor);
 					$it->rewind();
 
-					while ($doc = (array) $it->current()) {
+					while ($doc = (array)$it->current()) {
 						if ($this->return_as == 'object') {
-							$returns[] = (object) $this->convert_document_id($doc);
+							$returns[] = (object)$this->convert_document_id($doc);
 						} else {
-							$returns[] = (array) $this->convert_document_id($doc);
+							$returns[] = (array)$this->convert_document_id($doc);
 						}
 						$it->next();
 					}
 				}
 
 				if ($this->return_as == 'object') {
-					return (object) $returns;
+					return (object)$returns;
 				} else {
 					return $returns;
 				}
@@ -810,7 +810,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		{
 			if (is_array($where) && count($where) > 0) {
 				return $this->where($where)
-							->get($collection);
+					->get($collection);
 			} else {
 				show_error("Nothing passed to perform search or value is empty.", 500);
 			}
@@ -840,8 +840,8 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				$options = array();
 				$options['projection'] = $this->selects;
 				$options['sort'] = $this->sorts;
-				$options['skip'] = (int) $this->offset;
-				$options['limit'] = (int) 1;
+				$options['skip'] = (int)$this->offset;
+				$options['limit'] = (int)1;
 				$options['readConcern'] = $read_concern;
 
 				$query = new MongoDB\Driver\Query($this->wheres, $options);
@@ -855,18 +855,18 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 					$it = new \IteratorIterator($cursor);
 					$it->rewind();
 
-					while ($doc = (array) $it->current()) {
+					while ($doc = (array)$it->current()) {
 						if ($this->return_as == 'object') {
-							$returns[] = (object) $this->convert_document_id($doc);
+							$returns[] = (object)$this->convert_document_id($doc);
 						} else {
-							$returns[] = (array) $this->convert_document_id($doc);
+							$returns[] = (array)$this->convert_document_id($doc);
 						}
 						$it->next();
 					}
 				}
 
 				if ($this->return_as == 'object') {
-					return (object) $returns;
+					return (object)$returns;
 				} else {
 					return $returns;
 				}
@@ -902,8 +902,8 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				$options = array();
 				$options['projection'] = array('_id' => 1);
 				$options['sort'] = $this->sorts;
-				$options['skip'] = (int) $this->offset;
-				$options['limit'] = (int) $this->limit;
+				$options['skip'] = (int)$this->offset;
+				$options['limit'] = (int)$this->limit;
 				$options['readConcern'] = $read_concern;
 
 				$query = new MongoDB\Driver\Query($this->wheres, $options);
@@ -1203,7 +1203,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				$documents = $this->db->{$collection}->distinct($field, $this->wheres);
 				$this->_clear();
 				if ($this->return_as == 'object') {
-					return (object) $documents;
+					return (object)$documents;
 				} else {
 					return $documents;
 				}
@@ -1490,7 +1490,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		public function limit($x = 99999)
 		{
 			if ($x !== null && is_numeric($x) && $x >= 1) {
-				$this->limit = (int) $x;
+				$this->limit = (int)$x;
 			}
 
 			return ($this);
@@ -1508,7 +1508,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		public function offset($x = 0)
 		{
 			if ($x !== null && is_numeric($x) && $x >= 1) {
-				$this->offset = (int) $x;
+				$this->offset = (int)$x;
 			}
 
 			return ($this);
@@ -1559,18 +1559,18 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 					$it = new \IteratorIterator($cursor);
 					$it->rewind();
 
-					while ($doc = (array) $it->current()) {
+					while ($doc = (array)$it->current()) {
 						if ($this->return_as == 'object') {
-							$returns[] = (object) $this->convert_document_id($doc);
+							$returns[] = (object)$this->convert_document_id($doc);
 						} else {
-							$returns[] = (array) $this->convert_document_id($doc);
+							$returns[] = (array)$this->convert_document_id($doc);
 						}
 						$it->next();
 					}
 				}
 
 				if ($this->return_as == 'object') {
-					return (object) $returns;
+					return (object)$returns;
 				} else {
 					return $returns;
 				}
