@@ -48,9 +48,9 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 * @var array RESTful API table of routes & actions
 		 */
 		protected $routes = array(
-			'index'  => 'index',
-			'store'  => 'store',
-			'show'   => 'show',
+			'index' => 'index',
+			'store' => 'store',
+			'show' => 'show',
 			'update' => 'update',
 			'delete' => 'delete',
 		);
@@ -61,9 +61,9 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 * @var array
 		 */
 		private $behaviors = array(
-			'index'  => null,
-			'store'  => null,
-			'show'   => null,
+			'index' => null,
+			'store' => null,
+			'show' => null,
 			'update' => null,
 			'delete' => null,
 		);
@@ -168,18 +168,18 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Output by JSON format with optinal body format
 		 *
-		 * @deprecated 1.3.0
-		 *
-		 * @param array|mixed $data       Callback data body, false will remove body key
-		 * @param bool        $bodyFormat Enable body format
-		 * @param int         $statusCode HTTP Status Code
-		 * @param string      $message    Callback message
+		 * @param array|mixed $data Callback data body, false will remove body key
+		 * @param bool $bodyFormat Enable body format
+		 * @param int $statusCode HTTP Status Code
+		 * @param string $message Callback message
 		 *
 		 * @return string Response body data
 		 *
+		 * @throws \Exception
 		 * @example
 		 *  json(false, true, 401, 'Login Required', 'Unauthorized');
-		 * @throws \Exception
+		 * @deprecated 1.3.0
+		 *
 		 */
 		protected function json($data = array(), $bodyFormat = null, $statusCode = null, $message = null)
 		{
@@ -200,19 +200,19 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Format Response Data
 		 *
-		 * @deprecated 1.3.0
-		 *
-		 * @param int              $statusCode Callback status code
-		 * @param string           $message    Callback status text
-		 * @param array|mixed|bool $body       Callback data body, false will remove body key
+		 * @param int $statusCode Callback status code
+		 * @param string $message Callback status text
+		 * @param array|mixed|bool $body Callback data body, false will remove body key
 		 *
 		 * @return array Formatted array data
+		 * @deprecated 1.3.0
+		 *
 		 */
 		protected function _format($statusCode = null, $message = null, $body = false)
 		{
 			$format = array();
 			// Status Code field is necessary
-			$format['code'] = ($statusCode) ? : $this->response->getStatusCode();
+			$format['code'] = ($statusCode) ?: $this->response->getStatusCode();
 			// Message field
 			if ($message) {
 				$format['message'] = $message;
@@ -230,9 +230,9 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 *
 		 * You could override this method for your application standard
 		 *
-		 * @param array|mixed $data       Original data
-		 * @param int         $statusCode HTTP Status Code
-		 * @param string      $message    Callback message
+		 * @param array|mixed $data Original data
+		 * @param int $statusCode HTTP Status Code
+		 * @param string $message Callback message
 		 *
 		 * @return array Packed data
 		 * @example
@@ -276,7 +276,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Set behavior to a action before route
 		 *
-		 * @param String   $action
+		 * @param String $action
 		 * @param Callable $function
 		 *
 		 * @return boolean Result

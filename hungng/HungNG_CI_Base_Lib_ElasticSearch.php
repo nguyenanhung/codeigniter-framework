@@ -17,7 +17,7 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 	 */
 	class HungNG_CI_Base_Lib_ElasticSearch
 	{
-		private   $client;
+		private $client;
 		protected $esHost;
 		protected $CI;
 
@@ -88,8 +88,8 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 			//db - collection - id
 			$params = array(
 				'index' => $index,
-				'type'  => $type,
-				'id'    => $id
+				'type' => $type,
+				'id' => $id
 			);
 			$results = $this->client->get($params);
 
@@ -100,8 +100,8 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		{
 			$params = array(
 				'index' => $index,
-				'type'  => $type,
-				'id'    => $id
+				'type' => $type,
+				'id' => $id
 			);
 
 			return $this->client->exists($params);
@@ -111,9 +111,9 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		{
 			$params = array(
 				'index' => $index,
-				'type'  => $type,
-				'id'    => $id,
-				'body'  => $body
+				'type' => $type,
+				'id' => $id,
+				'body' => $body
 			);
 
 			return $this->client->index($params);
@@ -123,9 +123,9 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		{
 			$params = array(
 				'index' => $index,
-				'type'  => $type,
-				'id'    => $id,
-				'body'  => $body
+				'type' => $type,
+				'id' => $id,
+				'body' => $body
 			);
 
 			return $this->client->update($params);
@@ -134,10 +134,10 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		public function delete_document($index, $type, $id)
 		{
 			$params = array(
-				'index'   => $index,
-				'type'    => $type,
+				'index' => $index,
+				'type' => $type,
 				'refresh' => 'wait_for', //or true
-				'id'      => $id
+				'id' => $id
 			);
 
 			return $this->client->delete($params);
@@ -147,20 +147,20 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 		{
 			$params = array(
 				'index' => $index,
-				'type'  => $type,
-				'body'  => array(
-					'from'  => $from,
-					'size'  => $size,
+				'type' => $type,
+				'body' => array(
+					'from' => $from,
+					'size' => $size,
 					'query' => $query
 				)
 			);
 			if ($all) {
 				$params = array(
 					'index' => $index,
-					'type'  => $type,
-					'from'  => $from,
-					'size'  => $size,
-					'body'  => array('query' => $query)
+					'type' => $type,
+					'from' => $from,
+					'size' => $size,
+					'body' => array('query' => $query)
 				);
 			}
 
@@ -173,8 +173,8 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 			if ($exists_index === 200) {
 				$params = array(
 					'index' => $index,
-					'type'  => $type,
-					'body'  => array('query' => $query)
+					'type' => $type,
+					'body' => array('query' => $query)
 				);
 				$response = $this->client->count($params);
 			} else {

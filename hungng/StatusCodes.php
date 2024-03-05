@@ -79,18 +79,18 @@ if (!class_exists('StatusCodes')) {
 		 * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
 		 */
 		public static $HTTP_RESPONSE_CACHE_CONTROL_DIRECTIVES = array(
-			'must_revalidate'  => false,
-			'no_cache'         => false,
-			'no_store'         => false,
-			'no_transform'     => false,
-			'public'           => false,
-			'private'          => false,
+			'must_revalidate' => false,
+			'no_cache' => false,
+			'no_store' => false,
+			'no_transform' => false,
+			'public' => false,
+			'private' => false,
 			'proxy_revalidate' => false,
-			'max_age'          => true,
-			's_maxage'         => true,
-			'immutable'        => false,
-			'last_modified'    => true,
-			'etag'             => true,
+			'max_age' => true,
+			's_maxage' => true,
+			'immutable' => false,
+			'last_modified' => true,
+			'etag' => true,
 		);
 		public static $statusTexts = array(
 			100 => 'Continue',
