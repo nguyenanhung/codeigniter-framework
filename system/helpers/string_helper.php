@@ -257,6 +257,9 @@ if (!function_exists('random_string')) {
 			case 'unique':
 				return md5(uniqid(mt_rand(), true));
 				break;
+			case 'base64':
+				return base64_encode(md5(uniqid(mt_rand(), true)));
+				break;
 			case 'sha1' :
 				return sha1(uniqid(mt_rand(), true));
 				break;
