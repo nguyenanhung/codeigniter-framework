@@ -517,5 +517,19 @@ if (!class_exists('HungNG_CI_Base_Module')) {
 				show_404();
 			}
 		}
+
+		/**
+		 * Check is human by recaptcha from request
+		 *
+		 * @return bool
+		 */
+		protected function reCaptchaIsHuman()
+		{
+			$captcha = $this->input->post('g-recaptcha-response', true);
+			if (!$captcha) {
+				return false;
+			}
+			return true;
+		}
 	}
 }
