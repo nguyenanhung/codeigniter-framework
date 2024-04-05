@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class HungNG_CI_Exception extends Exception
@@ -16,7 +17,7 @@ class HungNG_CI_Exception extends Exception
 	 */
 	public function __construct($message = null, $code = 0)
 	{
-		if (!$message) {
+		if ( ! $message) {
 			throw new $this('Unknown ' . get_class($this));
 		}
 		$error_message = $message . ' - If you believe this is a codebase or framework bug, please report it and let us know here: ' . CI3_FRAMEWORK_ISSUES . ' - Codebase will be improved by your contributions. Thank you!';

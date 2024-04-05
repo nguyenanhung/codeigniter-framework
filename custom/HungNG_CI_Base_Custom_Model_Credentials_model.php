@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 11/02/2023
  * Time: 19:25
  */
-if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
+if ( ! class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 	/**
 	 * Class HungNG_CI_Base_Custom_Model_Credentials_model
 	 *
@@ -51,7 +52,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 		/**
 		 * Function checkCredentials
 		 *
-		 * @param string $username
+		 * @param  string  $username
 		 *
 		 * @return int
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -71,7 +72,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 		/**
 		 * Function getInfoCredentials
 		 *
-		 * @param string $username
+		 * @param  string  $username
 		 *
 		 * @return array|mixed|object|null
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -95,7 +96,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 		/**
 		 * Function checkUserRoleIsFull
 		 *
-		 * @param string $username
+		 * @param  string  $username
 		 *
 		 * @return bool
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -120,7 +121,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 		/**
 		 * Function checkUserRoleIsPull
 		 *
-		 * @param string $username
+		 * @param  string  $username
 		 *
 		 * @return bool
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -145,7 +146,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 		/**
 		 * Function checkUserRoleIsPush
 		 *
-		 * @param string $username
+		 * @param  string  $username
 		 *
 		 * @return bool
 		 * @author   : 713uk13m <dev@nguyenanhung.com>

@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -13,7 +14,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 use nguyenanhung\CodeIgniter\BaseREST\Request;
 use nguyenanhung\CodeIgniter\BaseREST\Response;
 
-if (!class_exists('HungNG_CI_Base_REST')) {
+if ( ! class_exists('HungNG_CI_Base_REST')) {
 	/**
 	 * RESTful API Controller
 	 *
@@ -113,19 +114,19 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 * Without routes setting, `resource/{route-alias}` URI pattern is a limitation which CI3 would
 		 * first map `controller/action` URI into action() instead of index($action)
 		 *
-		 * @param int|string $resourceID Resource ID
+		 * @param  int|string  $resourceID  Resource ID
 		 */
 		public function route($resourceID = null)
 		{
 			switch ($this->request->getMethod()) {
 				case 'POST':
-					if (!$resourceID) {
+					if ( ! $resourceID) {
 						return $this->_action(array('store', $this->request->getBodyParams()));
 					}
 					break;
 				case 'PATCH':
 					// PATCH could only allow single element
-					if (!$resourceID) {
+					if ( ! $resourceID) {
 						return $this->_defaultAction();
 					}
 				case 'PUT':
@@ -168,10 +169,10 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Output by JSON format with optinal body format
 		 *
-		 * @param array|mixed $data Callback data body, false will remove body key
-		 * @param bool $bodyFormat Enable body format
-		 * @param int $statusCode HTTP Status Code
-		 * @param string $message Callback message
+		 * @param  array|mixed  $data  Callback data body, false will remove body key
+		 * @param  bool  $bodyFormat  Enable body format
+		 * @param  int  $statusCode  HTTP Status Code
+		 * @param  string  $message  Callback message
 		 *
 		 * @return string Response body data
 		 *
@@ -200,9 +201,9 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Format Response Data
 		 *
-		 * @param int $statusCode Callback status code
-		 * @param string $message Callback status text
-		 * @param array|mixed|bool $body Callback data body, false will remove body key
+		 * @param  int  $statusCode  Callback status code
+		 * @param  string  $message  Callback status text
+		 * @param  array|mixed|bool  $body  Callback data body, false will remove body key
 		 *
 		 * @return array Formatted array data
 		 * @deprecated 1.3.0
@@ -230,9 +231,9 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		 *
 		 * You could override this method for your application standard
 		 *
-		 * @param array|mixed $data Original data
-		 * @param int $statusCode HTTP Status Code
-		 * @param string $message Callback message
+		 * @param  array|mixed  $data  Original data
+		 * @param  int  $statusCode  HTTP Status Code
+		 * @param  string  $message  Callback message
 		 *
 		 * @return array Packed data
 		 * @example
@@ -244,17 +245,14 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 
 			// Status Code
 			if ($statusCode) {
-
 				$packBody['code'] = $statusCode;
 			}
 			// Message
 			if ($message) {
-
 				$packBody['message'] = $message;
 			}
 			// Data
 			if (is_array($data) || is_string($data)) {
-
 				$packBody['data'] = $data;
 			}
 
@@ -276,15 +274,14 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Set behavior to a action before route
 		 *
-		 * @param String $action
-		 * @param Callable $function
+		 * @param  String  $action
+		 * @param  Callable  $function
 		 *
 		 * @return boolean Result
 		 */
 		protected function _setBehavior($action, callable $function)
 		{
 			if (array_key_exists($action, $this->behaviors)) {
-
 				$this->behaviors[$action] = $function;
 
 				return true;
@@ -296,7 +293,7 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 		/**
 		 * Action processor for route
 		 *
-		 * @param array $params Elements contains method for first and params for others
+		 * @param  array  $params  Elements contains method for first and params for others
 		 */
 		private function _action($params)
 		{
@@ -308,14 +305,14 @@ if (!class_exists('HungNG_CI_Base_REST')) {
 				$this->behaviors[$method]();
 			}
 
-			if (!isset($this->routes[$method])) {
+			if ( ! isset($this->routes[$method])) {
 				$this->_defaultAction();
 			}
 
 			// Get corresponding method name
 			$method = $this->routes[$method];
 
-			if (!method_exists($this, $method)) {
+			if ( ! method_exists($this, $method)) {
 				$this->_defaultAction();
 			}
 

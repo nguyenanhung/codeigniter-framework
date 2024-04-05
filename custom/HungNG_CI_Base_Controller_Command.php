@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 20/03/2023
  * Time: 10:50
  */
-if (!class_exists('HungNG_CI_Base_Controller_Command')) {
+if ( ! class_exists('HungNG_CI_Base_Controller_Command')) {
 	class HungNG_CI_Base_Controller_Command extends HungNG_CI_Base_Controllers
 	{
 		public function __construct()

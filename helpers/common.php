@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project codeigniter-framework
  * Created by PhpStorm
@@ -7,7 +8,7 @@
  * Date: 09/03/2023
  * Time: 23:00
  */
-if (!function_exists('codeigniter_hmvc_module_exists')) {
+if ( ! function_exists('codeigniter_hmvc_module_exists')) {
 	/**
 	 * Check if a CodeIgniter module with the given name exists
 	 *
@@ -20,17 +21,17 @@ if (!function_exists('codeigniter_hmvc_module_exists')) {
 		return in_array($module_name, codeigniter_hmvc_modules_list(false));
 	}
 }
-if (!function_exists('codeigniter_hmvc_modules_list')) {
+if ( ! function_exists('codeigniter_hmvc_modules_list')) {
 	/**
 	 * Return the CodeIgniter modules list
 	 *
-	 * @param bool $with_location
+	 * @param  bool  $with_location
 	 *
 	 * @return array
 	 */
 	function codeigniter_hmvc_modules_list($with_location = true)
 	{
-		if (!function_exists('directory_map')) {
+		if ( ! function_exists('directory_map')) {
 			get_instance()->load->helper('directory');
 		}
 
@@ -50,7 +51,7 @@ if (!function_exists('codeigniter_hmvc_modules_list')) {
 		return $modules;
 	}
 }
-if (!function_exists('bear_str_to_lower')) {
+if ( ! function_exists('bear_str_to_lower')) {
 	function bear_str_to_lower($str)
 	{
 		if ($str === null) {
@@ -63,7 +64,7 @@ if (!function_exists('bear_str_to_lower')) {
 		return strtolower($str);
 	}
 }
-if (!function_exists('bear_str_to_upper')) {
+if ( ! function_exists('bear_str_to_upper')) {
 	function bear_str_to_upper($str)
 	{
 		if ($str === null) {
@@ -76,7 +77,7 @@ if (!function_exists('bear_str_to_upper')) {
 		return strtoupper($str);
 	}
 }
-if (!function_exists('bear_str_length')) {
+if ( ! function_exists('bear_str_length')) {
 	function bear_str_length($str)
 	{
 		if ($str === null) {
@@ -89,11 +90,11 @@ if (!function_exists('bear_str_length')) {
 		return strlen($str);
 	}
 }
-if (!function_exists('__get_error_message__')) {
+if ( ! function_exists('__get_error_message__')) {
 	/**
 	 * Function __get_error_message__
 	 *
-	 * @param \Exception|\Throwable $e
+	 * @param  \Exception|\Throwable  $e
 	 *
 	 * @return string
 	 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -102,14 +103,15 @@ if (!function_exists('__get_error_message__')) {
 	 */
 	function __get_error_message__($e)
 	{
-		return "Error Code: " . $e->getCode() . " - File: " . $e->getFile() . " - Line: " . $e->getLine() . " - Message: " . $e->getMessage();
+		return "Error Code: " . $e->getCode() . " - File: " . $e->getFile() . " - Line: " . $e->getLine(
+			) . " - Message: " . $e->getMessage();
 	}
 }
-if (!function_exists('__get_error_trace__')) {
+if ( ! function_exists('__get_error_trace__')) {
 	/**
 	 * Function __get_error_trace__
 	 *
-	 * @param \Exception|\Throwable $e
+	 * @param  \Exception|\Throwable  $e
 	 *
 	 * @return string
 	 * @author   : 713uk13m <dev@nguyenanhung.com>

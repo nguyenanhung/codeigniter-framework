@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -16,7 +17,19 @@ defined('POWERED_HUNGNG_BLOG') or define('POWERED_HUNGNG_BLOG', 'https://blog.ng
 defined('POWERED_HUNGNG_EMAIL') or define('POWERED_HUNGNG_EMAIL', 'dev@nguyenanhung.com');
 defined('POWERED_HUNGNG_NAME') or define('POWERED_HUNGNG_NAME', 'Nguyen An Hung');
 defined('POWERED_HUNGNG_SHORT_NAME') or define('POWERED_HUNGNG_SHORT_NAME', 'Hung Nguyen');
-defined('CODEIGNITER_HUNGNG_VENDOR_PACKAGES') or define('CODEIGNITER_HUNGNG_VENDOR_PACKAGES', 'https://packagist.org/packages/nguyenanhung/codeigniter-framework');
-defined('CODEIGNITER_HUNGNG_VENDOR_SOURCE') or define('CODEIGNITER_HUNGNG_VENDOR_SOURCE', 'https://github.com/nguyenanhung/codeigniter-framework');
-defined('CI3_FRAMEWORK_ISSUES') or define('CI3_FRAMEWORK_ISSUES', 'https://github.com/nguyenanhung/codeigniter-framework/issues');
-defined('CI3_FRAMEWORK_PULL_REQUESTS') or define('CI3_FRAMEWORK_PULL_REQUESTS', 'https://github.com/nguyenanhung/codeigniter-framework/pulls');
+defined('CODEIGNITER_HUNGNG_VENDOR_PACKAGES') or define(
+	'CODEIGNITER_HUNGNG_VENDOR_PACKAGES',
+	'https://packagist.org/packages/nguyenanhung/codeigniter-framework'
+);
+defined('CODEIGNITER_HUNGNG_VENDOR_SOURCE') or define(
+	'CODEIGNITER_HUNGNG_VENDOR_SOURCE',
+	'https://github.com/nguyenanhung/codeigniter-framework'
+);
+defined('CI3_FRAMEWORK_ISSUES') or define(
+	'CI3_FRAMEWORK_ISSUES',
+	'https://github.com/nguyenanhung/codeigniter-framework/issues'
+);
+defined('CI3_FRAMEWORK_PULL_REQUESTS') or define(
+	'CI3_FRAMEWORK_PULL_REQUESTS',
+	'https://github.com/nguyenanhung/codeigniter-framework/pulls'
+);

@@ -1,6 +1,7 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
-if (!class_exists('HungNG_ORM_Model')) {
+if ( ! class_exists('HungNG_ORM_Model')) {
 	/**
 	 * Project codeigniter-framework
 	 * Created by PhpStorm
@@ -248,7 +249,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			}
 
 			/* Table Name Guessing */
-			if (!$this->table) {
+			if ( ! $this->table) {
 				$this->table = str_replace('_model', '', bear_str_to_lower(get_called_class()));
 			}
 		}
@@ -341,8 +342,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *
 		 * ORM only performs validation for assigned properties.
 		 *
-		 * @param array Data of attributes
-		 * @param boolean Return filtered data
+		 * @param  array Data of attributes
+		 * @param  boolean Return filtered data
 		 *
 		 * @return boolean Result
 		 * @return mixed Data after filter ($returnData is true)
@@ -354,13 +355,12 @@ if (!class_exists('HungNG_ORM_Model')) {
 			// Filter first
 			$data = $this->filter($data);
 			// ORM re-assign properties
-			$this->_writeProperties = (!$attributes) ? $data : $this->_writeProperties;
+			$this->_writeProperties = ( ! $attributes) ? $data : $this->_writeProperties;
 			// Get validation rules from function setting
 			$rules = $this->rules();
 
 			// The ORM update will only collect rules with corresponding modified attributes.
 			if ($this->_selfCondition) {
-
 				$newRules = array();
 				foreach ((array)$rules as $key => $rule) {
 					if (isset($this->_writeProperties[$rule['field']])) {
@@ -373,12 +373,14 @@ if (!class_exists('HungNG_ORM_Model')) {
 			}
 
 			// Check if has rules
-			if (empty($rules))
+			if (empty($rules)) {
 				return ($returnData) ? $data : true;
+			}
 
 			// CodeIgniter form_validation doesn't work with empty array data
-			if (empty($data))
+			if (empty($data)) {
 				return false;
+			}
 
 			// Load CodeIgniter form_validation library for yidas/model namespace, which has no effect on common one
 			get_instance()->load->library('form_validation', null, 'yidas_model_form_validation');
@@ -392,13 +394,10 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 			// Result handle
 			if ($result === false) {
-
 				$this->_errors = $validator->error_array();
 
 				return false;
-
 			} else {
-
 				return ($returnData) ? $data : true;
 			}
 		}
@@ -428,7 +427,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Filter process
 		 *
-		 * @param array $data Attributes
+		 * @param  array  $data  Attributes
 		 *
 		 * @return array Filtered data
 		 */
@@ -438,15 +437,20 @@ if (!class_exists('HungNG_ORM_Model')) {
 			$filters = $this->filters();
 
 			// Filter process with setting check
-			if (!empty($filters) && is_array($filters)) {
-
+			if ( ! empty($filters) && is_array($filters)) {
 				foreach ($filters as $key => $filter) {
+					if ( ! isset($filter[0])) {
+						throw new Exception(
+							"No attributes defined in \$filters from " . get_called_class() . " (" . __CLASS__ . ")",
+							500
+						);
+					}
 
-					if (!isset($filter[0]))
-						throw new Exception("No attributes defined in \$filters from " . get_called_class() . " (" . __CLASS__ . ")", 500);
-
-					if (!isset($filter[1]))
-						throw new Exception("No function defined in \$filters from " . get_called_class() . " (" . __CLASS__ . ")", 500);
+					if ( ! isset($filter[1])) {
+						throw new Exception(
+							"No function defined in \$filters from " . get_called_class() . " (" . __CLASS__ . ")", 500
+						);
+					}
 
 					list($attributes, $function) = $filter;
 
@@ -454,9 +458,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 					// Filter each attribute
 					foreach ($attributes as $key2 => $attribute) {
-
-						if (!isset($data[$attribute]))
+						if ( ! isset($data[$attribute])) {
 							continue;
+						}
 
 						$data[$attribute] = call_user_func($function, $data[$attribute]);
 					}
@@ -469,7 +473,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Set table alias for next find()
 		 *
-		 * @param string Table alias name
+		 * @param  string Table alias name
 		 *
 		 * @return $this
 		 */
@@ -486,7 +490,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Create an existent CI Query Builder instance with Model features for query purpose.
 		 *
-		 * @param boolean $withAll withAll() switch helper
+		 * @param  boolean  $withAll  withAll() switch helper
 		 *
 		 * @return \CI_DB_query_builder CI_DB_query_builder
 		 * @example
@@ -551,7 +555,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Return a single active record model instance by a primary key or an array of column values.
 		 *
-		 * @param mixed $condition Refer to _findByCondition() for the explanation of this parameter
+		 * @param  mixed  $condition  Refer to _findByCondition() for the explanation of this parameter
 		 *
 		 * @return object ActiveRecord(Model)
 		 * @throws \Exception
@@ -575,7 +579,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				->get()->row_array();
 
 			// Record check
-			if (!$record) {
+			if ( ! $record) {
 				return $record;
 			}
 
@@ -585,8 +589,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Returns a list of active record models that match the specified primary key value(s) or a set of column values.
 		 *
-		 * @param mixed $condition Refer to _findByCondition() for the explanation
-		 * @param integer|array $limit Limit or [offset, limit]
+		 * @param  mixed  $condition  Refer to _findByCondition() for the explanation
+		 * @param  integer|array  $limit  Limit or [offset, limit]
 		 *
 		 * @return array Set of ActiveRecord(Model)s
 		 * @throws \Exception
@@ -605,7 +609,6 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 			// Limit / offset
 			if ($limit) {
-
 				$offset = null;
 
 				if (is_array($limit) && isset($limit[1])) {
@@ -621,7 +624,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			$records = $query->get()->result_array();
 
 			// Record check
-			if (!$records) {
+			if ( ! $records) {
 				return $records;
 			}
 
@@ -629,7 +632,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			// Each ActiveRecord
 			foreach ((array)$records as $key => $record) {
 				// Check primary key setting
-				if (!isset($record[$instance->primaryKey])) {
+				if ( ! isset($record[$instance->primaryKey])) {
 					throw new Exception("Model's primary key not set", 500);
 				}
 				// Create an ActiveRecord into collect
@@ -658,8 +661,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Insert a row with Timestamps feature into the associated database table using the attribute values of this record.
 		 *
-		 * @param array $attributes
-		 * @param boolean $runValidation Whether to perform validation (calling validate()) before manipulate the record.
+		 * @param  array  $attributes
+		 * @param  boolean  $runValidation  Whether to perform validation (calling validate()) before manipulate the record.
 		 *
 		 * @return boolean Result
 		 * @example
@@ -671,12 +674,15 @@ if (!class_exists('HungNG_ORM_Model')) {
 		public function insert($attributes, $runValidation = true)
 		{
 			// Validation
-			if ($runValidation && false === $attributes = $this->validate($attributes, true))
+			if ($runValidation && false === $attributes = $this->validate($attributes, true)) {
 				return false;
+			}
 
 			$this->_attrEventBeforeInsert($attributes);
 
-			if ($this->fillable) $attributes = array_intersect_key($attributes, array_flip($this->fillable));
+			if ($this->fillable) {
+				$attributes = array_intersect_key($attributes, array_flip($this->fillable));
+			}
 
 			return $this->_db->insert($this->table, $attributes);
 		}
@@ -684,8 +690,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Insert a batch of rows with Timestamps feature into the associated database table using the attribute values of this record.
 		 *
-		 * @param array $data The rows to be batch inserted
-		 * @param boolean $runValidation Whether to perform validation (calling validate()) before manipulate the record.
+		 * @param  array  $data  The rows to be batch inserted
+		 * @param  boolean  $runValidation  Whether to perform validation (calling validate()) before manipulate the record.
 		 *
 		 * @return int Number of rows inserted or FALSE on failure
 		 * @example
@@ -697,10 +703,10 @@ if (!class_exists('HungNG_ORM_Model')) {
 		public function batchInsert($data, $runValidation = true)
 		{
 			foreach ($data as $key => &$attributes) {
-
 				// Validation
-				if ($runValidation && false === $attributes = $this->validate($attributes, true))
+				if ($runValidation && false === $attributes = $this->validate($attributes, true)) {
 					return false;
+				}
 
 				$this->_attrEventBeforeInsert($attributes);
 			}
@@ -711,7 +717,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Get the insert ID number when performing database inserts.
 		 *
-		 * @param string $name Name of the sequence object from which the ID should be returned.
+		 * @param  string  $name  Name of the sequence object from which the ID should be returned.
 		 *
 		 * @return integer Last insert ID
 		 */
@@ -723,8 +729,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Replace a row with Timestamps feature into the associated database table using the attribute values of this record.
 		 *
-		 * @param array $attributes
-		 * @param boolean $runValidation Whether to perform validation (calling validate()) before manipulate the record.
+		 * @param  array  $attributes
+		 * @param  boolean  $runValidation  Whether to perform validation (calling validate()) before manipulate the record.
 		 *
 		 * @return bool Result
 		 * @example
@@ -737,8 +743,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 		public function replace($attributes, $runValidation = true)
 		{
 			// Validation
-			if ($runValidation && false === $attributes = $this->validate($attributes, true))
+			if ($runValidation && false === $attributes = $this->validate($attributes, true)) {
 				return false;
+			}
 
 			$this->_attrEventBeforeInsert($attributes);
 
@@ -748,9 +755,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Save the changes with Timestamps feature to the selected record(s) into the associated database table.
 		 *
-		 * @param array $attributes
-		 * @param mixed $condition Refer to _findByCondition() for the explanation
-		 * @param boolean $runValidation Whether to perform validation (calling validate()) before manipulate the record.
+		 * @param  array  $attributes
+		 * @param  mixed  $condition  Refer to _findByCondition() for the explanation
+		 * @param  boolean  $runValidation  Whether to perform validation (calling validate()) before manipulate the record.
 		 *
 		 * @return bool Result
 		 *
@@ -764,15 +771,18 @@ if (!class_exists('HungNG_ORM_Model')) {
 		public function update($attributes, $condition = null, $runValidation = true)
 		{
 			// Validation
-			if ($runValidation && false === $attributes = $this->validate($attributes, true))
+			if ($runValidation && false === $attributes = $this->validate($attributes, true)) {
 				return false;
+			}
 
 			// Model Condition
 			$query = $this->_findByCondition($condition);
 
 			$attributes = $this->_attrEventBeforeUpdate($attributes);
 
-			if ($this->fillable) $attributes = array_intersect_key($attributes, array_flip($this->fillable));
+			if ($this->fillable) {
+				$attributes = array_intersect_key($attributes, array_flip($this->fillable));
+			}
 
 			// Pack query then move it to write DB from read DB
 			$sql = $this->_dbr->set($attributes)->get_compiled_update();
@@ -784,10 +794,10 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Update a batch of update queries into combined query strings.
 		 *
-		 * @param array $dataSet [[[Attributes], [Condition]], ]
-		 * @param boolean $withAll withAll() switch helper
-		 * @param integer $maxLenth MySQL max_allowed_packet
-		 * @param boolean $runValidation Whether to perform validation (calling validate()) before manipulate the record.
+		 * @param  array  $dataSet  [[[Attributes], [Condition]], ]
+		 * @param  boolean  $withAll  withAll() switch helper
+		 * @param  integer  $maxLenth  MySQL max_allowed_packet
+		 * @param  boolean  $runValidation  Whether to perform validation (calling validate()) before manipulate the record.
 		 *
 		 * @return integer Count of successful query pack(s)
 		 * @example
@@ -804,17 +814,18 @@ if (!class_exists('HungNG_ORM_Model')) {
 			$sqlBatch = '';
 
 			foreach ($dataSet as $key => &$each) {
-
 				// Data format
 				list($attributes, $condition) = $each;
 
 				// Check attributes
-				if (!is_array($attributes) || !$attributes)
+				if ( ! is_array($attributes) || ! $attributes) {
 					continue;
+				}
 
 				// Validation
-				if ($runValidation && false === $attributes = $this->validate($attributes, true))
+				if ($runValidation && false === $attributes = $this->validate($attributes, true)) {
 					continue;
+				}
 
 				// WithAll helper
 				if ($withAll === true) {
@@ -853,9 +864,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Delete the selected record(s) with Timestamps feature into the associated database table.
 		 *
-		 * @param mixed $condition Refer to _findByCondition() for the explanation
-		 * @param boolean $forceDelete Force to hard delete
-		 * @param array $attributes Extended attributes for Soft Delete Mode
+		 * @param  mixed  $condition  Refer to _findByCondition() for the explanation
+		 * @param  boolean  $forceDelete  Force to hard delete
+		 * @param  array  $attributes  Extended attributes for Soft Delete Mode
 		 *
 		 * @return bool Result
 		 *
@@ -886,8 +897,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			/* Soft Delete Mode */
 			if (static::SOFT_DELETED
 				&& isset($this->softDeletedTrueValue)
-				&& !$forceDelete) {
-
+				&& ! $forceDelete) {
 				// Mark the records as deleted
 				$attributes[static::SOFT_DELETED] = $this->softDeletedTrueValue;
 
@@ -896,9 +906,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				// Pack query then move it to write DB from read DB
 				$sql = $this->_dbr->set($attributes)->get_compiled_update();
 				$this->_dbr->reset_query();
-
 			} else {
-
 				/* Hard Delete */
 				// Pack query then move it to write DB from read DB
 				$sql = $this->_dbr->get_compiled_delete();
@@ -911,7 +919,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Force Delete the selected record(s) with Timestamps feature into the associated database table.
 		 *
-		 * @param mixed $condition Refer to _findByCondition() for the explanation
+		 * @param  mixed  $condition  Refer to _findByCondition() for the explanation
 		 *
 		 * @return mixed CI delete result of DB Query Builder
 		 *
@@ -940,7 +948,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Restore SOFT_DELETED field value to the selected record(s) into the associated database table.
 		 *
-		 * @param mixed $condition Refer to _findByCondition() for the explanation
+		 * @param  mixed  $condition  Refer to _findByCondition() for the explanation
 		 *
 		 * @return bool Result
 		 *
@@ -959,14 +967,11 @@ if (!class_exists('HungNG_ORM_Model')) {
 			/* Soft Delete Mode */
 			if (static::SOFT_DELETED
 				&& isset($this->softDeletedFalseValue)) {
-
 				// Mark the records as deleted
 				$attributes[static::SOFT_DELETED] = $this->softDeletedFalseValue;
 
 				return $query->update($this->table, $attributes);
-
 			} else {
-
 				return false;
 			}
 		}
@@ -974,7 +979,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Get count from query
 		 *
-		 * @param boolean Reset query conditions
+		 * @param  boolean Reset query conditions
 		 *
 		 * @return integer
 		 */
@@ -1076,8 +1081,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * New a Active Record from Model by data
 		 *
-		 * @param array $readProperties
-		 * @param array $selfCondition
+		 * @param  array  $readProperties
+		 * @param  array  $selfCondition
 		 *
 		 * @return object ActiveRecord(Model)
 		 */
@@ -1095,7 +1100,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Active Record (ORM) save for insert or update
 		 *
-		 * @param boolean $runValidation Whether to perform validation (calling validate()) before manipulate the record.
+		 * @param  boolean  $runValidation  Whether to perform validation (calling validate()) before manipulate the record.
 		 *
 		 * @return bool Result of CI insert
 		 */
@@ -1105,10 +1110,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 			//     return false;
 
 			// ORM status distinguishing
-			if (!$this->_selfCondition) {
-
+			if ( ! $this->_selfCondition) {
 				// Event
-				if (!$this->beforeSave(true)) {
+				if ( ! $this->beforeSave(true)) {
 					return false;
 				}
 
@@ -1125,18 +1129,19 @@ if (!class_exists('HungNG_ORM_Model')) {
 					// Reset properties
 					$this->_writeProperties = array();
 				}
-
 			} else {
-
 				// Event
-				if (!$this->beforeSave(false)) {
+				if ( ! $this->beforeSave(false)) {
 					return false;
 				}
 
-				$result = ($this->_writeProperties) ? $this->update($this->_writeProperties, $this->_selfCondition, $runValidation) : true;
+				$result = ($this->_writeProperties) ? $this->update(
+					$this->_writeProperties,
+					$this->_selfCondition,
+					$runValidation
+				) : true;
 				// Check the primary key is changed
 				if ($result) {
-
 					// Primary key condition to ensure single query result
 					if (isset($this->_writeProperties[$this->primaryKey])) {
 						$this->_selfCondition = $this->_writeProperties[$this->primaryKey];
@@ -1155,7 +1160,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * This method is called at the beginning of inserting or updating a active record
 		 *
-		 * @param bool $insert whether this method called while inserting a record.
+		 * @param  bool  $insert  whether this method called while inserting a record.
 		 *                     If `false`, it means the method is called while updating a record.
 		 *
 		 * @return bool whether the insertion or updating should continue.
@@ -1170,9 +1175,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * This method is called at the end of inserting or updating a active record
 		 *
-		 * @param bool $insert whether this method called while inserting a record.
+		 * @param  bool  $insert  whether this method called while inserting a record.
 		 *                                 If `false`, it means the method is called while updating a record.
-		 * @param array $changedAttributes The old values of attributes that had changed and were saved.
+		 * @param  array  $changedAttributes  The old values of attributes that had changed and were saved.
 		 *                                 You can use this parameter to take action based on the changes made for example send an email
 		 *                                 when the password had changed or implement audit trail that tracks all the changes.
 		 *                                 `$changedAttributes` gives you the old attribute values while the active record (`$this`) has
@@ -1186,9 +1191,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Declares a has-many relation.
 		 *
-		 * @param string $modelName The model class name of the related record
-		 * @param string $foreignKey
-		 * @param string $localKey
+		 * @param  string  $modelName  The model class name of the related record
+		 * @param  string  $foreignKey
+		 * @param  string  $localKey
 		 *
 		 * @return \CI_DB_query_builder CI_DB_query_builder
 		 */
@@ -1200,9 +1205,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Declares a has-many relation.
 		 *
-		 * @param string $modelName The model class name of the related record
-		 * @param string $foreignKey
-		 * @param string $localKey
+		 * @param  string  $modelName  The model class name of the related record
+		 * @param  string  $foreignKey
+		 * @param  string  $localKey
 		 *
 		 * @return \CI_DB_query_builder CI_DB_query_builder
 		 */
@@ -1214,10 +1219,10 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Base relationship.
 		 *
-		 * @param string $modelName The model class name of the related record
-		 * @param string $relationship
-		 * @param string $foreignKey
-		 * @param string $localKey
+		 * @param  string  $modelName  The model class name of the related record
+		 * @param  string  $relationship
+		 * @param  string  $foreignKey
+		 * @param  string  $localKey
 		 *
 		 * @return \CI_DB_query_builder CI_DB_query_builder
 		 */
@@ -1229,9 +1234,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			 * @see https://github.com/yidas/codeigniter-psr4-autoload
 			 */
 			if (strpos($modelName, "\\") !== false) {
-
 				$model = new $modelName;
-
 			} else {
 				// Original CodeIgniter 3 model loader
 				get_instance()->load->model($modelName);
@@ -1244,7 +1247,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			$libClass = __CLASS__;
 
 			// Check if is using same library
-			if (!is_subclass_of($model, $libClass)) {
+			if ( ! is_subclass_of($model, $libClass)) {
 				throw new Exception("Model `{$modelName}` does not extend {$libClass}", 500);
 			}
 
@@ -1266,7 +1269,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Get relationship property value
 		 *
-		 * @param string $method
+		 * @param  string  $method
 		 *
 		 * @return mixed
 		 */
@@ -1283,7 +1286,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			$modelName = isset($query->modelName) ? $query->modelName : null;
 			$relationship = isset($query->relationship) ? $query->relationship : null;
 
-			if (!$modelName || !$relationship) {
+			if ( ! $modelName || ! $relationship) {
 				throw new Exception("ORM relationships error", 500);
 			}
 
@@ -1293,9 +1296,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			 * @see https://github.com/yidas/codeigniter-psr4-autoload
 			 */
 			if (strpos($modelName, "\\") !== false) {
-
 				$model = new $modelName;
-
 			} else {
 				// Original CodeIgniter 3 model loader
 				get_instance()->load->model($modelName);
@@ -1332,8 +1333,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 			$class = get_class($this);
 
 			// Check ORM Schema cache
-			if (!isset(self::$_ormCaches[$class])) {
-
+			if ( ! isset(self::$_ormCaches[$class])) {
 				$columns = $this->_dbr->query("SHOW COLUMNS FROM `{$this->table}`;")
 					->result_array();
 
@@ -1347,9 +1347,9 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Index by Key
 		 *
-		 * @param array $array Array data for handling
-		 * @param string $key Array key for index key
-		 * @param bool $obj2Array Object converts to array if is object
+		 * @param  array  $array  Array data for handling
+		 * @param  string  $key  Array key for index key
+		 * @param  bool  $obj2Array  Object converts to array if is object
 		 *
 		 * @return array Result with indexBy Key
 		 * @example
@@ -1365,10 +1365,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 			foreach ($array as $row) {
 				// Array & Object types support
 				if (is_object($row) && isset($row->$key)) {
-
 					$tmp[$row->$key] = ($obj2Array) ? (array)$row : $row;
 				} elseif (is_array($row) && isset($row[$key])) {
-
 					$tmp[$row[$key]] = $row;
 				}
 			}
@@ -1381,8 +1379,8 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *
 		 * The [[$this->config->item('charset')]] will be used for encoding.
 		 *
-		 * @param string $content the content to be encoded
-		 * @param bool $doubleEncode whether to encode HTML entities in `$content`. If false,
+		 * @param  string  $content  the content to be encoded
+		 * @param  bool  $doubleEncode  whether to encode HTML entities in `$content`. If false,
 		 *                             HTML entities in `$content` will not be further encoded.
 		 *
 		 * @return string the encoded content
@@ -1394,7 +1392,12 @@ if (!class_exists('HungNG_ORM_Model')) {
 		{
 			$ci = &get_instance();
 
-			return htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, $ci->config->item('charset') ? $ci->config->item('charset') : 'UTF-8', $doubleEncode);
+			return htmlspecialchars(
+				$content,
+				ENT_QUOTES | ENT_SUBSTITUTE,
+				$ci->config->item('charset') ? $ci->config->item('charset') : 'UTF-8',
+				$doubleEncode
+			);
 		}
 
 		/**
@@ -1402,7 +1405,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 *
 		 * This is the opposite of [[encode()]].
 		 *
-		 * @param string $content the content to be decoded
+		 * @param  string  $content  the content to be decoded
 		 *
 		 * @return string the decoded content
 		 * @see htmlEncode()
@@ -1429,7 +1432,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Attributes handle function for each Insert
 		 *
-		 * @param array $attributes
+		 * @param  array  $attributes
 		 *
 		 * @return array Addon $attributes of pointer
 		 */
@@ -1439,7 +1442,6 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 			// Trigger UPDATED_AT
 			if ($this->createdWithUpdated) {
-
 				$this->_formatDate(static::UPDATED_AT, $attributes);
 			}
 
@@ -1449,7 +1451,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Attributes handle function for Update
 		 *
-		 * @param array $attributes
+		 * @param  array  $attributes
 		 *
 		 * @return array Addon $attributes of pointer
 		 */
@@ -1463,7 +1465,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Attributes handle function for Delete
 		 *
-		 * @param array $attributes
+		 * @param  array  $attributes
 		 *
 		 * @return array Addon $attributes of pointer
 		 */
@@ -1480,7 +1482,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 * This method is internally called by findOne(), findAll(), update(), delete(), etc.
 		 * The query will be reset to start a new scope if the condition is used.
 		 *
-		 * @param mixed Primary key value or a set of column values. If is null, it would be used for
+		 * @param  mixed Primary key value or a set of column values. If is null, it would be used for
 		 *  previous find() method, which means it would not rebuild find() so it would check and
 		 *  protect the SQL statement.
 		 *
@@ -1509,18 +1511,13 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 			// Check condition type
 			if (is_array($condition)) {
-
 				// Check if is numeric array
 				if (array_keys($condition) === range(0, count($condition) - 1)) {
-
 					/* Numeric Array */
 					$query->where_in($this->_field($this->primaryKey), $condition);
-
 				} else {
-
 					/* Associated Array */
 					foreach ($condition as $field => $value) {
-
 						(is_array($value)) ? $query->where_in($field, $value) : $query->where($field, $value);
 					}
 				}
@@ -1532,11 +1529,16 @@ if (!class_exists('HungNG_ORM_Model')) {
 				// Warning: This protection just simply check keywords that may not find out for some situations.
 				$sql = $this->_dbr->get_compiled_select('', false); // No reset query
 				// Check FROM for table condition
-				if (stripos($sql, 'from ') === false)
+				if (stripos($sql, 'from ') === false) {
 					throw new Exception("You should find() first, or use condition array for update/delete", 400);
+				}
 				// No condition situation needs to enable where protection
-				if (stripos($sql, 'where ') === false)
-					throw new Exception("You could not update/delete without any condition! Use find()->where('1=1') or condition array at least.", 400);
+				if (stripos($sql, 'where ') === false) {
+					throw new Exception(
+						"You could not update/delete without any condition! Use find()->where('1=1') or condition array at least.",
+						400
+					);
+				}
 			}
 
 			return $query;
@@ -1545,15 +1547,14 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Format a date for timestamps
 		 *
-		 * @param string Field name
-		 * @param array Attributes
+		 * @param  string Field name
+		 * @param  array Attributes
 		 *
 		 * @return array Addon $attributes of pointer
 		 */
 		protected function _formatDate($field, &$attributes)
 		{
 			if ($this->timestamps && $field) {
-
 				switch ($this->dateFormat) {
 					case 'datetime':
 						$dateFormat = date("Y-m-d H:i:s");
@@ -1574,7 +1575,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * The scope which not been soft deleted
 		 *
-		 * @param bool $skip Skip
+		 * @param  bool  $skip  Skip
 		 *
 		 * @return bool Result
 		 */
@@ -1585,8 +1586,10 @@ if (!class_exists('HungNG_ORM_Model')) {
 				$this->_withoutSoftDeletedScope = false;
 			} elseif (static::SOFT_DELETED && isset($this->softDeletedFalseValue)) {
 				// Add condition
-				$this->_dbr->where($this->_field(static::SOFT_DELETED),
-					$this->softDeletedFalseValue);
+				$this->_dbr->where(
+					$this->_field(static::SOFT_DELETED),
+					$this->softDeletedFalseValue
+				);
 			}
 
 			return true;
@@ -1595,7 +1598,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * The scope which not been soft deleted
 		 *
-		 * @param bool $skip Skip
+		 * @param  bool  $skip  Skip
 		 *
 		 * @return bool Result
 		 */
@@ -1604,7 +1607,6 @@ if (!class_exists('HungNG_ORM_Model')) {
 			if ($this->_withoutGlobalScope) {
 				// Reset Global Switch switch
 				$this->_withoutGlobalScope = false;
-
 			} else {
 				// Default to apply global scopes
 				$this->_globalScopes();
@@ -1616,7 +1618,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * Standardize field name
 		 *
-		 * @param string $columnName
+		 * @param  string  $columnName
 		 *
 		 * @return string Standardized column name
 		 */
@@ -1637,7 +1639,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				return $this->_db;
 			}
 
-			if (!isset($this->db)) {
+			if ( ! isset($this->db)) {
 				get_instance()->load->database();
 			}
 
@@ -1648,14 +1650,13 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * ORM set property
 		 *
-		 * @param string $name Property key name
-		 * @param mixed $value
+		 * @param  string  $name  Property key name
+		 * @param  mixed  $value
 		 */
 		public function __set($name, $value)
 		{
 			// Property check option
 			if ($this->propertyCheck) {
-
 				$flag = false;
 
 				// Check if exists
@@ -1666,7 +1667,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				}
 
 				// No mathc Exception
-				if (!$flag) {
+				if ( ! $flag) {
 					throw new \Exception("Property `{$name}` does not exist", 500);
 				}
 			}
@@ -1677,27 +1678,22 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * ORM get property
 		 *
-		 * @param string $name Property key name
+		 * @param  string  $name  Property key name
 		 */
 		public function __get($name)
 		{
 			// ORM property check
 			if (array_key_exists($name, $this->_writeProperties)) {
-
 				return $this->_writeProperties[$name];
 			} elseif (array_key_exists($name, $this->_readProperties)) {
-
 				return $this->_readProperties[$name];
 			} // ORM relationship check
 			elseif (method_exists($this, $method = $name)) {
-
 				return $this->_getRelationshipProperty($method);
 			} // ORM schema check
 			else {
-
 				// Write cache to read properties of this ORM
 				foreach ($this->getTableSchema() as $key => $column) {
-
 					$this->_readProperties[$column['Field']] = isset($this->_readProperties[$column['Field']])
 						? $this->_readProperties[$column['Field']]
 						: null;
@@ -1705,13 +1701,11 @@ if (!class_exists('HungNG_ORM_Model')) {
 
 				// Match property again
 				if (array_key_exists($name, $this->_readProperties)) {
-
 					return $this->_readProperties[$name];
 				}
 
 				// CI parent::__get() check
 				if (property_exists(get_instance(), $name)) {
-
 					return parent::__get($name);
 				}
 
@@ -1725,21 +1719,17 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * ORM isset property
 		 *
-		 * @param string $name
+		 * @param  string  $name
 		 *
 		 * @return void
 		 */
 		public function __isset($name)
 		{
-
 			if (isset($this->_writeProperties[$name])) {
-
 				return true;
 			} elseif (isset($this->_readProperties[$name])) {
-
 				return true;
 			} elseif (method_exists($this, $method = $name)) {
-
 				return ($this->_getRelationshipProperty($method));
 			}
 
@@ -1749,13 +1739,12 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * ORM unset property
 		 *
-		 * @param string $name
+		 * @param  string  $name
 		 *
 		 * @return void
 		 */
 		public function __unset($name)
 		{
-
 			unset($this->_writeProperties[$name]);
 			unset($this->_readProperties[$name]);
 		}
@@ -1763,53 +1752,49 @@ if (!class_exists('HungNG_ORM_Model')) {
 		/**
 		 * ArrayAccess offsetSet
 		 *
-		 * @param string $offset
-		 * @param mixed $value
+		 * @param  string  $offset
+		 * @param  mixed  $value
 		 *
 		 * @return void
 		 */
 		public function offsetSet($offset, $value)
 		{
-
 			return $this->__set($offset, $value);
 		}
 
 		/**
 		 * ArrayAccess offsetExists
 		 *
-		 * @param string $offset
+		 * @param  string  $offset
 		 *
 		 * @return bool Result
 		 */
 		public function offsetExists($offset)
 		{
-
 			return $this->__isset($offset);
 		}
 
 		/**
 		 * ArrayAccess offsetUnset
 		 *
-		 * @param string $offset
+		 * @param  string  $offset
 		 *
 		 * @return void
 		 */
 		public function offsetUnset($offset)
 		{
-
 			return $this->__unset($offset);
 		}
 
 		/**
 		 * ArrayAccess offsetGet
 		 *
-		 * @param string $offset
+		 * @param  string  $offset
 		 *
 		 * @return mixed Value of property
 		 */
 		public function offsetGet($offset)
 		{
-
 			return $this->$offset;
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 18/01/2023
  * Time: 01:57
  */
-if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
+if ( ! class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 	class HungNG_CI_Base_Hooks_Log_Query
 	{
 		protected $CI;
@@ -30,15 +31,28 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 
 			$config =& get_config();
 
-			isset(self::$func_overload) or self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
+			isset(self::$func_overload) or self::$func_overload = (extension_loaded('mbstring') && ini_get(
+					'mbstring.func_overload'
+				));
 
-			$this->_log_path = ($config['log_path'] !== '') ? rtrim($config['log_path'], '/\\') . DIRECTORY_SEPARATOR : APPPATH . 'logs' . DIRECTORY_SEPARATOR;
-			$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '') ? ltrim($config['log_file_extension'], '.') : 'php';
-			$this->_file_prefix = (isset($config['query_log_file_prefix']) && $config['query_log_file_prefix'] !== '') ? rtrim($config['query_log_file_prefix'], '-') . '-' : 'log-';
+			$this->_log_path = ($config['log_path'] !== '') ? rtrim(
+					$config['log_path'],
+					'/\\'
+				) . DIRECTORY_SEPARATOR : APPPATH . 'logs' . DIRECTORY_SEPARATOR;
+			$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '') ? ltrim(
+				$config['log_file_extension'],
+				'.'
+			) : 'php';
+			$this->_file_prefix = (isset($config['query_log_file_prefix']) && $config['query_log_file_prefix'] !== '') ? rtrim(
+					$config['query_log_file_prefix'],
+					'-'
+				) . '-' : 'log-';
 
-			file_exists($this->_log_path) || mkdir($concurrentDirectory = $this->_log_path, 0755, true) || is_dir($concurrentDirectory);
+			file_exists($this->_log_path) || mkdir($concurrentDirectory = $this->_log_path, 0755, true) || is_dir(
+				$concurrentDirectory
+			);
 
-			if (!is_dir($this->_log_path) or !is_really_writable($this->_log_path)) {
+			if ( ! is_dir($this->_log_path) or ! is_really_writable($this->_log_path)) {
 				$this->_enabled = false;
 			}
 
@@ -49,11 +63,11 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 				$this->_threshold_array = array_flip($config['log_threshold']);
 			}
 
-			if (!empty($config['log_date_format'])) {
+			if ( ! empty($config['log_date_format'])) {
 				$this->_date_fmt = $config['log_date_format'];
 			}
 
-			if (!empty($config['log_file_permissions']) && is_int($config['log_file_permissions'])) {
+			if ( ! empty($config['log_file_permissions']) && is_int($config['log_file_permissions'])) {
 				$this->_file_permissions = $config['log_file_permissions'];
 			}
 		}
@@ -67,7 +81,7 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 				return false;
 			}
 
-			if (2 > $this->_threshold && !isset($this->_threshold_array[2])) {
+			if (2 > $this->_threshold && ! isset($this->_threshold_array[2])) {
 				return false;
 			}
 
@@ -76,8 +90,8 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 
 			$queries = $this->CI->db->queries;
 			$times = $this->CI->db->query_times;
-			if (!empty($queries)) {
-				if (!file_exists($filepath)) {
+			if ( ! empty($queries)) {
+				if ( ! file_exists($filepath)) {
 					$newfile = true;
 					// Only add protection to php files
 					if ($this->_file_ext === 'php') {
@@ -85,7 +99,7 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 					}
 				}
 
-				if (!$fp = @fopen($filepath, 'ab')) {
+				if ( ! $fp = @fopen($filepath, 'ab')) {
 					return false;
 				}
 
@@ -102,8 +116,12 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 				}
 
 				foreach ($queries as $key => $query) {
-					$query_time = !empty($times[$key]) ? round($times[$key], 4) : 0.0000;
-					$message .= 'QUERY' . ' - ' . $date . ' --> ' . $query_time . ' | ' . str_replace(array("\n", "\n\r", "\r", PHP_EOL), " ", $query) . "\n";
+					$query_time = ! empty($times[$key]) ? round($times[$key], 4) : 0.0000;
+					$message .= 'QUERY' . ' - ' . $date . ' --> ' . $query_time . ' | ' . str_replace(
+							array("\n", "\n\r", "\r", PHP_EOL),
+							" ",
+							$query
+						) . "\n";
 				}
 
 				for ($written = 0, $length = self::strlen($message); $written < $length; $written += $result) {
@@ -128,7 +146,7 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 		/**
 		 * Byte-safe strlen()
 		 *
-		 * @param string $str
+		 * @param  string  $str
 		 *
 		 * @return    int
 		 */
@@ -142,9 +160,9 @@ if (!class_exists('HungNG_CI_Base_Hooks_Log_Query')) {
 		/**
 		 * Byte-safe substr()
 		 *
-		 * @param string $str
-		 * @param int $start
-		 * @param int $length
+		 * @param  string  $str
+		 * @param  int  $start
+		 * @param  int  $length
 		 *
 		 * @return    string
 		 */
