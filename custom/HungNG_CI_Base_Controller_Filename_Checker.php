@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 18/01/2023
  * Time: 00:58
  */
-if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
+if ( ! class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 	class HungNG_CI_Base_Controller_Filename_Checker extends HungNG_CI_Base_Controllers
 	{
 		protected $dir;
@@ -44,14 +45,18 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 
 		private function recursiveCheckFilename($dir)
 		{
-			$iterator = new RecursiveRegexIterator(new RecursiveDirectoryIterator(APPPATH . $dir), '/\A.+\.php\z/i', RecursiveRegexIterator::GET_MATCH);
+			$iterator = new RecursiveRegexIterator(
+				new RecursiveDirectoryIterator(APPPATH . $dir),
+				'/\A.+\.php\z/i',
+				RecursiveRegexIterator::GET_MATCH
+			);
 
 			foreach (new RecursiveIteratorIterator($iterator) as $file) {
 				$filename = $file[0];
 
 				$filename_show = preg_replace('/' . preg_quote(APPPATH, '/') . '/', 'APPPATH/', $file[0]);
 
-				if (!$this->checkFilename($filename, $dir)) {
+				if ( ! $this->checkFilename($filename, $dir)) {
 					$this->output('Error: ' . $filename_show);
 				} else {
 					$this->output('Okay: ' . $filename_show);
@@ -68,7 +73,7 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 		{
 			sort($this->output_);
 
-			if (!is_cli()) {
+			if ( ! is_cli()) {
 				echo "<pre>\n";
 			}
 
@@ -76,7 +81,7 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 				echo $line;
 			}
 
-			if (!is_cli()) {
+			if ( ! is_cli()) {
 				echo "</pre>\n";
 			}
 		}
@@ -93,7 +98,7 @@ if (!class_exists('HungNG_CI_Base_Controller_Filename_Checker')) {
 				}
 			}
 
-			if (!$this->checkUcFirst($filename)) {
+			if ( ! $this->checkUcFirst($filename)) {
 				if ($this->fix) {
 					$newName = dirname($filepath) . '/' . ucfirst($filename);
 					if (rename($filepath, $newName)) {

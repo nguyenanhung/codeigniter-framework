@@ -84,8 +84,8 @@ class Format
 	/**
 	 * DO NOT CALL THIS DIRECTLY, USE factory().
 	 *
-	 * @param null $data
-	 * @param null $from_type
+	 * @param  null  $data
+	 * @param  null  $from_type
 	 *
 	 * @throws Exception
 	 */
@@ -116,8 +116,8 @@ class Format
 	 * Create an instance of the format class
 	 * e.g: echo $this->format->factory(['foo' => 'bar'])->to_csv();.
 	 *
-	 * @param mixed  $data      Data to convert/parse
-	 * @param string $from_type Type to convert from e.g. json, csv, html
+	 * @param  mixed  $data  Data to convert/parse
+	 * @param  string  $from_type  Type to convert from e.g. json, csv, html
 	 *
 	 * @return object Instance of the format class
 	 * @throws \Exception
@@ -135,7 +135,7 @@ class Format
 	/**
 	 * Format data as an array.
 	 *
-	 * @param mixed|null $data Optional data to pass, so as to override the data passed
+	 * @param  mixed|null  $data  Optional data to pass, so as to override the data passed
 	 *                         to the constructor
 	 *
 	 * @return array Data parsed as an array; otherwise, an empty array
@@ -150,11 +150,11 @@ class Format
 
 		// Cast as an array if not already
 		if (is_array($data) === false) {
-			$data = (array) $data;
+			$data = (array)$data;
 		}
 
 		$array = array();
-		foreach ((array) $data as $key => $value) {
+		foreach ((array)$data as $key => $value) {
 			if (is_object($value) === true || is_array($value) === true) {
 				$array[$key] = $this->to_array($value);
 			} else {
@@ -168,10 +168,10 @@ class Format
 	/**
 	 * Format data as XML.
 	 *
-	 * @param mixed|null $data      Optional data to pass, so as to override the data passed
+	 * @param  mixed|null  $data  Optional data to pass, so as to override the data passed
 	 *                              to the constructor
-	 * @param null       $structure
-	 * @param string     $basenode
+	 * @param  null  $structure
+	 * @param  string  $basenode
 	 *
 	 * @return bool|string
 	 */
@@ -187,14 +187,13 @@ class Format
 
 		// Force it to be something useful
 		if (is_array($data) === false && is_object($data) === false) {
-			$data = (array) $data;
+			$data = (array)$data;
 		}
 
 		foreach ($data as $key => $value) {
-
 			//change false/true to 0/1
 			if (is_bool($value)) {
-				$value = (int) $value;
+				$value = (int)$value;
 			}
 
 			// no numeric keys in our xml please!
@@ -235,7 +234,7 @@ class Format
 	/**
 	 * Format data as HTML.
 	 *
-	 * @param mixed|null $data Optional data to pass, so as to override the data passed
+	 * @param  mixed|null  $data  Optional data to pass, so as to override the data passed
 	 *                         to the constructor
 	 *
 	 * @return mixed
@@ -250,7 +249,7 @@ class Format
 
 		// Cast as an array if not already
 		if (is_array($data) === false) {
-			$data = (array) $data;
+			$data = (array)$data;
 		}
 
 		// Check if it's a multi-dimensional array
@@ -282,11 +281,11 @@ class Format
 	/**
 	 * @link http://www.metashock.de/2014/02/create-csv-file-in-memory-php/
 	 *
-	 * @param mixed|null $data      Optional data to pass, so as to override the data passed
+	 * @param  mixed|null  $data  Optional data to pass, so as to override the data passed
 	 *                              to the constructor
-	 * @param string     $delimiter The optional delimiter parameter sets the field
+	 * @param  string  $delimiter  The optional delimiter parameter sets the field
 	 *                              delimiter (one character only). NULL will use the default value (,)
-	 * @param string     $enclosure The optional enclosure parameter sets the field
+	 * @param  string  $enclosure  The optional enclosure parameter sets the field
 	 *                              enclosure (one character only). NULL will use the default value (")
 	 *
 	 * @return string|null|void A csv string
@@ -317,7 +316,7 @@ class Format
 
 		// Cast as an array if not already
 		if (is_array($data) === false) {
-			$data = (array) $data;
+			$data = (array)$data;
 		}
 
 		// Check if it's a multi-dimensional array
@@ -364,7 +363,7 @@ class Format
 	/**
 	 * Encode data as json.
 	 *
-	 * @param mixed|null $data Optional data to pass, so as to override the data passed
+	 * @param  mixed|null  $data  Optional data to pass, so as to override the data passed
 	 *                         to the constructor
 	 *
 	 * @return string Json representation of a value
@@ -398,7 +397,7 @@ class Format
 	/**
 	 * Encode data as a serialized array.
 	 *
-	 * @param mixed|null $data Optional data to pass, so as to override the data passed
+	 * @param  mixed|null  $data  Optional data to pass, so as to override the data passed
 	 *                         to the constructor
 	 *
 	 * @return string Serialized data
@@ -417,7 +416,7 @@ class Format
 	/**
 	 * Format data using a PHP structure.
 	 *
-	 * @param mixed|null $data Optional data to pass, so as to override the data passed
+	 * @param  mixed|null  $data  Optional data to pass, so as to override the data passed
 	 *                         to the constructor
 	 *
 	 * @return string|null String representation of a variable
@@ -436,20 +435,20 @@ class Format
 	// INTERNAL FUNCTIONS
 
 	/**
-	 * @param string $data XML string
+	 * @param  string  $data  XML string
 	 *
 	 * @return array XML element object; otherwise, empty array
 	 */
 	protected function _from_xml($data)
 	{
-		return $data ? (array) simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA) : [];
+		return $data ? (array)simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA) : [];
 	}
 
 	/**
-	 * @param string $data      CSV string
-	 * @param string $delimiter The optional delimiter parameter sets the field
+	 * @param  string  $data  CSV string
+	 * @param  string  $delimiter  The optional delimiter parameter sets the field
 	 *                          delimiter (one character only). NULL will use the default value (,)
-	 * @param string $enclosure The optional enclosure parameter sets the field
+	 * @param  string  $enclosure  The optional enclosure parameter sets the field
 	 *                          enclosure (one character only). NULL will use the default value (")
 	 *
 	 * @return array A multi-dimensional array with the outer array being the number of rows
@@ -471,7 +470,7 @@ class Format
 	}
 
 	/**
-	 * @param string $data Encoded json string
+	 * @param  string  $data  Encoded json string
 	 *
 	 * @return mixed Decoded json string with leading and trailing whitespace removed
 	 */
@@ -481,7 +480,7 @@ class Format
 	}
 
 	/**
-	 * @param string $data Data to unserialize
+	 * @param  string  $data  Data to unserialize
 	 *
 	 * @return mixed Unserialized data
 	 */
@@ -491,7 +490,7 @@ class Format
 	}
 
 	/**
-	 * @param string $data Data to trim leading and trailing whitespace
+	 * @param  string  $data  Data to trim leading and trailing whitespace
 	 *
 	 * @return string Data with leading and trailing whitespace removed
 	 */

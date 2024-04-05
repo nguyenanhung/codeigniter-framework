@@ -1,5 +1,6 @@
 <?php
-if (!class_exists('StatusCodes')) {
+
+if ( ! class_exists('StatusCodes')) {
 	/**
 	 * Class StatusCodes
 	 *

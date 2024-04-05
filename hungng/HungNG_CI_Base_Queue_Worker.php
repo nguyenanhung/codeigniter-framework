@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 23/06/2022
  * Time: 00:43
  */
-if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
+if ( ! class_exists('HungNG_CI_Base_Queue_Worker')) {
 	/**
 	 * Class HungNG_CI_Base_Queue_Worker
 	 *
@@ -209,19 +210,24 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		public function listen()
 		{
 			// Env check
-			if (!$this->_isLinux()) {
+			if ( ! $this->_isLinux()) {
 				die("Error environment: Queue Listener requires Linux OS, you could use `work` or `single` instead.");
 			}
 
 			// Pre-work check
-			if (!method_exists($this, 'handleListen')) {
-				throw new \RuntimeException("You need to declare `handleListen()` method in your worker controller.", 500);
+			if ( ! method_exists($this, 'handleListen')) {
+				throw new \RuntimeException(
+					"You need to declare `handleListen()` method in your worker controller.",
+					500
+				);
 			}
-			if (!method_exists($this, 'handleWork')) {
-				throw new \RuntimeException("You need to declare `handleWork()` method in your worker controller.", 500);
+			if ( ! method_exists($this, 'handleWork')) {
+				throw new \RuntimeException(
+					"You need to declare `handleWork()` method in your worker controller.", 500
+				);
 			}
 			// Try to access or create log file
-			if ($this->logPath && !file_exists($this->logPath) && $this->_log('')) {
+			if ($this->logPath && ! file_exists($this->logPath) && $this->_log('')) {
 				throw new \RuntimeException("Log file doesn't exist: `" . $this->logPath . "`.", 500);
 			}
 
@@ -245,11 +251,12 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			// Setting check
 			$this->workerMaxNum = ($this->workerMaxNum >= 1) ? floor($this->workerMaxNum) : 1;
-			$this->workerStartNum = ($this->workerStartNum <= $this->workerMaxNum) ? floor($this->workerStartNum) : $this->workerMaxNum;
+			$this->workerStartNum = ($this->workerStartNum <= $this->workerMaxNum) ? floor(
+				$this->workerStartNum
+			) : $this->workerMaxNum;
 			$this->workerWaitSeconds = ($this->workerWaitSeconds >= 1) ? $this->workerWaitSeconds : 10;
 
 			while (true) {
-
 				// Loading insurance
 				sleep(0.1);
 
@@ -262,9 +269,8 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 				// Start works if exists
 				if ($hasEvent) {
-
 					// First time to assign works
-					if (!$workingFlag) {
+					if ( ! $workingFlag) {
 						$workingFlag = true;
 						$startTime = microtime(true);
 						$this->_log("Queue Listener - Job detect");
@@ -281,12 +287,11 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 					// Max running worker numbers check, otherwise keeps dispatching more workers
 					if ($this->workerMaxNum <= $workerCount) {
-
 						// Worker heath check
 						if ($this->workerHeathCheck) {
 							foreach ($this->_pidStack as $id => $pid) {
 								$isAlive = $this->_isPidAlive($pid);
-								if (!$isAlive) {
+								if ( ! $isAlive) {
 									$this->_log("Queue Listener - Worker health check: Missing #{$id} (PID: {$pid})");
 									$r = $this->_workerCmd($workerCmd, $id);
 								}
@@ -327,7 +332,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Action for creating a worker
 		 *
-		 * @param integer $id
+		 * @param  integer  $id
 		 *
 		 * @return void
 		 * @throws \Exception
@@ -335,8 +340,10 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		public function work($id = 1)
 		{
 			// Pre-work check
-			if (!method_exists($this, 'handleWork')) {
-				throw new \RuntimeException("You need to declare `handleWork()` method in your worker controller.", 500);
+			if ( ! method_exists($this, 'handleWork')) {
+				throw new \RuntimeException(
+					"You need to declare `handleWork()` method in your worker controller.", 500
+				);
 			}
 
 			// INI setting
@@ -377,19 +384,19 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		 * running at the same time with repeated launch calling likes crontab, which could also ensure
 		 * listener process would never gone away.
 		 *
-		 * @param string $action
+		 * @param  string  $action
 		 *
 		 * @return void
 		 */
 		public function launch($action = 'listen')
 		{
 			// Env check
-			if (!$this->_isLinux()) {
+			if ( ! $this->_isLinux()) {
 				die("Error environment: Queue Launcher requires Linux OS, you could use `work` or `single` instead.");
 			}
 
 			// Action check
-			if (!in_array($action, ['listen', 'work'])) {
+			if ( ! in_array($action, ['listen', 'work'])) {
 				die("Action: `{$action}` is invalid for Launcher.");
 			}
 
@@ -413,7 +420,6 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 			}
 
 			if ($exist) {
-
 				$psInfo = shell_exec($psInfoCmd);
 				die("Skip: Same process `{$action}` is running: {$route}.\n------\n{$psInfo}");
 			}
@@ -442,16 +448,22 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		public function single($force = false)
 		{
 			// Pre-work check
-			if (!method_exists($this, 'handleSingle')) {
-				throw new \RuntimeException("You need to declare `handleSingle()` method in your worker controller.", 500);
+			if ( ! method_exists($this, 'handleSingle')) {
+				throw new \RuntimeException(
+					"You need to declare `handleSingle()` method in your worker controller.",
+					500
+				);
 			}
 
 			// Shared lock flag builder
-			$lockFile = sys_get_temp_dir() . "/yidas-codeiginiter-queue-worker_" . str_replace('/', '_', $this->router->fetch_directory()) . get_called_class() . '.lock';
+			$lockFile = sys_get_temp_dir() . "/yidas-codeiginiter-queue-worker_" . str_replace(
+					'/',
+					'_',
+					$this->router->fetch_directory()
+				) . get_called_class() . '.lock';
 
 			// Single check for process uniqueness
-			if (!$force && file_exists($lockFile)) {
-
+			if ( ! $force && file_exists($lockFile)) {
 				$lockData = json_decode(file_get_contents($lockFile), true);
 				// Check expires time
 				if (isset($lockData['expires_at']) && time() <= $lockData['expires_at']) {
@@ -470,7 +482,6 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 
 			// Call customized worker process, stops till catch false by callback return
 			while ($this->handleSingle($this->_staticSingle)) {
-
 				// Sleep if set
 				if ($this->singleSleep) {
 					sleep($this->singleSleep);
@@ -487,7 +498,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		 * This is a optional method with object injection instead of assigning and
 		 * accessing properties.
 		 *
-		 * @param object $object
+		 * @param  object  $object
 		 *
 		 * @return self
 		 */
@@ -504,7 +515,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		 * This is a optional method with object injection instead of assigning and
 		 * accessing properties.
 		 *
-		 * @param object $object
+		 * @param  object  $object
 		 *
 		 * @return self
 		 */
@@ -521,7 +532,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		 * This is a optional method with object injection instead of assigning and
 		 * accessing properties.
 		 *
-		 * @param object $object
+		 * @param  object  $object
 		 *
 		 * @return self
 		 */
@@ -537,7 +548,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		 *
 		 * Extended second bases on sleep time and lock expiration
 		 *
-		 * @param string $lockFile
+		 * @param  string  $lockFile
 		 *
 		 * @return void|mixed
 		 */
@@ -554,8 +565,8 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Command for creating a worker
 		 *
-		 * @param string $workerCmd
-		 * @param integer $workerCount
+		 * @param  string  $workerCmd
+		 * @param  integer  $workerCount
 		 *
 		 * @return string Command result
 		 */
@@ -585,8 +596,8 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Log to file
 		 *
-		 * @param string $textLine
-		 * @param string Specified log file path
+		 * @param  string  $textLine
+		 * @param  string Specified log file path
 		 *
 		 * @return integer|boolean The number of bytes that were written to the file, or FALSE on failure.
 		 */
@@ -607,7 +618,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Print (echo)
 		 *
-		 * @param string $textLine
+		 * @param  string  $textLine
 		 *
 		 * @return void
 		 */
@@ -619,7 +630,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Format output text line
 		 *
-		 * @param string $textLine
+		 * @param  string  $textLine
 		 *
 		 * @return string|void
 		 */
@@ -631,7 +642,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Check if PID is alive or not
 		 *
-		 * @param integer Process ID
+		 * @param  integer Process ID
 		 *
 		 * @return boolean
 		 */
@@ -662,7 +673,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Listener callback function for overriding
 		 *
-		 * @param object Listener object for optional
+		 * @param  object Listener object for optional
 		 *
 		 * @return boolean Return true if has work
 		 */
@@ -678,7 +689,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Worker callback function for overriding
 		 *
-		 * @param object Worker object for optional
+		 * @param  object Worker object for optional
 		 *
 		 * @return boolean Return false to stop work
 		 */
@@ -694,7 +705,7 @@ if (!class_exists('HungNG_CI_Base_Queue_Worker')) {
 		/**
 		 * Single callback function for overriding
 		 *
-		 * @param object Single object for optional
+		 * @param  object Single object for optional
 		 *
 		 * @return boolean Return false to stop work
 		 */

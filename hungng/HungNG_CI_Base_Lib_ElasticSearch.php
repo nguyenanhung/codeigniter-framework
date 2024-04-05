@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 21/07/2022
  * Time: 16:29
  */
-if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
+if ( ! class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 	/**
 	 * Class HungNG_CI_Base_Lib_ElasticSearch
 	 *
@@ -32,7 +33,7 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 			} else {
 				$this->esHost = $host;
 			}
-			if (!class_exists('Elastic\Elasticsearch\ClientBuilder')) {
+			if ( ! class_exists('Elastic\Elasticsearch\ClientBuilder')) {
 				show_error("The elasticsearch/elasticsearch packages has not been installed or enabled", 500);
 				$this->client = null;
 			} else {
@@ -71,7 +72,7 @@ if (!class_exists('HungNG_CI_Base_Lib_ElasticSearch')) {
 
 		public function delete_index($index)
 		{
-			if (!$index) {
+			if ( ! $index) {
 				return false;
 			}
 			$params = array('index' => $index);

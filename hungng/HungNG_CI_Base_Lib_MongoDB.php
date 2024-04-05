@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 21/07/2022
  * Time: 15:45
  */
-if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
+if ( ! class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 	/**
 	 * CodeIgniter MongoDB Active Record Library
 	 *
@@ -64,7 +65,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 
 		public function __construct($param)
 		{
-			if (!class_exists('MongoDB\Driver\Manager')) {
+			if ( ! class_exists('MongoDB\Driver\Manager')) {
 				show_error("The MongoDB PECL extension has not been installed or enabled", 500);
 			}
 			$this->CI =& get_instance();
@@ -104,7 +105,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		{
 			if (is_array($this->param) && count($this->param) > 0 && isset($this->param['activate']) == true) {
 				$this->activate = $this->param['activate'];
-			} elseif (isset($this->config['active']) && !empty($this->config['active'])) {
+			} elseif (isset($this->config['active']) && ! empty($this->config['active'])) {
 				$this->activate = $this->config['active'];
 			} else {
 				show_error("MongoDB configuration is missing.", 500);
@@ -162,20 +163,18 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				}
 
 				if (empty($this->config[$this->activate]['read_preference']) ||
-					!isset($this->config[$this->activate]['read_preference'])) {
+					! isset($this->config[$this->activate]['read_preference'])) {
 					$this->read_preference = MongoDB\Driver\ReadPreference::RP_PRIMARY;
 				} else {
 					$this->read_preference = $this->config[$this->activate]['read_preference'];
 				}
 
 				if (empty($this->config[$this->activate]['read_concern']) ||
-					!isset($this->config[$this->activate]['read_concern'])) {
+					! isset($this->config[$this->activate]['read_concern'])) {
 					$this->read_concern = MongoDB\Driver\ReadConcern::MAJORITY;
 				} else {
 					$this->read_concern = $this->config[$this->activate]['read_concern'];
 				}
-
-
 			} else {
 				show_error("mongodb config group :  <strong>{$this->activate}</strong> does not exist.", 500);
 			}
@@ -185,11 +184,11 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 * Sets the return as to object or array
 		 * This is useful if library is used in another library to avoid issue if config values are different
 		 *
-		 * @param string $value
+		 * @param  string  $value
 		 */
 		public function set_return_as($value)
 		{
-			if (!in_array($value, ['array', 'object'])) {
+			if ( ! in_array($value, ['array', 'object'])) {
 				show_error("Invalid Return As Type");
 			}
 			$this->return_as = $value;
@@ -215,7 +214,6 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				}
 
 				$this->connect = $this->db = new MongoDB\Driver\Manager($dns, $options);
-
 			} catch (MongoDB\Driver\Exception\Exception $e) {
 				if (isset($this->debug) == true && $this->debug == true) {
 					show_error("Unable to connect to MongoDB: {$e->getMessage()}", 500);
@@ -240,7 +238,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error("No Mongo collection selected to insert into", 500);
 			}
 
-			if (!is_array($insert) || count($insert) == 0) {
+			if ( ! is_array($insert) || count($insert) == 0) {
 				show_error("Nothing to insert into Mongo collection or insert is not an array", 500);
 			}
 
@@ -294,7 +292,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error("No Mongo collection selected to insert into", 500);
 			}
 
-			if (!is_array($insert) || count($insert) == 0) {
+			if ( ! is_array($insert) || count($insert) == 0) {
 				show_error("Nothing to insert into Mongo collection or insert is not an array", 500);
 			}
 
@@ -346,13 +344,13 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function select($includes = array(), $excludes = array())
 		{
-			if (!is_array($includes)) {
+			if ( ! is_array($includes)) {
 				$includes = array();
 			}
-			if (!is_array($excludes)) {
+			if ( ! is_array($excludes)) {
 				$excludes = array();
 			}
-			if (!empty($includes)) {
+			if ( ! empty($includes)) {
 				foreach ($includes as $key => $col) {
 					if (is_array($col)) {
 						//support $elemMatch in select
@@ -362,7 +360,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 					}
 				}
 			}
-			if (!empty($excludes)) {
+			if ( ! empty($excludes)) {
 				foreach ($excludes as $col) {
 					$this->selects[$col] = 0;
 				}
@@ -407,7 +405,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		public function where_or($wheres = array())
 		{
 			if (is_array($wheres) && count($wheres) > 0) {
-				if (!isset($this->wheres['$or']) || !is_array($this->wheres['$or'])) {
+				if ( ! isset($this->wheres['$or']) || ! is_array($this->wheres['$or'])) {
 					$this->wheres['$or'] = array();
 				}
 				foreach ($wheres as $wh => $val) {
@@ -506,11 +504,11 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function where_gt($field = "", $x)
 		{
-			if (!isset($field)) {
+			if ( ! isset($field)) {
 				show_error("Mongo field is require to perform greater then query.", 500);
 			}
 
-			if (!isset($x)) {
+			if ( ! isset($x)) {
 				show_error("Mongo field's value is require to perform greater then query.", 500);
 			}
 
@@ -531,11 +529,11 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function where_gte($field = "", $x)
 		{
-			if (!isset($field)) {
+			if ( ! isset($field)) {
 				show_error("Mongo field is require to perform greater then or equal query.", 500);
 			}
 
-			if (!isset($x)) {
+			if ( ! isset($x)) {
 				show_error("Mongo field's value is require to perform greater then or equal query.", 500);
 			}
 
@@ -556,11 +554,11 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function where_lt($field = "", $x)
 		{
-			if (!isset($field)) {
+			if ( ! isset($field)) {
 				show_error("Mongo field is require to perform less then query.", 500);
 			}
 
-			if (!isset($x)) {
+			if ( ! isset($x)) {
 				show_error("Mongo field's value is require to perform less then query.", 500);
 			}
 
@@ -581,11 +579,11 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function where_lte($field = "", $x)
 		{
-			if (!isset($field)) {
+			if ( ! isset($field)) {
 				show_error("Mongo field is require to perform less then or equal to query.", 500);
 			}
 
-			if (!isset($x)) {
+			if ( ! isset($x)) {
 				show_error("Mongo field's value is require to perform less then or equal to query.", 500);
 			}
 
@@ -606,15 +604,15 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function where_between($field = "", $x, $y)
 		{
-			if (!isset($field)) {
+			if ( ! isset($field)) {
 				show_error("Mongo field is require to perform greater then or equal to query.", 500);
 			}
 
-			if (!isset($x)) {
+			if ( ! isset($x)) {
 				show_error("Mongo field's start value is require to perform greater then or equal to query.", 500);
 			}
 
-			if (!isset($y)) {
+			if ( ! isset($y)) {
 				show_error("Mongo field's end value is require to perform greater then or equal to query.", 500);
 			}
 
@@ -636,15 +634,15 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function where_between_ne($field = "", $x, $y)
 		{
-			if (!isset($field)) {
+			if ( ! isset($field)) {
 				show_error("Mongo field is require to perform between and but not equal to query.", 500);
 			}
 
-			if (!isset($x)) {
+			if ( ! isset($x)) {
 				show_error("Mongo field's start value is require to perform between and but not equal to query.", 500);
 			}
 
-			if (!isset($y)) {
+			if ( ! isset($y)) {
 				show_error("Mongo field's end value is require to perform between and but not equal to query.", 500);
 			}
 
@@ -666,11 +664,11 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function where_ne($field = '', $x)
 		{
-			if (!isset($field)) {
+			if ( ! isset($field)) {
 				show_error("Mongo field is require to perform Where not equal to query.", 500);
 			}
 
-			if (!isset($x)) {
+			if ( ! isset($x)) {
 				show_error("Mongo field's value is require to perform Where not equal to query.", 500);
 			}
 
@@ -709,8 +707,13 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 *
 		 * @usage : $this->mongo_db->like('foo', 'bar', 'im', FALSE, TRUE);
 		 */
-		public function like($field = "", $value = "", $flags = "i", $enable_start_wildcard = true, $enable_end_wildcard = true)
-		{
+		public function like(
+			$field = "",
+			$value = "",
+			$flags = "i",
+			$enable_start_wildcard = true,
+			$enable_end_wildcard = true
+		) {
 			if (empty($field)) {
 				show_error("Mongo field is require to perform like query.", 500);
 			}
@@ -751,7 +754,6 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			}
 
 			try {
-
 				$read_concern = new MongoDB\Driver\ReadConcern($this->read_concern);
 				$read_preference = new MongoDB\Driver\ReadPreference($this->read_preference);
 
@@ -827,13 +829,11 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		public function find_one($collection = "")
 		{
-
 			if (empty($collection)) {
 				show_error("In order to retrieve documents from MongoDB, a collection name must be passed", 500);
 			}
 
 			try {
-
 				$read_concern = new MongoDB\Driver\ReadConcern($this->read_concern);
 				$read_preference = new MongoDB\Driver\ReadPreference($this->read_preference);
 
@@ -895,7 +895,6 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			}
 
 			try {
-
 				$read_concern = new MongoDB\Driver\ReadConcern($this->read_concern);
 				$read_preference = new MongoDB\Driver\ReadPreference($this->read_preference);
 
@@ -1425,7 +1424,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error("In order to retreive documents from MongoDB, a collection name must be passed", 500);
 			}
 
-			if (empty($operation) && !is_array($operation)) {
+			if (empty($operation) && ! is_array($operation)) {
 				show_error("Operation must be an array to perform aggregate.", 500);
 			}
 
@@ -1475,7 +1474,6 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			} else {
 				return new MongoDB\BSON\UTCDateTime($stamp);
 			}
-
 		}
 
 		/**
@@ -1517,7 +1515,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		/**
 		 *  Converts document ID and returns document back.
 		 *
-		 * @param stdClass $document [Document]
+		 * @param  stdClass  $document  [Document]
 		 *
 		 * @return  stdClass
 		 */
@@ -1540,7 +1538,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 *
 		 * Runs a MongoDB command
 		 *
-		 * @param string : Collection name, array $query The command query
+		 * @param  string : Collection name, array $query The command query
 		 *
 		 * @usage  : $this->mongo_db->command($collection, array('geoNear'=>'buildings', 'near'=>array(53.228482, -0.547847), 'num' => 10, 'nearSphere'=>true));
 		 * @access public
@@ -1601,7 +1599,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 				show_error("No Mongo collection specified to add index to", 500);
 			}
 
-			if (empty($keys) || !is_array($keys)) {
+			if (empty($keys) || ! is_array($keys)) {
 				show_error("Index could not be created to MongoDB Collection because no keys were specified", 500);
 			}
 
@@ -1637,7 +1635,10 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 			}
 
 			if (empty($name)) {
-				show_error("Index could not be removed from MongoDB Collection because no index name were specified", 500);
+				show_error(
+					"Index could not be removed from MongoDB Collection because no index name were specified",
+					500
+				);
 			}
 
 			$command = array();
@@ -1749,7 +1750,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		private function _w($param)
 		{
-			if (!isset($this->wheres[$param])) {
+			if ( ! isset($this->wheres[$param])) {
 				$this->wheres[$param] = array();
 			}
 		}
@@ -1763,7 +1764,7 @@ if (!class_exists('HungNG_CI_Base_Lib_MongoDB')) {
 		 */
 		private function _u($method)
 		{
-			if (!isset($this->updates[$method])) {
+			if ( ! isset($this->updates[$method])) {
 				$this->updates[$method] = array();
 			}
 		}

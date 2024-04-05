@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project codeigniter-framework
  * Created by PhpStorm
@@ -7,7 +8,7 @@
  * Date: 09/03/2021
  * Time: 02:17
  */
-if (!class_exists('ResponseOutput')) {
+if ( ! class_exists('ResponseOutput')) {
 	/**
 	 * Class ResponseOutput
 	 *
@@ -20,7 +21,7 @@ if (!class_exists('ResponseOutput')) {
 		 * Function writeLn
 		 *
 		 * @param        $message
-		 * @param string $newLine
+		 * @param  string  $newLine
 		 *
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>

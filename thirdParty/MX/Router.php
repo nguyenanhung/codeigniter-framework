@@ -1,4 +1,5 @@
 <?php
+
 (defined('BASEPATH')) or exit('No direct script access allowed');
 
 /* load the MX core module class */
@@ -65,7 +66,7 @@ class MX_Router extends CI_Router
 	 *
 	 * @method _set_request
 	 *
-	 * @param array $segments URI segments
+	 * @param  array  $segments  URI segments
 	 */
 	protected function _set_request($segments = array())
 	{
@@ -205,7 +206,7 @@ class MX_Router extends CI_Router
 			}
 		}
 
-		if (!empty($this->directory)) {
+		if ( ! empty($this->directory)) {
 			return;
 		}
 
@@ -218,7 +219,9 @@ class MX_Router extends CI_Router
 			}
 
 			// application sub-sub-directory controller exists?
-			if ($controller && is_file(APPPATH . 'controllers/' . $module . '/' . $directory . '/' . ucfirst($controller) . $ext)) {
+			if ($controller && is_file(
+					APPPATH . 'controllers/' . $module . '/' . $directory . '/' . ucfirst($controller) . $ext
+				)) {
 				$this->directory = $module . '/' . $directory . '/';
 
 				return array_slice($segments, 2);
@@ -248,7 +251,7 @@ class MX_Router extends CI_Router
 	 */
 	protected function _set_module_path(&$_route)
 	{
-		if (!empty($_route)) {
+		if ( ! empty($_route)) {
 			// Are module/directory/controller/method segments being specified?
 			$sgs = sscanf($_route, '%[^/]/%[^/]/%[^/]/%s', $module, $directory, $class, $method);
 

@@ -1,4 +1,5 @@
 <?php
+
 (defined('BASEPATH')) or exit('No direct script access allowed');
 /* load MX core classes */
 require_once __DIR__ . '/Lang.php';
@@ -49,10 +50,10 @@ class CI
 		global $LANG, $CFG;
 
 		// re-assign language and config for modules
-		if (!$LANG instanceof MX_Lang) {
+		if ( ! $LANG instanceof MX_Lang) {
 			$LANG = new MX_Lang;
 		}
-		if (!$CFG instanceof MX_Config) {
+		if ( ! $CFG instanceof MX_Config) {
 			$CFG = new MX_Config;
 		}
 	}

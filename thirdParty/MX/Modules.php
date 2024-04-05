@@ -1,4 +1,5 @@
 <?php
+
 (defined('BASEPATH')) or exit('No direct script access allowed');
 
 (defined('EXT')) or define('EXT', '.php');
@@ -104,7 +105,7 @@ class Modules
 			// php version isn't high enough
 			is_array($module) ? list($module, $params) = each($module) : $params = null;
 		} else {
-			if (!is_array($module)) {
+			if ( ! is_array($module)) {
 				$params = null;
 			} else {
 				$keys = array_keys($module);
@@ -119,7 +120,7 @@ class Modules
 		$alias = bear_str_to_lower(basename($module));
 
 		// create or return an existing controller from the registry
-		if (!isset(self::$registry[$alias])) {
+		if ( ! isset(self::$registry[$alias])) {
 			// Backward function
 			// Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
 			if (version_compare(phpversion(), '7.1', '<')) {
@@ -198,8 +199,8 @@ class Modules
 	 *
 	 * @param  [type]    $file   [description]
 	 * @param  [type]    $path   [description]
-	 * @param string  $type   [description]
-	 * @param boolean $result [description]
+	 * @param  string  $type  [description]
+	 * @param  boolean  $result  [description]
 	 *
 	 * @return [type]            [description]
 	 */
@@ -219,7 +220,7 @@ class Modules
 			// load config or language array
 			include $location;
 
-			if (!isset($$type) || !is_array($$type)) {
+			if ( ! isset($$type) || ! is_array($$type)) {
 				show_error("{$location} does not contain a valid {$type} array");
 			}
 
@@ -254,7 +255,7 @@ class Modules
 		$path = ltrim(implode('/', $segments) . '/', '/');
 		$module ? $modules[$module] = $path : $modules = array();
 
-		if (!empty($segments)) {
+		if ( ! empty($segments)) {
 			$modules[array_shift($segments)] = ltrim(implode('/', $segments) . '/', '/');
 		}
 
@@ -289,7 +290,7 @@ class Modules
 	public static function parse_routes($module, $uri)
 	{
 		// load the route file
-		if (!isset(self::$routes[$module])) {
+		if ( ! isset(self::$routes[$module])) {
 			// Backward function
 			// Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
 			if (version_compare(phpversion(), '7.1', '<')) {
@@ -304,7 +305,7 @@ class Modules
 			}
 		}
 
-		if (!isset(self::$routes[$module])) {
+		if ( ! isset(self::$routes[$module])) {
 			return;
 		}
 

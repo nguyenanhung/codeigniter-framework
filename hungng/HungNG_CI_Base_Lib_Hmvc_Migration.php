@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 18/01/2023
  * Time: 00:28
  */
-if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
+if ( ! class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 	/**
 	 * Migration Class for HMVC application
 	 *
@@ -112,7 +113,7 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 			$this->load->dbforge();
 
 			// If the migrations table is missing, make it
-			if (!$this->db->table_exists('migrations')) {
+			if ( ! $this->db->table_exists('migrations')) {
 				$this->dbforge->add_field(array(
 					'module' => array('type' => 'VARCHAR', 'constraint' => 20),
 					'version' => array('type' => 'INT', 'constraint' => 3),
@@ -159,7 +160,6 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 			}
 
 			return true;
-
 		}
 
 		public function list_all_modules_with_migrations()
@@ -169,8 +169,9 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 			foreach ($modules as $i => $module) {
 				list($location, $name) = $module;
 
-				if ($this->init_module($name) !== true)
+				if ($this->init_module($name) !== true) {
 					unset($modules[$i]);
+				}
 			}
 
 			return array_merge(array(array('', 'CI_core')), $modules);
@@ -184,37 +185,37 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 		public function init_module($module = 'CI_core')
 		{
 			if ($module === 'CI_core') {
-
 				$config = $this->_core_config;
 				$config['migration_path'] == '' and $config['migration_path'] = APPPATH . 'migrations/';
-
 			} else {
-
 				list($path, $file) = Modules::find('migration', $module, 'config/');
 
-				if ($path === false)
+				if ($path === false) {
 					return false;
+				}
 
-				if (!$config = Modules::load_file($file, $path, 'config'))
+				if ( ! $config = Modules::load_file($file, $path, 'config')) {
 					return false;
+				}
 
-				!$config['migration_path'] and $config['migration_path'] = '../migrations';
+				! $config['migration_path'] and $config['migration_path'] = '../migrations';
 
 				$config['migration_path'] = $this->normalizePath($path . $config['migration_path']);
-
 			}
 
 			foreach ($config as $key => $val) {
 				$this->{'_' . $key} = $val;
 			}
 
-			if ($this->_migration_enabled !== true)
+			if ($this->_migration_enabled !== true) {
 				return false;
+			}
 
 			$this->_migration_path = rtrim($this->_migration_path, '/') . '/';
 
-			if (!file_exists($this->_migration_path))
+			if ( ! file_exists($this->_migration_path)) {
 				return false;
+			}
 
 			$this->_current_module = $module;
 
@@ -227,7 +228,7 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 		 * Calls each migration step required to get to the schema version of
 		 * choice
 		 *
-		 * @param int $target_version Target schema version
+		 * @param  int  $target_version  Target schema version
 		 *
 		 * @return    mixed    TRUE if already latest, FALSE if failed, int if upgraded
 		 */
@@ -293,14 +294,17 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 					include $f[0];
 					$class = 'Migration_' . ucfirst($match[1]);
 
-					if (!class_exists($class)) {
+					if ( ! class_exists($class)) {
 						$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 
 						return false;
 					}
 
-					if (!is_callable(array($class, $method))) {
-						$this->_error_string = sprintf($this->lang->line('migration_missing_' . $method . '_method'), $class);
+					if ( ! is_callable(array($class, $method))) {
+						$this->_error_string = sprintf(
+							$this->lang->line('migration_missing_' . $method . '_method'),
+							$class
+						);
 
 						return false;
 					}
@@ -350,7 +354,7 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 		 */
 		public function latest()
 		{
-			if (!$migrations = $this->find_migrations()) {
+			if ( ! $migrations = $this->find_migrations()) {
 				$this->_error_string = $this->lang->line('migration_none_found');
 
 				return false;
@@ -403,7 +407,7 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 			for ($i = 0; $i < $file_count; $i++) {
 				// Mark wrongly formatted files as false for later filtering
 				$name = basename($files[$i], '.php');
-				if (!preg_match('/^\d{3}_(\w+)$/', $name)) {
+				if ( ! preg_match('/^\d{3}_(\w+)$/', $name)) {
 					$files[$i] = false;
 				}
 			}
@@ -418,13 +422,13 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 		/**
 		 * Retrieves current schema version
 		 *
-		 * @param string $module
+		 * @param  string  $module
 		 *
 		 * @return    int    Current Migration
 		 */
 		protected function _get_version($module = '')
 		{
-			!$module and $module = $this->_current_module;
+			! $module and $module = $this->_current_module;
 			$row = $this->db->get_where('migrations', array('module' => $module))->row();
 
 			return $row ? $row->version : 0;
@@ -435,18 +439,21 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 		/**
 		 * Stores the current schema version
 		 *
-		 * @param int $migrations Migration reached
-		 * @param string $module
+		 * @param  int  $migrations  Migration reached
+		 * @param  string  $module
 		 *
 		 * @return    bool
 		 */
 		protected function _update_version($migrations, $module = '')
 		{
-			!$module and $module = $this->_current_module;
+			! $module and $module = $this->_current_module;
 			$row = $this->db->get_where('migrations', array('module' => $module));
 			$ob = $row->row();
 			if ($ob != null) {
-				return $this->db->where(array('module' => $module))->update('migrations', array('version' => $migrations));
+				return $this->db->where(array('module' => $module))->update(
+					'migrations',
+					array('version' => $migrations)
+				);
 			} else {
 				return $this->db->insert('migrations', array('module' => $module, 'version' => $migrations));
 			}
@@ -457,7 +464,7 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 		/**
 		 * Remove the ".." from the middle of a path string
 		 *
-		 * @param string $path
+		 * @param  string  $path
 		 *
 		 * @return string
 		 */
@@ -470,13 +477,16 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 			foreach ($segments as $segment) {
 				if ($segment != '.') {
 					$test = array_pop($parts);
-					if (is_null($test))
-						$parts[] = $segment; elseif ($segment == '..') {
-						if ($test == '..')
+					if (is_null($test)) {
+						$parts[] = $segment;
+					} elseif ($segment == '..') {
+						if ($test == '..') {
 							$parts[] = $test;
+						}
 
-						if ($test == '..' || $test == '')
+						if ($test == '..' || $test == '') {
 							$parts[] = $segment;
+						}
 					} else {
 						$parts[] = $test;
 						$parts[] = $segment;
@@ -491,7 +501,7 @@ if (!class_exists('HungNG_CI_Base_Lib_Hmvc_Migration')) {
 		/**
 		 * Enable the use of CI super-global
 		 *
-		 * @param mixed $var
+		 * @param  mixed  $var
 		 *
 		 * @return    mixed
 		 */

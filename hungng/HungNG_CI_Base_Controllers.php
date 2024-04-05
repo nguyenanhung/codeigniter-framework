@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -8,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Date: 09/16/2021
  * Time: 22:02
  */
-if (!class_exists('HungNG_CI_Base_Controllers')) {
+if ( ! class_exists('HungNG_CI_Base_Controllers')) {
 	/**
 	 * Class HungNG_CI_Base_Controllers
 	 *
@@ -101,7 +102,9 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 					'request_method' => $this->input->method(true)
 				)
 			);
-			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response, JSON_PRETTY_PRINT))->_display();
+			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(
+				json_encode($response, JSON_PRETTY_PRINT)
+			)->_display();
 			exit;
 		}
 
@@ -125,7 +128,9 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 				),
 				'action' => 'Default Response from CLI'
 			);
-			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response, JSON_PRETTY_PRINT))->_display();
+			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(
+				json_encode($response, JSON_PRETTY_PRINT)
+			)->_display();
 			exit;
 		}
 
@@ -140,7 +145,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		 */
 		protected function renderOutput($response)
 		{
-			if (!is_cli()) {
+			if ( ! is_cli()) {
 				$method = $this->input->method(true);
 				$ip = getIPAddress();
 				$userAgent = $this->input->user_agent(true);
@@ -149,7 +154,9 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 					$this->log('RequestAPI', $message, $response);
 				}
 			}
-			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response))->_display();
+			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(
+				json_encode($response)
+			)->_display();
 			exit;
 		}
 
@@ -164,7 +171,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		 */
 		protected function renderOutputPretty($response)
 		{
-			if (!is_cli()) {
+			if ( ! is_cli()) {
 				$method = $this->input->method(true);
 				$ip = getIPAddress();
 				$userAgent = $this->input->user_agent(true);
@@ -173,14 +180,16 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 					$this->log('RequestAPI', $message, $response);
 				}
 			}
-			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(json_encode($response, JSON_PRETTY_PRINT))->_display();
+			$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(
+				json_encode($response, JSON_PRETTY_PRINT)
+			)->_display();
 			exit;
 		}
 
 		/**
 		 * Function jsonResponse
 		 *
-		 * @param array|object|string $response
+		 * @param  array|object|string  $response
 		 *
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
@@ -188,7 +197,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		 */
 		protected function jsonResponse($response = array(), $status = 200)
 		{
-			if (!is_cli()) {
+			if ( ! is_cli()) {
 				$method = $this->input->method(true);
 				$ip = getIPAddress();
 				$userAgent = $this->input->user_agent(true);
@@ -198,14 +207,16 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 			if (is_array($response) || is_object($response)) {
 				$response = json_encode($response);
 			}
-			$this->output->set_status_header($status)->set_content_type('application/json', 'utf-8')->set_output($response)->_display();
+			$this->output->set_status_header($status)->set_content_type('application/json', 'utf-8')->set_output(
+				$response
+			)->_display();
 			exit;
 		}
 
 		/**
 		 * Function jsonResponsePretty
 		 *
-		 * @param array|object|string $response
+		 * @param  array|object|string  $response
 		 *
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
@@ -213,7 +224,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		 */
 		protected function jsonResponsePretty($response = array(), $status = 200)
 		{
-			if (!is_cli()) {
+			if ( ! is_cli()) {
 				$method = $this->input->method(true);
 				$ip = getIPAddress();
 				$userAgent = $this->input->user_agent(true);
@@ -223,7 +234,9 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 			if (is_array($response) || is_object($response)) {
 				$response = json_encode($response, JSON_PRETTY_PRINT);
 			}
-			$this->output->set_status_header($status)->set_content_type('application/json', 'utf-8')->set_output($response)->_display();
+			$this->output->set_status_header($status)->set_content_type('application/json', 'utf-8')->set_output(
+				$response
+			)->_display();
 			exit;
 		}
 
@@ -244,7 +257,13 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 			$response = array();
 			$response['code'] = StatusCodes::HTTP_BAD_REQUEST;
 			$response['message'] = StatusCodes::$statusTexts[StatusCodes::HTTP_BAD_REQUEST];
-			if ((defined('ENVIRONMENT') && (ENVIRONMENT === 'development' || ENVIRONMENT === 'staging' || ENVIRONMENT === 'testing')) || in_array(getIPAddress(), config_item('whitelist_ip'), true)) {
+			if ((defined(
+						'ENVIRONMENT'
+					) && (ENVIRONMENT === 'development' || ENVIRONMENT === 'staging' || ENVIRONMENT === 'testing')) || in_array(
+					getIPAddress(),
+					config_item('whitelist_ip'),
+					true
+				)) {
 				$response['error'] = array(
 					'Code' => $exception->getCode(),
 					'File' => $exception->getFile(),
@@ -259,7 +278,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		/**
 		 * Function errorResponse
 		 *
-		 * @param string|array|object|bool $message
+		 * @param  string|array|object|bool  $message
 		 *
 		 * @return array
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -294,7 +313,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		/**
 		 * Function errorCredentialsResponse
 		 *
-		 * @param string|array|object|bool $message
+		 * @param  string|array|object|bool  $message
 		 *
 		 * @return array
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -313,7 +332,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		/**
 		 * Function errorSignatureResponse
 		 *
-		 * @param array $validSignature
+		 * @param  array  $validSignature
 		 *
 		 * @return array
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -325,7 +344,11 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 			$response = array();
 			$response['code'] = StatusCodes::HTTP_FORBIDDEN;
 			$response['message'] = StatusCodes::$statusTexts[StatusCodes::HTTP_FORBIDDEN];
-			if ((defined('_PROCESS_TEST_') && _PROCESS_TEST_ === true) || in_array(getIPAddress(), config_item('whitelist_ip'), true)) {
+			if ((defined('_PROCESS_TEST_') && _PROCESS_TEST_ === true) || in_array(
+					getIPAddress(),
+					config_item('whitelist_ip'),
+					true
+				)) {
 				$response['validSignature'] = $validSignature;
 			}
 			return $response;
@@ -346,7 +369,9 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		protected function log($name = '', $message = '', $context = array(), $inputLevel = 'info')
 		{
 			try {
-				if (class_exists('Monolog\Logger') && class_exists('Monolog\Formatter\LineFormatter') && class_exists('Monolog\Handler\StreamHandler')) {
+				if (class_exists('Monolog\Logger') && class_exists('Monolog\Formatter\LineFormatter') && class_exists(
+						'Monolog\Handler\StreamHandler'
+					)) {
 					$useLevel = bear_str_to_lower($inputLevel);
 					switch ($useLevel) {
 						case 'debug':
@@ -381,7 +406,9 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 						$logPath = dirname(__DIR__) . '/logs-data/';
 					}
 					$fileName = $logPath . 'Log-' . date('Y-m-d') . '.log';
-					$formatter = new Monolog\Formatter\LineFormatter("[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n", "Y-m-d H:i:s u");
+					$formatter = new Monolog\Formatter\LineFormatter(
+						"[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n", "Y-m-d H:i:s u"
+					);
 					$stream = new Monolog\Handler\StreamHandler($fileName, $keyLevel, true, 0777);
 					$stream->setFormatter($formatter);
 					$logger = new Monolog\Logger(trim($name));
@@ -392,7 +419,10 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 						$logger->$useLevel($message . json_encode($context));
 					}
 				} else {
-					log_message($inputLevel, $name . " | Error Message: " . $message . ' | Context: ' . json_encode($context));
+					log_message(
+						$inputLevel,
+						$name . " | Error Message: " . $message . ' | Context: ' . json_encode($context)
+					);
 				}
 			} catch (InvalidArgumentException $exception) {
 				log_message('error', __get_error_message__($exception));
@@ -447,8 +477,12 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 						)
 					);
 					log_message('debug', 'Clean Log Result: ' . json_encode($response));
-					$output = defined('JSON_PRETTY_PRINT') ? json_encode($response, JSON_PRETTY_PRINT) : json_encode($response);
-					$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output($output . PHP_EOL)->_display();
+					$output = defined('JSON_PRETTY_PRINT') ? json_encode($response, JSON_PRETTY_PRINT) : json_encode(
+						$response
+					);
+					$this->output->set_status_header()->set_content_type('application/json', 'utf-8')->set_output(
+						$output . PHP_EOL
+					)->_display();
 					exit;
 				} catch (Exception $e) {
 					$message = __get_error_message__($e);
@@ -526,7 +560,7 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
 		protected function reCaptchaIsHuman()
 		{
 			$captcha = $this->input->post('g-recaptcha-response', true);
-			if (!$captcha) {
+			if ( ! $captcha) {
 				return false;
 			}
 			return true;

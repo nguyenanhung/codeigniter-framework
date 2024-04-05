@@ -29,7 +29,8 @@ class Request
 	 */
 	private $_bodyParams;
 
-	public function __construct(){
+	public function __construct()
+	{
 		log_message('info', 'Third Party Psr Request Class Initialized');
 	}
 
@@ -87,13 +88,12 @@ class Request
 	 * If no parsers are configured for the current [[contentType]] it uses the PHP function `mb_parse_str()`
 	 * to parse the [[rawBody|request body]].
 	 *
-	 * @todo   Cache
 	 * @return array the request parameters given in the request body.
+	 * @todo   Cache
 	 */
 	public function getBodyParams()
 	{
 		if ($this->_bodyParams === null) {
-
 			$contentType = $this->getContentType();
 
 			if (strcasecmp($contentType, 'application/json') === 0) {
@@ -132,17 +132,15 @@ class Request
 	public function getAuthCredentialsWithBasic()
 	{
 		if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-
 			return [$_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']];
 		}
 
 		$authToken = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : null;
-		$authToken = (!$authToken && isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']))
+		$authToken = ( ! $authToken && isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']))
 			? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
 			: $authToken;
 
 		if ($authToken !== null && strpos(bear_str_to_lower($_SERVER['HTTP_AUTHORIZATION']), 'basic ') === 0) {
-
 			$parts = array_map(function ($value) {
 				return strlen($value) === 0 ? null : $value;
 			}, explode(':', base64_decode(mb_substr($authToken, 6)), 2));
@@ -166,8 +164,10 @@ class Request
 	{
 		$b64token = null;
 
-		if (isset($_SERVER['HTTP_AUTHORIZATION']) && strpos(bear_str_to_lower($_SERVER['HTTP_AUTHORIZATION']), 'bearer ') === 0) {
-
+		if (isset($_SERVER['HTTP_AUTHORIZATION']) && strpos(
+				bear_str_to_lower($_SERVER['HTTP_AUTHORIZATION']),
+				'bearer '
+			) === 0) {
 			$b64token = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
 		}
 

@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * CodeIgniter
@@ -36,7 +37,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @since        Version 1.0.0
  * @filesource
  */
-if (!class_exists('HungNG_Lang')) {
+if ( ! class_exists('HungNG_Lang')) {
 	/**
 	 * Language Class extension.
 	 *
@@ -85,17 +86,16 @@ if (!class_exists('HungNG_Lang')) {
 		/**
 		 * Load a language file, with fallback to english.
 		 *
-		 * @param mixed $langfile Language file name
-		 * @param string $idiom Language name (english, etc.)
-		 * @param bool $return Whether to return the loaded array of translations
-		 * @param bool $add_suffix Whether to add suffix to $langfile
-		 * @param string $alt_path Alternative path to look for the language file
+		 * @param  mixed  $langfile  Language file name
+		 * @param  string  $idiom  Language name (english, etc.)
+		 * @param  bool  $return  Whether to return the loaded array of translations
+		 * @param  bool  $add_suffix  Whether to add suffix to $langfile
+		 * @param  string  $alt_path  Alternative path to look for the language file
 		 *
 		 * @return    void|string[]    Array containing translations, if $return is set to TRUE
 		 */
 		public function load($langfile, $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
 		{
-
 			if (is_array($langfile)) {
 				foreach ($langfile as $value) {
 					$this->load($value, $idiom, $return, $add_suffix, $alt_path);
@@ -108,7 +108,7 @@ if (!class_exists('HungNG_Lang')) {
 				$langfile = preg_replace('/_lang$/', '', $langfile) . '_lang';
 			}
 			$langfile .= '.php';
-			if (empty($idiom) || !preg_match('/^[a-z_-]+$/i', $idiom)) {
+			if (empty($idiom) || ! preg_match('/^[a-z_-]+$/i', $idiom)) {
 				$config =& get_config();
 				$idiom = empty($config['language']) ? $this->base_language : $config['language'];
 			}
@@ -146,7 +146,7 @@ if (!class_exists('HungNG_Lang')) {
 			if ($found !== true) {
 				show_error('Unable to load the requested language file: language/' . $idiom . '/' . $langfile);
 			}
-			if (!isset($lang) or !is_array($lang)) {
+			if ( ! isset($lang) or ! is_array($lang)) {
 				log_message('error', 'Language file contains no data: language/' . $idiom . '/' . $langfile);
 				if ($return === true) {
 					return array();
