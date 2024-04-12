@@ -1,55 +1,55 @@
 {
-	"description": "The CodeIgniter Framework - v3.2.0",
-	"name": "nguyenanhung/codeigniter-framework",
-	"type": "library",
-	"homepage": "https://codeigniter.com",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Nguyen An Hung",
-			"email": "dev@nguyenanhung.com",
-			"homepage": "https://nguyenanhung.com",
-			"role": "Developer"
-		}
-	],
-	"support": {
-		"issues": "https://github.com/nguyenanhung/codeigniter-framework/issues",
-		"wiki": "https://github.com/nguyenanhung/codeigniter-framework/wiki",
-		"source": "https://github.com/nguyenanhung/codeigniter-framework"
-	},
-	"require": {
-		"php": ">=5.6",
-		"ext-json": "*",
-		"nguyenanhung/codeigniter-basic-helper": ">=1.0",
-		"symfony/polyfill-mbstring": ">=1.0"
-	},
-	"require-dev": {
-		"nguyenanhung/my-debug": "^4.0 || ^3.0 || ^2.0 || ^1.0"
-	},
-	"autoload": {
-		"classmap": [
-			"hungng/",
-			"custom/"
-		],
-		"psr-4": {
-			"nguyenanhung\\CodeIgniter\\BaseREST\\": "thirdParty/REST/"
-		},
-		"files": [
-			"helpers/common.php"
-		]
-	},
-	"suggest": {
-		"nguyenanhung/helpers": "Awesome Helpers - Powerful Library, Helpers and Tools",
-		"nguyenanhung/security": "Awesome Helpers - Wrapper for Security, Encrypt, Encode, Purifier",
-		"nguyenanhung/validation": "Awesome Validation - A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
-		"nguyenanhung/image": "Need support for Image Service",
-		"nguyenanhung/seo": "Need support for SEO",
-		"nguyenanhung/my-cache": "Need support for Powerful Cache Implement",
-		"nguyenanhung/my-debug": "Need support for Powerful Logger (Extend from Monolog)",
-		"nguyenanhung/requests": "Need support for Powerful HTTP Request",
-		"nguyenanhung/database": "Need support for Powerful SQL Database Tools (Customize Laravel Database)",
-		"nguyenanhung/monitor": "Need support for Send Monitor Message to Monitor Service",
-		"nguyenanhung/markdown": "Parser for Markdown",
-		"nguyenanhung/basic-firewall": "PHP Basic Firewall - Library providing IP filtering features"
-	}
+  "description": "The CodeIgniter Framework - v3.2.0",
+  "name": "nguyenanhung/codeigniter-framework",
+  "type": "library",
+  "homepage": "https://codeigniter.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nguyen An Hung",
+      "email": "dev@nguyenanhung.com",
+      "homepage": "https://nguyenanhung.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/nguyenanhung/codeigniter-framework/issues",
+    "wiki": "https://github.com/nguyenanhung/codeigniter-framework/wiki",
+    "source": "https://github.com/nguyenanhung/codeigniter-framework"
+  },
+  "require": {
+    "php": ">=5.6",
+    "ext-json": "*",
+    "nguyenanhung/codeigniter-basic-helper": ">=1.0",
+    "symfony/polyfill-mbstring": ">=1.0"
+  },
+  "require-dev": {
+    "nguyenanhung/my-debug": "^4.0 || ^3.0 || ^2.0 || ^1.0"
+  },
+  "autoload": {
+    "classmap": [
+      "hungng/",
+      "custom/"
+    ],
+    "psr-4": {
+      "nguyenanhung\\CodeIgniter\\BaseREST\\": "thirdParty/REST/"
+    },
+    "files": [
+      "helpers/common.php"
+    ]
+  },
+  "suggest": {
+    "nguyenanhung/helpers": "Awesome Helpers - Powerful Library, Helpers and Tools",
+    "nguyenanhung/security": "Awesome Helpers - Wrapper for Security, Encrypt, Encode, Purifier",
+    "nguyenanhung/validation": "Awesome Validation - A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
+    "nguyenanhung/image": "Need support for Image Service",
+    "nguyenanhung/seo": "Need support for SEO",
+    "nguyenanhung/my-cache": "Need support for Powerful Cache Implement",
+    "nguyenanhung/my-debug": "Need support for Powerful Logger (Extend from Monolog)",
+    "nguyenanhung/requests": "Need support for Powerful HTTP Request",
+    "nguyenanhung/database": "Need support for Powerful SQL Database Tools (Customize Laravel Database)",
+    "nguyenanhung/monitor": "Need support for Send Monitor Message to Monitor Service",
+    "nguyenanhung/markdown": "Parser for Markdown",
+    "nguyenanhung/basic-firewall": "PHP Basic Firewall - Library providing IP filtering features"
+  }
 }

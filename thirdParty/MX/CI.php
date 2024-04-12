@@ -40,23 +40,23 @@ require_once __DIR__ . '/Config.php';
  **/
 class CI
 {
-	public static $APP;
+    public static $APP;
 
-	public function __construct()
-	{
-		// assign the application instance
-		self::$APP = CI_Controller::get_instance();
+    public function __construct()
+    {
+        // assign the application instance
+        self::$APP = CI_Controller::get_instance();
 
-		global $LANG, $CFG;
+        global $LANG, $CFG;
 
-		// re-assign language and config for modules
-		if ( ! $LANG instanceof MX_Lang) {
-			$LANG = new MX_Lang;
-		}
-		if ( ! $CFG instanceof MX_Config) {
-			$CFG = new MX_Config;
-		}
-	}
+        // re-assign language and config for modules
+        if (!$LANG instanceof MX_Lang) {
+            $LANG = new MX_Lang;
+        }
+        if (!$CFG instanceof MX_Config) {
+            $CFG = new MX_Config;
+        }
+    }
 }
 
 /* create the application object */
