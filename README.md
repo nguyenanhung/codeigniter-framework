@@ -6,7 +6,8 @@ Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụ
 
 Kể từ phiên bản `v3.2.0` - framework hoàn toàn tương thích với phiên bản PHP 8.2
 
-Bản đóng gói này được liên tục cập nhật với các feature mới từ nhánh CodeIgniter3 nguyên bản. Vì vậy nó luôn được cập nhật các bản vá lỗi và bổ sung thêm nhiều tính năng mới
+Bản đóng gói này được liên tục cập nhật với các feature mới từ nhánh CodeIgniter3 nguyên bản. Vì vậy nó luôn được cập
+nhật các bản vá lỗi và bổ sung thêm nhiều tính năng mới
 
 Mục lục
 -------
@@ -14,17 +15,17 @@ Mục lục
 - [Tính năng](#bổ-sung-thêm-1-số-thư-viện-mở-rộng-helpers-liên-quan)
 - [Hướng dẫn cài đặt](#hướng-dẫn-cài-đặt-gói-vào-trong-dự-án)
 - [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
-	- [Hướng dẫn viết Controller kế thừa Base Controller](#hướng-dẫn-viết-controller-kế-thừa-base-controller)
-	- [Hướng dẫn viết Controller chạy Queue Worker](#hướng-dẫn-viết-controller-chạy-queue-worker)
-	- [Hướng dẫn viết Controller chạy RESTful API Service](#hướng-dẫn-viết-controller-chạy-restful-api-service)
-	- [Hướng dẫn tích hợp mô hình HMVC (Modular) vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
-	- [Hướng dẫn viết Model kế thừa Base Model](#hướng-dẫn-viết-model-kế-thừa-base-model)
-	- [Hướng dẫn viết Model kế thừa Base ORM Model](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
-	- [Hướng dẫn viết tích hợp SEO cơ bản](#hướng-dẫn-tích-hợp-seo-cơ-bản)
-	- [Hướng dẫn sử dụng CSDL MongoDB trong dự án](#hướng-dẫn-sử-dụng-csdl-mongodb-trong-dự-án)
-	- [Hướng dẫn sử dụng Elasticsearch trong dự án](#hướng-dẫn-sử-dụng-elasticsearch-trong-dự-án)
-	- [Hướng dẫn sử dụng kiểm tra các filename trong dự án của bạn đã đúng chuẩn của CodeIgniter hay chưa](#hướng-dẫn-sử-dụng-kiểm-tra-các-filename-trong-dự-án-của-bạn-đã-đúng-chuẩn-của-codeigniter-hay-chưa)
-	- [Hướng dẫn sử dụng ghi log tất cả các queries trong CodeIgniter và ghi lại Execution Time của từng Queries](#hướng-dẫn-sử-dụng-ghi-log-tất-cả-các-queries-trong-codeigniter-và-ghi-lại-execution-time-của-từng-queries)
+    - [Hướng dẫn viết Controller kế thừa Base Controller](#hướng-dẫn-viết-controller-kế-thừa-base-controller)
+    - [Hướng dẫn viết Controller chạy Queue Worker](#hướng-dẫn-viết-controller-chạy-queue-worker)
+    - [Hướng dẫn viết Controller chạy RESTful API Service](#hướng-dẫn-viết-controller-chạy-restful-api-service)
+    - [Hướng dẫn tích hợp mô hình HMVC (Modular) vào dự án](#hướng-dẫn-tích-hợp-mô-hình-hmvc-vào-dự-án)
+    - [Hướng dẫn viết Model kế thừa Base Model](#hướng-dẫn-viết-model-kế-thừa-base-model)
+    - [Hướng dẫn viết Model kế thừa Base ORM Model](#hướng-dẫn-viết-model-kế-thừa-base-orm-model)
+    - [Hướng dẫn viết tích hợp SEO cơ bản](#hướng-dẫn-tích-hợp-seo-cơ-bản)
+    - [Hướng dẫn sử dụng CSDL MongoDB trong dự án](#hướng-dẫn-sử-dụng-csdl-mongodb-trong-dự-án)
+    - [Hướng dẫn sử dụng Elasticsearch trong dự án](#hướng-dẫn-sử-dụng-elasticsearch-trong-dự-án)
+    - [Hướng dẫn sử dụng kiểm tra các filename trong dự án của bạn đã đúng chuẩn của CodeIgniter hay chưa](#hướng-dẫn-sử-dụng-kiểm-tra-các-filename-trong-dự-án-của-bạn-đã-đúng-chuẩn-của-codeigniter-hay-chưa)
+    - [Hướng dẫn sử dụng ghi log tất cả các queries trong CodeIgniter và ghi lại Execution Time của từng Queries](#hướng-dẫn-sử-dụng-ghi-log-tất-cả-các-queries-trong-codeigniter-và-ghi-lại-execution-time-của-từng-queries)
 - [CodeIgniter Basic Helper](#codeigniter-basic-helper)
 - [Liên hệ & Hỗ trợ](#liên-hệ)
 
@@ -43,8 +44,10 @@ Bổ sung thêm 1 số thư viện mở rộng, helpers liên quan
 - [x] Support class Base Model với 1 số hàm cơ bản đủ dùng với SQL
 - [x] Support class ORM Model, cung cấp 1 phương thức đơn giản và dễ dàng hơn để query
 - [x] Hỗ trợ Output Response trên giao diện CLI thông qua hàm `ResponseOutput::writeLn($message)`
-- [x] Bổ sung class `StatusCodes` khai báo sẵn các HTTP code tuân chuẩn (from Symfony framework), VD: `StatusCodes::HTTP_OK`. Chi tiết tham khảo thêm tại class `StatusCodes`
-- [x] Bổ sung rất nhiều helper tiện dụng với việc tích hợp sẵn gói `nguyenanhung/codeigniter-basic-helper` thông qua Composer
+- [x] Bổ sung class `StatusCodes` khai báo sẵn các HTTP code tuân chuẩn (from Symfony framework),
+  VD: `StatusCodes::HTTP_OK`. Chi tiết tham khảo thêm tại class `StatusCodes`
+- [x] Bổ sung rất nhiều helper tiện dụng với việc tích hợp sẵn gói `nguyenanhung/codeigniter-basic-helper` thông qua
+  Composer
 
 ## Hướng dẫn cài đặt gói vào trong dự án
 
@@ -148,7 +151,8 @@ class My_worker extends HungNG_CI_Base_Queue_Worker
 
 ```
 
-Tìm hiểu thêm chi tiết tài liệu tại đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker)
+Tìm hiểu thêm chi tiết tài liệu tại
+đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-queue-worker)
 
 ### Hướng dẫn viết Controller chạy RESTful API Service
 
@@ -183,7 +187,8 @@ class My_rest_api extends HungNG_CI_Base_REST
 
 ```
 
-Tìm hiểu thêm chi tiết tài liệu tại đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest)
+Tìm hiểu thêm chi tiết tài liệu tại
+đây: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-rest)
 
 ### Hướng dẫn viết Model kế thừa Base Model
 
@@ -233,7 +238,8 @@ class Credentials_model extends HungNG_Custom_Based_model
 
 ### Hướng dẫn viết Model kế thừa Base ORM Model
 
-1. Package này bổ sung thêm 1 phương án viết model hiện đại theo phong cách ORM với Elegant patterns giống như Laravel Eloquent ORM & Yii2 Active Record (được xây dựng bởi yidas)
+1. Package này bổ sung thêm 1 phương án viết model hiện đại theo phong cách ORM với Elegant patterns giống như Laravel
+   Eloquent ORM & Yii2 Active Record (được xây dựng bởi yidas)
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-orm-model)
 
@@ -245,20 +251,24 @@ class Credentials_model extends HungNG_Custom_Based_model
 
 ### Hướng dẫn sử dụng CSDL MongoDB trong dự án
 
-1. Mặc định, CodeIgniter v3 không hỗ trợ MongoDB. Tuy nhiên không vì thế mà hạn chế, CodeIgniter là framework mở, vì vậy tôi đã bổ sung thêm 1 thư viện hỗ trợ việc gọi, tương tác, xử lý với CSDL MongoDB mà cách sử dụng cũng tương đối giống với Query
+1. Mặc định, CodeIgniter v3 không hỗ trợ MongoDB. Tuy nhiên không vì thế mà hạn chế, CodeIgniter là framework mở, vì vậy
+   tôi đã bổ sung thêm 1 thư viện hỗ trợ việc gọi, tương tác, xử lý với CSDL MongoDB mà cách sử dụng cũng tương đối
+   giống với Query
    Builder của CodeIgniter
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-mongodb](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-mongodb)
 
 ### Hướng dẫn sử dụng Elasticsearch trong dự án
 
-1. Mặc định, CodeIgniter v3 không hỗ trợ Elasticsearch. Tuy nhiên không vì thế mà hạn chế, CodeIgniter là framework mở, vì vậy tôi đã bổ sung thêm 1 thư viện hỗ trợ việc gọi, tác với Elasticsearch
+1. Mặc định, CodeIgniter v3 không hỗ trợ Elasticsearch. Tuy nhiên không vì thế mà hạn chế, CodeIgniter là framework mở,
+   vì vậy tôi đã bổ sung thêm 1 thư viện hỗ trợ việc gọi, tác với Elasticsearch
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-elasticsearch](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-elasticsearch)
 
 ### Hướng dẫn tích hợp mô hình HMVC vào dự án
 
-1. Create folder: `modules` trong thư mục `application`. Tham khảo cấu trúc thư mục `modules-samples` tại https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/modules-sample
+1. Create folder: `modules` trong thư mục `application`. Tham khảo cấu trúc thư mục `modules-samples`
+   tại https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/modules-sample
 
 ```shell
 .
@@ -374,15 +384,19 @@ class TestModule extends HungNG_CI_Base_Module
 
 ### Hướng dẫn sử dụng ghi log tất cả các queries trong CodeIgniter và ghi lại Execution Time của từng Queries
 
-1. Mặc định, CodeIgniter v3 không hỗ trợ ghi log Execution Time của các Queries. Tuy nhiên, có thể sử dụng Hooks để thực hiện điều này
+1. Mặc định, CodeIgniter v3 không hỗ trợ ghi log Execution Time của các Queries. Tuy nhiên, có thể sử dụng Hooks để thực
+   hiện điều này
 2. Đọc tài liệu chi tiết về cách tích hợp và triển khai tại đây với những ví dụ trực quan và cụ
    thể: [https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-log-all-queries](https://github.com/nguyenanhung/codeigniter-framework-sample/tree/main/codeigniter-log-all-queries)
 
 ## CodeIgniter Basic Helper
 
-- Trong nhiều năm làm lập trình với CodeIgniter, tôi đã sưu tập, xây dựng và viết được kha khá helper, tôi đã đóng gói chúng lại thành gói `nguyenanhung/codeigniter-basic-helper` và tích hợp vào bên trong gói này.
-- Gói helper này vẫn đang được tôi vận hành và phát triển hàng ngày, số project tích hợp các hàm trong gói này đã lên con số hàng nghìn
-- Thông tin chi tiết hơn về bộ helper này [https://github.com/nguyenanhung/codeigniter-basic-helper](https://github.com/nguyenanhung/codeigniter-basic-helper)
+- Trong nhiều năm làm lập trình với CodeIgniter, tôi đã sưu tập, xây dựng và viết được kha khá helper, tôi đã đóng gói
+  chúng lại thành gói `nguyenanhung/codeigniter-basic-helper` và tích hợp vào bên trong gói này.
+- Gói helper này vẫn đang được tôi vận hành và phát triển hàng ngày, số project tích hợp các hàm trong gói này đã lên
+  con số hàng nghìn
+- Thông tin chi tiết hơn về bộ helper
+  này [https://github.com/nguyenanhung/codeigniter-basic-helper](https://github.com/nguyenanhung/codeigniter-basic-helper)
 
 ## Liên hệ
 

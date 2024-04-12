@@ -42,25 +42,25 @@ require __DIR__ . '/Base.php';
 #[AllowDynamicProperties]
 class MX_Controller
 {
-	public $autoload = array();
+    public $autoload = array();
 
-	public function __construct()
-	{
-		$class = str_replace(CI::$APP->config->item('controller_suffix'), '', get_class($this));
-		log_message('info', $class . " MX_Controller Initialized");
+    public function __construct()
+    {
+        $class = str_replace(CI::$APP->config->item('controller_suffix'), '', get_class($this));
+        log_message('info', $class . " MX_Controller Initialized");
 
-		Modules::$registry[bear_str_to_lower($class)] = $this;
+        Modules::$registry[bear_str_to_lower($class)] = $this;
 
-		/* copy a loader instance and initialize */
-		$this->load = clone load_class('Loader');
-		$this->load->initialize($this);
+        /* copy a loader instance and initialize */
+        $this->load = clone load_class('Loader');
+        $this->load->initialize($this);
 
-		/* autoload module items */
-		$this->load->_autoloader($this->autoload);
-	}
+        /* autoload module items */
+        $this->load->_autoloader($this->autoload);
+    }
 
-	public function __get($class)
-	{
-		return CI::$APP->$class;
-	}
+    public function __get($class)
+    {
+        return CI::$APP->$class;
+    }
 }
