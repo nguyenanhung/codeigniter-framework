@@ -38,49 +38,49 @@
  **/
 class MX_Config extends CI_Config
 {
-	public function load($file = '', $use_sections = false, $fail_gracefully = false, $_module = '')
-	{
-		log_message('info', 'MX_Config Class Initialized');
+    public function load($file = '', $use_sections = false, $fail_gracefully = false, $_module = '')
+    {
+        log_message('info', 'MX_Config Class Initialized');
 
-		if (in_array($file, $this->is_loaded, true)) {
-			return $this->item($file);
-		}
+        if (in_array($file, $this->is_loaded, true)) {
+            return $this->item($file);
+        }
 
-		$_module or $_module = CI::$APP->router->fetch_module();
+        $_module or $_module = CI::$APP->router->fetch_module();
 
-		// Backward function
-		// Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
-		if (version_compare(phpversion(), '7.1', '<')) {
-			// php version isn't high enough
-			list($path, $file) = Modules::find($file, $_module, 'config/');
-		} else {
-			[$path, $file] = Modules::find($file, $_module, 'config/');
-		}
+        // Backward function
+        // Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
+        if (version_compare(phpversion(), '7.1', '<')) {
+            // php version isn't high enough
+            list($path, $file) = Modules::find($file, $_module, 'config/');
+        } else {
+            [$path, $file] = Modules::find($file, $_module, 'config/');
+        }
 
-		if ($path === false) {
-			parent::load($file, $use_sections, $fail_gracefully);
+        if ($path === false) {
+            parent::load($file, $use_sections, $fail_gracefully);
 
-			return $this->item($file);
-		}
+            return $this->item($file);
+        }
 
-		if ($config = Modules::load_file($file, $path, 'config')) {
-			// reference to the config array
-			$current_config =& $this->config;
+        if ($config = Modules::load_file($file, $path, 'config')) {
+            // reference to the config array
+            $current_config =& $this->config;
 
-			if ($use_sections === true) {
-				if (isset($current_config[$file])) {
-					$current_config[$file] = array_merge($current_config[$file], $config);
-				} else {
-					$current_config[$file] = $config;
-				}
-			} else {
-				$current_config = array_merge($current_config, $config);
-			}
+            if ($use_sections === true) {
+                if (isset($current_config[$file])) {
+                    $current_config[$file] = array_merge($current_config[$file], $config);
+                } else {
+                    $current_config[$file] = $config;
+                }
+            } else {
+                $current_config = array_merge($current_config, $config);
+            }
 
-			$this->is_loaded[] = $file;
-			unset($config);
+            $this->is_loaded[] = $file;
+            unset($config);
 
-			return $this->item($file);
-		}
-	}
+            return $this->item($file);
+        }
+    }
 }
