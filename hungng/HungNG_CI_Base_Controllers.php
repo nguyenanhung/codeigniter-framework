@@ -583,5 +583,45 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
             }
             return true;
         }
+
+        /**
+         * Function command_base_setup_storage_directory
+         *
+         * User: 713uk13m <dev@nguyenanhung.com>
+         * Copyright: 713uk13m <dev@nguyenanhung.com>
+         * @return void
+         */
+        protected function command_base_setup_storage_directory()
+        {
+            if (is_cli() && (defined('APPPATH') && defined('FCPATH'))) {
+                echo "Initialize storage directory" . PHP_EOL;
+
+                makeNewFolder(APPPATH . 'cache');
+                makeNewFolder(APPPATH . 'cache/ci_sessions');
+                makeNewFolder(APPPATH . 'logs');
+                makeNewFolder(APPPATH . 'logs-data');
+
+                makeNewFolder(FCPATH . 'storage');
+                makeNewFolder(FCPATH . 'storage/cache');
+                makeNewFolder(FCPATH . 'storage/cache_db');
+                makeNewFolder(FCPATH . 'storage/cache_page');
+                makeNewFolder(FCPATH . 'storage/ci_sessions');
+                makeNewFolder(FCPATH . 'storage/htmlPurity');
+                makeNewFolder(FCPATH . 'storage/logs');
+                makeNewFolder(FCPATH . 'storage/logs/Requests');
+                makeNewFolder(FCPATH . 'storage/tmp');
+                makeNewFolder(FCPATH . 'storage/paygate');
+                makeNewFolder(FCPATH . 'storage/paygate/Data');
+                file_create(FCPATH . 'storage/logs/accessDenied.log');
+
+                makeNewFolder(FCPATH . 'public/storage');
+                makeNewFolder(FCPATH . 'public/storage/cache');
+                makeNewFolder(FCPATH . 'public/storage/tmp');
+
+                echo "Storage directory initialized successfully" . PHP_EOL;
+                exit();
+            }
+            show_404();
+        }
     }
 }
