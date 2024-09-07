@@ -610,6 +610,8 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
                 makeNewFolder(FCPATH . 'storage/logs');
                 makeNewFolder(FCPATH . 'storage/logs/Requests');
                 makeNewFolder(FCPATH . 'storage/tmp');
+                makeNewFolder(FCPATH . 'storage/paygate');
+                makeNewFolder(FCPATH . 'storage/paygate/Data');
                 file_create(FCPATH . 'storage/logs/accessDenied.log');
 
                 makeNewFolder(FCPATH . 'public/storage');
