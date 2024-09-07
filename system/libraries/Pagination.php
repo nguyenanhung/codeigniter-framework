@@ -512,7 +512,7 @@ class CI_Pagination {
 			$this->cur_page = $this->CI->uri->segment($this->uri_segment);
 
 			// Remove any specified prefix/suffix from the segment.
-			if ($this->prefix !== '' OR $this->suffix !== '')
+			if (($this->prefix !== '' OR $this->suffix !== '') && ($this->cur_page !== null))
 			{
 				$this->cur_page = str_replace(array($this->prefix, $this->suffix), '', $this->cur_page);
 			}
