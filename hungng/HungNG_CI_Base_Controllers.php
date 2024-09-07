@@ -553,6 +553,24 @@ if (!class_exists('HungNG_CI_Base_Controllers')) {
         }
 
         /**
+         * Function command_create_encryption_key
+         *
+         * @author   : 713uk13m <dev@nguyenanhung.com>
+         * @copyright: 713uk13m <dev@nguyenanhung.com>
+         * @time     : 09/01/2021 52:11
+         */
+        protected function command_create_encryption_key(): void
+        {
+            if (is_cli()) {
+                $this->load->library('encryption');
+                $key = bin2hex($this->encryption->create_key(32));
+                ResponseOutput::writeLn($key);
+                exit();
+            }
+            show_404();
+        }
+
+        /**
          * Check is human by recaptcha from request
          *
          * @return bool
