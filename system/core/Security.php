@@ -756,7 +756,7 @@ class CI_Security
 		if ($this->_xss_hash === null) {
 			$rand = $this->get_random_bytes(16);
 			$this->_xss_hash = ($rand === false)
-				? md5(uniqid(mt_rand(), true))
+				? md5(uniqid(mt_random_int(), true))
 				: bin2hex($rand);
 		}
 
@@ -1237,7 +1237,7 @@ class CI_Security
 
 			$rand = $this->get_random_bytes(16);
 			$this->_csrf_hash = ($rand === false)
-				? md5(uniqid(mt_rand(), true))
+				? md5(uniqid(mt_random_int(), true))
 				: bin2hex($rand);
 		}
 

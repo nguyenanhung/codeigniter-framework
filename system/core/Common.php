@@ -102,6 +102,30 @@ if ( ! function_exists('is_linux')) {
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('mt_random_int'))
+{
+	function mt_random_int()
+	{
+		if (is_php('7.0') && (function_exists('random_int') && defined(PHP_INT_MIN) && defined('PHP_INT_MAX')))
+		{
+			try {
+				return random_int(PHP_INT_MIN, PHP_INT_MAX);
+			}
+			catch (Exception $e)
+			{
+				log_message('error', 'Error Code: '.$e->getCode().' - File: '.$e->getFile().' - Line: '.$e->getLine().' - Message: '.$e->getMessage());
+				return mt_rand();
+			}
+		}
+		else
+		{
+			return mt_rand();
+		}
+	}
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('is_really_writable'))
 {
 	/**
@@ -128,7 +152,7 @@ if ( ! function_exists('is_really_writable'))
 		 */
 		if (is_dir($file))
 		{
-			$file = rtrim($file, '/').'/'.md5(mt_rand());
+			$file = rtrim($file, '/').'/'.md5(mt_random_int());
 			if (($fp = @fopen($file, 'ab')) === FALSE)
 			{
 				return FALSE;
