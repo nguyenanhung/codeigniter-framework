@@ -2739,7 +2739,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		$str = trim($str);
 
-		if (empty($str) OR ctype_digit($str) OR (string) (float) $str === $str OR in_array(strtoupper($str), array('TRUE', 'FALSE'), TRUE))
+		if (empty($str) OR ctype_digit((string) $str) OR (string) (float) $str === $str OR in_array(strtoupper($str), array('TRUE', 'FALSE'), TRUE))
 		{
 			return TRUE;
 		}
