@@ -271,6 +271,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected $qb_cache_no_escape			= array();
 
+	/**
+	 * Strings that determine if a string represents a literal value or a field name
+	 *
+	 * @var string[]
+	 */
+	protected $is_literal_str = array();
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1525,7 +1532,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			if (empty($set))
 			{
-				return ($this->db_debug) ? $this->display_error('insert_batch() called with no data') : FALSE;
+				return ($this->db_debug) ? $this->display_error('db_data_required', 'insert_batch()') : FALSE;
 			}
 
 			$this->set_insert_batch($set, '', $escape);
@@ -1942,7 +1949,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		{
 			if (empty($set))
 			{
-				return ($this->db_debug) ? $this->display_error('update_batch() called with no data') : FALSE;
+				return ($this->db_debug) ? $this->display_error('db_data_required', 'update_batch()') : FALSE;
 			}
 
 			$this->set_update_batch($set, $index);
@@ -2739,20 +2746,18 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		$str = trim($str);
 
-		if (empty($str) OR ctype_digit($str) OR (string) (float) $str === $str OR in_array(strtoupper($str), array('TRUE', 'FALSE'), TRUE))
+		if (empty($str) OR ctype_digit((string) $str) OR (string) (float) $str === $str OR in_array(strtoupper($str), array('TRUE', 'FALSE'), TRUE))
 		{
 			return TRUE;
 		}
 
-		static $_str;
-
-		if (empty($_str))
+		if (empty($this->is_literal_str))
 		{
-			$_str = ($this->_escape_char !== '"')
+			$this->is_literal_str = ($this->_escape_char !== '"')
 				? array('"', "'") : array("'");
 		}
 
-		return in_array($str[0], $_str, TRUE);
+		return in_array($str[0], $this->is_literal_str, TRUE);
 	}
 
 	// --------------------------------------------------------------------

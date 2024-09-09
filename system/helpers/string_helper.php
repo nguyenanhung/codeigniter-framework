@@ -208,7 +208,7 @@ if (!function_exists('random_string')) {
 	{
 		switch ($type) {
 			case 'basic':
-				return mt_rand();
+				return mt_random_int();
 				break;
 
 			default:
@@ -247,7 +247,7 @@ if (!function_exists('random_string')) {
 
 				$str = '';
 				for ($i = 0; $i < $length; $i++) {
-					$str .= substr($pool, mt_rand(0, strlen($pool) - 1), 1);
+					$str .= substr($pool, mt_random_int(0, strlen($pool) - 1), 1);
 				}
 
 				return $str;
@@ -255,25 +255,25 @@ if (!function_exists('random_string')) {
 
 			case 'md5':
 			case 'unique':
-				return md5(uniqid(mt_rand(), true));
+				return md5(uniqid(mt_random_int(), true));
 				break;
 			case 'base64':
-				return base64_encode(md5(uniqid(mt_rand(), true)));
+				return base64_encode(md5(uniqid(mt_random_int(), true)));
 				break;
 			case 'sha1' :
-				return sha1(uniqid(mt_rand(), true));
+				return sha1(uniqid(mt_random_int(), true));
 				break;
 			case 'sha256' :
-				return hash('sha256', uniqid(mt_rand(), true));
+				return hash('sha256', uniqid(mt_random_int(), true));
 				break;
 			case 'sha384' :
-				return hash('sha384', uniqid(mt_rand(), true));
+				return hash('sha384', uniqid(mt_random_int(), true));
 				break;
 			case 'sha512' :
-				return hash('sha512', uniqid(mt_rand(), true));
+				return hash('sha512', uniqid(mt_random_int(), true));
 				break;
 			case 'whirlpool' :
-				return hash('whirlpool', uniqid(mt_rand(), true));
+				return hash('whirlpool', uniqid(mt_random_int(), true));
 				break;
 			case 'uuid':
 				$pool = array('8', '9', 'a', 'b');

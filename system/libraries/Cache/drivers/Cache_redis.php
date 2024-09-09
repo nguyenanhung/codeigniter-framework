@@ -167,7 +167,7 @@ class CI_Cache_redis extends CI_Driver
 			return null;
 		}
 
-		if ($value !== FALSE && $this->_redis->sIsMember('_ci_redis_serialized', $key))
+		if ($data !== FALSE && $this->_redis->sIsMember('_ci_redis_serialized', $key))
 		{
 			return FALSE;
 		}
@@ -230,7 +230,7 @@ class CI_Cache_redis extends CI_Driver
 			$this->_redis->{static::$_sRemove_name}('_ci_redis_serialized', $id);
 		}
 
-		if ($ttl !== 0) {
+		if (is_numeric($ttl) && $ttl > 0) {
 			$this->_redis->expireAt($id, time() + $ttl);
 		}
 
