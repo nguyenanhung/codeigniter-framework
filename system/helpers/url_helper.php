@@ -704,8 +704,10 @@ if (!function_exists('cdn_js_url')) {
 	function cdn_js_url($uri = '')
 	{
 		$cdnJs = '//cdnjs.cloudflare.com/ajax/libs/';
-
-		return $cdnJs . trim($uri);
+        if ($uri !== null) {
+            $uri = trim($uri);
+        }
+		return $cdnJs . $uri;
 	}
 }
 
@@ -725,8 +727,10 @@ if (!function_exists('google_fonts_url')) {
 	function google_fonts_url($family = '')
 	{
 		$fonts = '//fonts.googleapis.com/css?family=';
-
-		return $fonts . trim($family);
+        if ($family !== null) {
+            $family = trim($family);
+        }
+        return $fonts .$family;
 	}
 }
 
@@ -746,7 +750,9 @@ if (!function_exists('bootstrapcdn_url')) {
 	function bootstrapcdn_url($uri = '')
 	{
 		$cdn = '//maxcdn.bootstrapcdn.com/bootstrap/';
-
-		return $cdn . trim($uri);
+        if ($uri !== null) {
+            $uri = trim($uri);
+        }
+		return $cdn .$uri;
 	}
 }
