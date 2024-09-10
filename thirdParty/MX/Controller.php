@@ -46,7 +46,12 @@ class MX_Controller
 
     public function __construct()
     {
-        $class = str_replace(CI::$APP->config->item('controller_suffix'), '', get_class($this));
+        if (CI::$APP->config->item('controller_suffix') !== null) {
+            $class = str_replace(CI::$APP->config->item('controller_suffix'), '', get_class($this));
+        } else {
+            $class = get_class($this);
+        }
+
         log_message('info', $class . " MX_Controller Initialized");
 
         Modules::$registry[bear_str_to_lower($class)] = $this;

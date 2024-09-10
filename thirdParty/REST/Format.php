@@ -476,7 +476,10 @@ class Format
      */
     protected function _from_json($data)
     {
-        return json_decode(trim($data));
+        if ($data !== null){
+            $data = trim($data);
+        }
+        return json_decode($data);
     }
 
     /**
@@ -486,7 +489,10 @@ class Format
      */
     protected function _from_serialize($data)
     {
-        return unserialize(trim($data));
+        if ($data !== null) {
+            $data = trim($data);
+        }
+        return unserialize($data);
     }
 
     /**
@@ -496,7 +502,10 @@ class Format
      */
     protected function _from_php($data)
     {
-        return trim($data);
+        if ($data !== null) {
+            return trim($data);
+        }
+        return $data;
     }
 }
 
