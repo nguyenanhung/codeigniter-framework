@@ -1099,10 +1099,12 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 					}
 				}
 			}
-			$this->page_limit($size, $page);
+
 			foreach ($orderBy as $key => $val) {
 				$this->db->order_by($tableName . '.' . $key, $val);
 			}
+
+            $this->page_limit($size, $page);
 
 			return $this->db->get()->result();
 		}
