@@ -159,12 +159,12 @@ if (!class_exists('HungNG_Custom_Based_model')) {
         /**
          * __destruct models
          */
-        public function __destruct()
-        {
-            if (is_object($this->db)) {
-                $this->close();
-            }
-        }
+		public function __destruct()
+		{
+			if ($this->db->conn_id) {
+				$this->db->close();
+			}
+		}
 
         /**
          * Function setDb
