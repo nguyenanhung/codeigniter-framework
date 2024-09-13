@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -15,50 +16,50 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 	 * @author    713uk13m <dev@nguyenanhung.com>
 	 * @copyright 713uk13m <dev@nguyenanhung.com>
 	 *
-	 * @property CI_Benchmark                                      $benchmark                           This class enables you to mark points and calculate the time difference between them. Memory consumption can also be displayed.
-	 * @property CI_Calendar                                       $calendar                            This class enables the creation of calendars
-	 * @property CI_Cache                                          $cache                               Caching Class
-	 * @property CI_Cart                                           $cart                                Shopping Cart Class
-	 * @property CI_Config                                         $config                              This class contains functions that enable config files to be managed
-	 * @property CI_Controller                                     $controller                          This class object is the super class that every library in CodeIgniter will be assigned to
-	 * @property CI_DB_forge                                       $dbforge                             Database Forge Class
+	 * @property CI_Benchmark $benchmark                           This class enables you to mark points and calculate the time difference between them. Memory consumption can also be displayed.
+	 * @property CI_Calendar $calendar                            This class enables the creation of calendars
+	 * @property CI_Cache $cache                               Caching Class
+	 * @property CI_Cart $cart                                Shopping Cart Class
+	 * @property CI_Config $config                              This class contains functions that enable config files to be managed
+	 * @property CI_Controller $controller                          This class object is the super class that every library in CodeIgniter will be assigned to
+	 * @property CI_DB_forge $dbforge                             Database Forge Class
 	 * @property CI_DB_pdo_driver|CI_DB_query_builder|CI_DB_driver $db                                  This is the platform-independent base Query Builder implementation class
-	 * @property CI_DB_utility                                     $dbutil                              Database Utility Class
-	 * @property CI_Driver_Library                                 $driver                              Driver Library Class
-	 * @property CI_Email                                          $email                               Permits email to be sent using Mail, Sendmail, or SMTP
-	 * @property CI_Encrypt                                        $encrypt                             Provides two-way keyed encoding using Mcrypt
-	 * @property CI_Encryption                                     $encryption                          Provides two-way keyed encryption via PHP's MCrypt and/or OpenSSL extensions
-	 * @property CI_Exceptions                                     $exceptions                          Exceptions Class
-	 * @property CI_Form_validation                                $form_validation                     Form Validation Class
-	 * @property CI_FTP                                            $ftp                                 FTP Class
-	 * @property CI_Hooks                                          $hooks                               Provides a mechanism to extend the base system without hacking
-	 * @property CI_Image_lib                                      $image_lib                           Image Manipulation class
-	 * @property CI_Input                                          $input                               Pre-processes global input data for security
-	 * @property CI_Javascript                                     $javascript                          Javascript Class
-	 * @property CI_Jquery                                         $jquery                              Jquery Class
-	 * @property CI_Lang                                           $lang                                Language Class
-	 * @property CI_Loader                                         $load                                Loads framework components
-	 * @property CI_Log                                            $log                                 Logging Class
-	 * @property CI_Migration                                      $migration                           All migrations should implement this, forces up() and down() and gives access to the CI super-global
-	 * @property CI_Model                                          $model                               CodeIgniter Model Class
-	 * @property CI_Output                                         $output                              Responsible for sending final output to the browser
-	 * @property CI_Pagination                                     $pagination                          Pagination Class
-	 * @property CI_Parser                                         $parser                              Parser Class
-	 * @property CI_Profiler                                       $profiler                            This class enables you to display benchmark, query, and other data in order to help with debugging and optimization.
-	 * @property CI_Router                                         $router                              Parses URIs and determines routing
-	 * @property CI_Security                                       $security                            Security Class
-	 * @property CI_Session                                        $session                             Session Class
-	 * @property CI_Table                                          $table                               Lets you create tables manually or from database result objects, or arrays
-	 * @property CI_Trackback                                      $trackback                           Trackback Sending/Receiving Class
-	 * @property CI_Typography                                     $typography                          Typography Class
-	 * @property CI_Unit_test                                      $unit                                Simple testing class
-	 * @property CI_Upload                                         $upload                              File Uploading Class
-	 * @property CI_URI                                            $uri                                 Parses URIs and determines routing
-	 * @property CI_User_agent                                     $agent                               Identifies the platform, browser, robot, or mobile device of the browsing agent
-	 * @property CI_Xmlrpc                                         $xmlrpc                              XML-RPC request handler class
-	 * @property CI_Xmlrpcs                                        $xmlrpcs                             XML-RPC server class
-	 * @property CI_Zip                                            $zip                                 Zip Compression Class
-	 * @property CI_Utf8                                           $utf8                                Provides support for UTF-8 environments
+	 * @property CI_DB_utility $dbutil                              Database Utility Class
+	 * @property CI_Driver_Library $driver                              Driver Library Class
+	 * @property CI_Email $email                               Permits email to be sent using Mail, Sendmail, or SMTP
+	 * @property CI_Encrypt $encrypt                             Provides two-way keyed encoding using Mcrypt
+	 * @property CI_Encryption $encryption                          Provides two-way keyed encryption via PHP's MCrypt and/or OpenSSL extensions
+	 * @property CI_Exceptions $exceptions                          Exceptions Class
+	 * @property CI_Form_validation $form_validation                     Form Validation Class
+	 * @property CI_FTP $ftp                                 FTP Class
+	 * @property CI_Hooks $hooks                               Provides a mechanism to extend the base system without hacking
+	 * @property CI_Image_lib $image_lib                           Image Manipulation class
+	 * @property CI_Input $input                               Pre-processes global input data for security
+	 * @property CI_Javascript $javascript                          Javascript Class
+	 * @property CI_Jquery $jquery                              Jquery Class
+	 * @property CI_Lang $lang                                Language Class
+	 * @property CI_Loader $load                                Loads framework components
+	 * @property CI_Log $log                                 Logging Class
+	 * @property CI_Migration $migration                           All migrations should implement this, forces up() and down() and gives access to the CI super-global
+	 * @property CI_Model $model                               CodeIgniter Model Class
+	 * @property CI_Output $output                              Responsible for sending final output to the browser
+	 * @property CI_Pagination $pagination                          Pagination Class
+	 * @property CI_Parser $parser                              Parser Class
+	 * @property CI_Profiler $profiler                            This class enables you to display benchmark, query, and other data in order to help with debugging and optimization.
+	 * @property CI_Router $router                              Parses URIs and determines routing
+	 * @property CI_Security $security                            Security Class
+	 * @property CI_Session $session                             Session Class
+	 * @property CI_Table $table                               Lets you create tables manually or from database result objects, or arrays
+	 * @property CI_Trackback $trackback                           Trackback Sending/Receiving Class
+	 * @property CI_Typography $typography                          Typography Class
+	 * @property CI_Unit_test $unit                                Simple testing class
+	 * @property CI_Upload $upload                              File Uploading Class
+	 * @property CI_URI $uri                                 Parses URIs and determines routing
+	 * @property CI_User_agent $agent                               Identifies the platform, browser, robot, or mobile device of the browsing agent
+	 * @property CI_Xmlrpc $xmlrpc                              XML-RPC request handler class
+	 * @property CI_Xmlrpcs $xmlrpcs                             XML-RPC server class
+	 * @property CI_Zip $zip                                 Zip Compression Class
+	 * @property CI_Utf8 $utf8                                Provides support for UTF-8 environments
 	 */
 	class HungNG_Custom_Based_model extends CI_Model
 	{
@@ -157,8 +158,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function __destruct()
 		{
-			if (is_object($this->db)) {
-				$this->close();
+			if ($this->db->conn_id) {
+				$this->db->close();
 			}
 		}
 
@@ -257,8 +258,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 */
 		public function get_off_set($size = 500, $page = 0)
 		{
-			$size = (int) $size;
-			$page = (int) $page;
+			$size = (int)$size;
+			$page = (int)$page;
 			if ($page !== 0) {
 				if ($page <= 0 || empty($page)) {
 					$page = 1;
@@ -268,7 +269,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				$start = $page;
 			}
 
-			return (int) $start;
+			return (int)$start;
 		}
 
 		/**
@@ -299,8 +300,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @param int $size
 		 * @param int $page
 		 *
-		 * @deprecated use page_limit method
 		 * @return \CI_DB_query_builder
+		 * @deprecated use page_limit method
 		 * @author     : 713uk13m <dev@nguyenanhung.com>
 		 * @copyright  : 713uk13m <dev@nguyenanhung.com>
 		 * @time       : 08/16/2021 30:54
@@ -377,7 +378,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function build_list_id_with_parent_id - Tạo 1 list các ID, trong đó chứa các tập con phụ thuộc của ID đ
 		 *
 		 * @param array|object|mixed $allSubId
-		 * @param string|int         $parentId
+		 * @param string|int $parentId
 		 *
 		 * @return array|string|int
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -873,7 +874,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function check_exists
 		 *
 		 * @param string $value
-		 * @param mixed  $field
+		 * @param mixed $field
 		 *
 		 * @return int
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -1074,10 +1075,10 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		/**
 		 * Function get_data_simple_result
 		 *
-		 * @param string   $select
-		 * @param array    $wheres
-		 * @param int      $size
-		 * @param int      $page
+		 * @param string $select
+		 * @param array $wheres
+		 * @param int $size
+		 * @param int $page
 		 * @param string[] $orderBy
 		 *
 		 * @return array|array[]|object|object[]
@@ -1085,8 +1086,13 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * @copyright: 713uk13m <dev@nguyenanhung.com>
 		 * @time     : 09/13/2021 16:49
 		 */
-		public function get_data_simple_result($select = '*', $wheres = array(), $size = 75, $page = 0, $orderBy = array('id' => 'DESC'))
-		{
+		public function get_data_simple_result(
+			$select = '*',
+			$wheres = array(),
+			$size = 75,
+			$page = 0,
+			$orderBy = array('id' => 'DESC')
+		) {
 			$tableName = $this->bindDBPrefix($this->tableName);
 			$this->db->select($select);
 			$this->db->from($this->tableName);
@@ -1104,7 +1110,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				$this->db->order_by($tableName . '.' . $key, $val);
 			}
 
-            $this->page_limit($size, $page);
+			$this->page_limit($size, $page);
 
 			return $this->db->get()->result();
 		}
@@ -1139,8 +1145,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function get_info
 		 *
 		 * @param string $value
-		 * @param mixed  $field
-		 * @param bool   $array
+		 * @param mixed $field
+		 * @param bool $array
 		 *
 		 * @return array|mixed|object|null
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -1166,8 +1172,8 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function get_value
 		 *
 		 * @param string $value_input
-		 * @param mixed  $field_input
-		 * @param mixed  $field_output
+		 * @param mixed $field_input
+		 * @param mixed $field_output
 		 *
 		 * @return array|mixed|object|null
 		 * @author   : 713uk13m <dev@nguyenanhung.com>
@@ -1235,7 +1241,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		 * Function update
 		 *
 		 * @param string $id
-		 * @param array  $data
+		 * @param array $data
 		 *
 		 * @return int
 		 * @author   : 713uk13m <dev@nguyenanhung.com>

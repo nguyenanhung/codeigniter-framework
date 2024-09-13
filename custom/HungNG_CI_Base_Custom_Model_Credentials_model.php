@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Project codeigniter-framework
@@ -43,6 +44,13 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 			$this->fieldUsername = 'username';
 			$this->fieldStatus = 'status';
 			$this->fieldRole = 'role';
+		}
+
+		public function __destruct()
+		{
+			if ($this->db->conn_id) {
+				$this->db->close();
+			}
 		}
 
 		/**
