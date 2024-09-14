@@ -160,6 +160,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 		{
 			if ($this->db->conn_id) {
 				$this->db->close();
+				log_message('info', 'HungNG_Custom_Based_model - Database disconnected successfully!');
 			}
 		}
 
