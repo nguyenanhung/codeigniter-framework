@@ -215,7 +215,7 @@ if (!class_exists('HungNG_Model')) {
 				$this->db->close();
 				log_message(
 					'info',
-					'Class "HungNG_Model" Class Destructed and database disconnected'
+					'Model "HungNG_Model" destructed and database disconnected successfully!'
 				);
 			}
 		}
