@@ -55,7 +55,7 @@ if (!class_exists('HungNG_CI_Base_Custom_Model_Credentials_model')) {
 				$this->db->close();
 				log_message(
 					'info',
-					'Model "HungNG_CI_Base_Custom_Model_Credentials_model" Class Destructed and database disconnected'
+					'Model "HungNG_CI_Base_Custom_Model_Credentials_model" destructed and database disconnected successfully!'
 				);
 			}
 		}

@@ -165,7 +165,7 @@ if (!class_exists('HungNG_Custom_Based_model')) {
 				$this->db->close();
 				log_message(
 					'info',
-					'Class "HungNG_Custom_Based_model" Class Destructed and database disconnected'
+					'Model "HungNG_Custom_Based_model" destructed and database disconnected successfully!'
 				);
 			}
 		}

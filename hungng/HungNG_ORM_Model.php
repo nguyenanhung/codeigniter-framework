@@ -260,7 +260,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 				$this->db->close();
 				log_message(
 					'info',
-					'Class "HungNG_ORM_Model" Class Destructed and database disconnected'
+					'Model "HungNG_ORM_Model" destructed and database disconnected successfully!'
 				);
 			}
 		}
@@ -579,11 +579,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 */
 		public static function findOne($condition)
 		{
-			if ((isset($this))) {
-				$instance = $this;
-			} else {
-				$instance = new static;
-			}
+			$instance = new static;
 
 			$record = $instance->_findByCondition($condition)
 				->limit(1)
@@ -614,7 +610,7 @@ if (!class_exists('HungNG_ORM_Model')) {
 		 */
 		public static function findAll($condition = array(), $limit = null)
 		{
-			$instance = (isset($this)) ? $this : new static;
+			$instance = new static;
 
 			$query = $instance->_findByCondition($condition);
 
