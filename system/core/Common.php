@@ -825,6 +825,22 @@ if ( ! function_exists('html_escape'))
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('html_escape_all')){
+    /**
+     * Escape all HTML, JavaScript, and CSS
+     *
+     * @param string $input The input string
+     * @param string $encoding Which character encoding are we using?
+     * @return string
+     */
+    function html_escape_all($input, $encoding = 'UTF-8')
+    {
+        return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding);
+    }
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('_stringify_attributes'))
 {
 	/**
