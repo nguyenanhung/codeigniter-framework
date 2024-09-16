@@ -123,3 +123,43 @@ if (!function_exists('__get_error_trace__')) {
         return "Error Trace: " . $e->getTraceAsString();
     }
 }
+if (!function_exists('current_ip')) {
+    /**
+     * @param $int
+     * @return false|int|string
+     */
+    function current_ip($int = false)
+    {
+        $ipKeys = array(
+            0 => 'HTTP_CF_CONNECTING_IP',
+            1 => 'HTTP_X_FORWARDED_FOR',
+            2 => 'HTTP_X_FORWARDED',
+            3 => 'HTTP_X_IPADDRESS',
+            4 => 'HTTP_X_CLUSTER_CLIENT_IP',
+            5 => 'HTTP_FORWARDED_FOR',
+            6 => 'HTTP_FORWARDED',
+            7 => 'HTTP_CLIENT_IP',
+            8 => 'HTTP_IP',
+            9 => 'REMOTE_ADDR'
+        );
+
+        foreach ($ipKeys as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    $ip = trim($ip);
+                    if ($int === true) {
+                        return ip2long($ip);
+                    }
+
+                    return $ip;
+                }
+            }
+        }
+
+        if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] === 'localhost') {
+            return '127.0.0.1';
+        }
+
+        return false;
+    }
+}
