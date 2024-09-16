@@ -559,7 +559,7 @@ if (!class_exists('HungNG_CI_Base_Module')) {
          * @copyright: 713uk13m <dev@nguyenanhung.com>
          * @time     : 09/01/2021 52:11
          */
-        protected function command_create_encryption_key(): void
+        protected function command_create_encryption_key()
         {
             if (is_cli()) {
                 $this->load->library('encryption');

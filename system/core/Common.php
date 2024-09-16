@@ -468,7 +468,7 @@ if ( ! function_exists('show_error'))
 		{
 			$exit_status = 1; // EXIT_ERROR
 		}
-
+        /** @var CI_Exceptions $_error */
 		$_error =& load_class('Exceptions', 'core');
 		echo $_error->show_error($heading, $message, 'error_general', $status_code);
 		exit($exit_status);
@@ -492,6 +492,7 @@ if ( ! function_exists('show_404'))
 	 */
 	function show_404($page = '', $log_error = TRUE)
 	{
+        /** @var CI_Exceptions $_error */
 		$_error =& load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
 		exit(4); // EXIT_UNKNOWN_FILE
@@ -557,7 +558,7 @@ if ( ! function_exists('set_status_header'))
 		if (empty($text))
 		{
 			is_int($code) OR $code = (int) $code;
-			$stati = array(
+			$static = array(
 				100	=> 'Continue',
 				101	=> 'Switching Protocols',
 
@@ -610,9 +611,9 @@ if ( ! function_exists('set_status_header'))
 				511	=> 'Network Authentication Required',
 			);
 
-			if (isset($stati[$code]))
+			if (isset($static[$code]))
 			{
-				$text = $stati[$code];
+				$text = $static[$code];
 			}
 			else
 			{
@@ -675,6 +676,7 @@ if ( ! function_exists('_error_handler'))
 			return;
 		}
 
+        /** @var CI_Exceptions $_error */
 		$_error =& load_class('Exceptions', 'core');
 		$_error->log_exception($severity, $message, $filepath, $line);
 
@@ -710,6 +712,7 @@ if ( ! function_exists('_exception_handler'))
 	 */
 	function _exception_handler($exception)
 	{
+        /** @var CI_Exceptions $_error */
 		$_error =& load_class('Exceptions', 'core');
 		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
 
@@ -821,6 +824,22 @@ if ( ! function_exists('html_escape'))
 
 		return htmlspecialchars($var, ENT_QUOTES, config_item('charset'), $double_encode);
 	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('html_escape_all')){
+    /**
+     * Escape all HTML, JavaScript, and CSS
+     *
+     * @param string $input The input string
+     * @param string $encoding Which character encoding are we using?
+     * @return string
+     */
+    function html_escape_all($input, $encoding = 'UTF-8')
+    {
+        return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding);
+    }
 }
 
 // ------------------------------------------------------------------------
