@@ -406,7 +406,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->display_error('db_invalid_query');
 		}
 
-		$type = strtoupper($type);
+		$type = strtoupper((string) $type);
 
 		if ( ! in_array($type, array('MAX', 'MIN', 'AVG', 'SUM')))
 		{
@@ -535,7 +535,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		if ($type !== '')
 		{
-			$type = strtoupper(trim($type));
+			$type = strtoupper(trim((string) $type));
 
 			if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER', 'FULL OUTER', 'FULL'), TRUE))
 			{

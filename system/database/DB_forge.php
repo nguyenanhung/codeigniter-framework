@@ -777,7 +777,7 @@ abstract class CI_DB_forge {
 
 			if (isset($attributes['TYPE']) && ! empty($attributes['CONSTRAINT']))
 			{
-				switch (strtoupper($attributes['TYPE']))
+				switch (strtoupper((string) $attributes['TYPE']))
 				{
 					case 'ENUM':
 					case 'SET':

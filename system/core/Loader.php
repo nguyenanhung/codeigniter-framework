@@ -976,7 +976,7 @@ class CI_Loader
         if (class_exists($class, false)) {
             $property = $object_name;
             if (empty($property)) {
-                $property = strtolower($class);
+                $property = strtolower((string) $class);
                 isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
             }
 
@@ -1041,7 +1041,7 @@ class CI_Loader
 
             $property = $object_name;
             if (empty($property)) {
-                $property = strtolower($library_name);
+                $property = strtolower((string) $library_name);
                 isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
             }
 
@@ -1120,21 +1120,21 @@ class CI_Loader
                     // We test for both uppercase and lowercase, for servers that
                     // are case-sensitive with regard to file names. Load global first,
                     // override with environment next
-                    if (file_exists($path . 'config/' . strtolower($class) . '.php')) {
+                    if (file_exists($path . 'config/' . strtolower((string) $class) . '.php')) {
                         include($path . 'config/' . strtolower($class) . '.php');
                         $found = true;
-                    } elseif (file_exists($path . 'config/' . ucfirst(strtolower($class)) . '.php')) {
-                        include($path . 'config/' . ucfirst(strtolower($class)) . '.php');
+                    } elseif (file_exists($path . 'config/' . ucfirst(strtolower((string) $class)) . '.php')) {
+                        include($path . 'config/' . ucfirst(strtolower((string) $class)) . '.php');
                         $found = true;
                     }
 
-                    if (file_exists($path . 'config/' . ENVIRONMENT . '/' . strtolower($class) . '.php')) {
-                        include($path . 'config/' . ENVIRONMENT . '/' . strtolower($class) . '.php');
+                    if (file_exists($path . 'config/' . ENVIRONMENT . '/' . strtolower((string) $class) . '.php')) {
+                        include($path . 'config/' . ENVIRONMENT . '/' . strtolower((string) $class) . '.php');
                         $found = true;
                     } elseif (file_exists(
-                        $path . 'config/' . ENVIRONMENT . '/' . ucfirst(strtolower($class)) . '.php'
+                        $path . 'config/' . ENVIRONMENT . '/' . ucfirst(strtolower((string) $class)) . '.php'
                     )) {
-                        include($path . 'config/' . ENVIRONMENT . '/' . ucfirst(strtolower($class)) . '.php');
+                        include($path . 'config/' . ENVIRONMENT . '/' . ucfirst(strtolower((string) $class)) . '.php');
                         $found = true;
                     }
 
@@ -1158,7 +1158,7 @@ class CI_Loader
         // Set the variable name we will assign the class to
         // Was a custom class name supplied? If so we'll use it
         if (empty($object_name)) {
-            $object_name = strtolower($class);
+            $object_name = strtolower((string) $class);
             if (isset($this->_ci_varmap[$object_name])) {
                 $object_name = $this->_ci_varmap[$object_name];
             }

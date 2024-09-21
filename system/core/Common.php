@@ -267,7 +267,7 @@ if ( ! function_exists('is_loaded'))
 
 		if ($class !== '')
 		{
-			$_is_loaded[strtolower($class)] = $class;
+			$_is_loaded[strtolower((string) $class)] = $class;
 		}
 
 		return $_is_loaded;
@@ -404,15 +404,15 @@ if ( ! function_exists('is_https'))
 	 */
 	function is_https()
 	{
-		if (! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+		if (! empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off') {
 			return TRUE;
 		}
 
-		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
+		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
 			return TRUE;
 		}
 
-		if (! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
+		if (! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower((string) $_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
 			return TRUE;
 		}
 

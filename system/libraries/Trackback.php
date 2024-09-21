@@ -199,7 +199,7 @@ class CI_Trackback {
 				return FALSE;
 			}
 
-			$this->data['charset'] = isset($_POST['charset']) ? strtoupper(trim($_POST['charset'])) : 'auto';
+			$this->data['charset'] = isset($_POST['charset']) ? strtoupper(trim((string) $_POST['charset'])) : 'auto';
 
 			if ($val !== 'url' && MB_ENABLED === TRUE)
 			{
