@@ -1,6 +1,9 @@
 # CodeIgniter v3.1-stable - vendor packages build
 
-[![Latest Stable Version](http://poser.pugx.org/nguyenanhung/codeigniter-framework/v)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![Total Downloads](http://poser.pugx.org/nguyenanhung/codeigniter-framework/downloads)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![Latest Unstable Version](http://poser.pugx.org/nguyenanhung/codeigniter-framework/v/unstable)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![License](http://poser.pugx.org/nguyenanhung/codeigniter-framework/license)](https://packagist.org/packages/nguyenanhung/codeigniter-framework) [![PHP Version Require](http://poser.pugx.org/nguyenanhung/codeigniter-framework/require/php)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
+[![Latest Stable Version](https://img.shields.io/packagist/v/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
+[![Total Downloads](https://img.shields.io/packagist/dt/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
+[![License](https://img.shields.io/packagist/l/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
+[![PHP Version Require](https://img.shields.io/packagist/dependency-v/nguyenanhung/codeigniter-framework/php)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
 
 Bản đóng gói lại thư mục system framework của CodeIgniter, sử dụng tương thích với Composer và PHP 7, PHP 8
 
