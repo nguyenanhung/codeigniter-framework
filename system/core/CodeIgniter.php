@@ -246,7 +246,7 @@ if ( ! is_php('5.4'))
  * in it's constructor, but it's _not_ class-specific.
  *
  */
-	$charset = strtoupper(config_item('charset'));
+	$charset = strtoupper((string) config_item('charset'));
 	ini_set('default_charset', $charset);
 
 	if (extension_loaded('mbstring'))

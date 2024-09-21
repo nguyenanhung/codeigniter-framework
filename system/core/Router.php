@@ -382,7 +382,7 @@ class CI_Router {
 		$uri = implode('/', $this->uri->segments);
 
 		// Get HTTP verb
-		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
+		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower((string) $_SERVER['REQUEST_METHOD']) : 'cli';
 
 		// Loop through the route array looking for wildcards
 		foreach ($this->routes as $key => $val)

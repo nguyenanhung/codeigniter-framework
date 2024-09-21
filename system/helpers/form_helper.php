@@ -86,7 +86,7 @@ if ( ! function_exists('form_open'))
 
 		if (stripos($attributes, 'accept-charset=') === FALSE)
 		{
-			$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+			$attributes .= ' accept-charset="'.strtolower((string) config_item('charset')).'"';
 		}
 
 		$form = '<form action="'.$action.'"'.$attributes.">\n";

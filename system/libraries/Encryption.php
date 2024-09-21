@@ -229,12 +229,12 @@ class CI_Encryption {
 	{
 		if ( ! empty($params['cipher']))
 		{
-			$params['cipher'] = strtolower($params['cipher']);
+			$params['cipher'] = strtolower((string) $params['cipher']);
 			$this->_cipher_alias($params['cipher']);
 
 			if ( ! in_array($params['cipher'], mcrypt_list_algorithms(), TRUE))
 			{
-				log_message('error', 'Encryption: MCrypt cipher '.strtoupper($params['cipher']).' is not available.');
+				log_message('error', 'Encryption: MCrypt cipher '.strtoupper((string) $params['cipher']).' is not available.');
 			}
 			else
 			{
@@ -244,10 +244,10 @@ class CI_Encryption {
 
 		if ( ! empty($params['mode']))
 		{
-			$params['mode'] = strtolower($params['mode']);
+			$params['mode'] = strtolower((string) $params['mode']);
 			if ( ! isset($this->_modes['mcrypt'][$params['mode']]))
 			{
-				log_message('error', 'Encryption: MCrypt mode '.strtoupper($params['mode']).' is not available.');
+				log_message('error', 'Encryption: MCrypt mode '.strtoupper((string) $params['mode']).' is not available.');
 			}
 			else
 			{
@@ -267,11 +267,11 @@ class CI_Encryption {
 
 			if ($this->_handle = mcrypt_module_open($this->_cipher, '', $this->_mode, ''))
 			{
-				log_message('info', 'Encryption: MCrypt cipher '.strtoupper($this->_cipher).' initialized in '.strtoupper($this->_mode).' mode.');
+				log_message('info', 'Encryption: MCrypt cipher '.strtoupper((string) $this->_cipher).' initialized in '.strtoupper((string) $this->_mode).' mode.');
 			}
 			else
 			{
-				log_message('error', 'Encryption: Unable to initialize MCrypt with cipher '.strtoupper($this->_cipher).' in '.strtoupper($this->_mode).' mode.');
+				log_message('error', 'Encryption: Unable to initialize MCrypt with cipher '.strtoupper((string) $this->_cipher).' in '.strtoupper((string) $this->_mode).' mode.');
 			}
 		}
 	}
@@ -298,7 +298,7 @@ class CI_Encryption {
 			$params['mode'] = strtolower($params['mode']);
 			if ( ! isset($this->_modes['openssl'][$params['mode']]))
 			{
-				log_message('error', 'Encryption: OpenSSL mode '.strtoupper($params['mode']).' is not available.');
+				log_message('error', 'Encryption: OpenSSL mode '.strtoupper((string) $params['mode']).' is not available.');
 			}
 			else
 			{
@@ -316,12 +316,12 @@ class CI_Encryption {
 			if ( ! in_array($handle, openssl_get_cipher_methods(), TRUE))
 			{
 				$this->_handle = NULL;
-				log_message('error', 'Encryption: Unable to initialize OpenSSL with method '.strtoupper($handle).'.');
+				log_message('error', 'Encryption: Unable to initialize OpenSSL with method '.strtoupper((string) $handle).'.');
 			}
 			else
 			{
 				$this->_handle = $handle;
-				log_message('info', 'Encryption: OpenSSL initialized with method '.strtoupper($handle).'.');
+				log_message('info', 'Encryption: OpenSSL initialized with method '.strtoupper((string) $handle).'.');
 			}
 		}
 	}

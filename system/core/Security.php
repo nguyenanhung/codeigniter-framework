@@ -1013,7 +1013,7 @@ class CI_Security
 		if (empty($matches['closeTag'])) {
 			return '&lt;' . $matches[1];
 		} // Is the element that we caught naughty? If so, escape it
-		elseif (in_array(strtolower($matches['tagName']), $naughty_tags, true)) {
+		elseif (in_array(strtolower((string) $matches['tagName']), $naughty_tags, true)) {
 			return '&lt;' . $matches[1] . '&gt;';
 		} // For other tags, see if their attributes are "evil" and strip those
 		elseif (isset($matches['attributes'])) {

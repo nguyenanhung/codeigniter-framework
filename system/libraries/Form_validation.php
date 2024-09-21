@@ -1201,7 +1201,7 @@ class CI_Form_validation {
 			{
 				return FALSE;
 			}
-			elseif ( ! in_array(strtolower($matches[1]), array('http', 'https'), TRUE))
+			elseif ( ! in_array(strtolower((string) $matches[1]), array('http', 'https'), TRUE))
 			{
 				return FALSE;
 			}

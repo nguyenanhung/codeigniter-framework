@@ -1181,8 +1181,8 @@ class CI_Image_lib {
 		// invert the offset. Same with the horizontal
 		// offset when the image is at the right
 
-		$this->wm_vrt_alignment = strtoupper($this->wm_vrt_alignment[0]);
-		$this->wm_hor_alignment = strtoupper($this->wm_hor_alignment[0]);
+		$this->wm_vrt_alignment = strtoupper((string) $this->wm_vrt_alignment[0]);
+		$this->wm_hor_alignment = strtoupper((string) $this->wm_hor_alignment[0]);
 
 		if ($this->wm_vrt_alignment === 'B')
 			$this->wm_vrt_offset = $this->wm_vrt_offset * -1;
@@ -1340,8 +1340,8 @@ class CI_Image_lib {
 			$this->wm_shadow_distance = 0;
 		}
 
-		$this->wm_vrt_alignment = strtoupper($this->wm_vrt_alignment[0]);
-		$this->wm_hor_alignment = strtoupper($this->wm_hor_alignment[0]);
+		$this->wm_vrt_alignment = strtoupper((string) $this->wm_vrt_alignment[0]);
+		$this->wm_hor_alignment = strtoupper((string) $this->wm_hor_alignment[0]);
 
 		// Set vertical alignment
 		if ($this->wm_vrt_alignment === 'M')

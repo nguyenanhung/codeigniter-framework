@@ -119,7 +119,7 @@ class CI_DB_mssql_forge extends CI_DB_forge {
 			unset($attributes['CONSTRAINT']);
 		}
 
-		switch (strtoupper($attributes['TYPE']))
+		switch (strtoupper((string) $attributes['TYPE']))
 		{
 			case 'MEDIUMINT':
 				$attributes['TYPE'] = 'INTEGER';

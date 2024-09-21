@@ -410,7 +410,7 @@ class CI_Input {
 		isset($samesite) OR $samesite = config_item('cookie_samesite');
 		if (isset($samesite))
 		{
-			$samesite = ucfirst(strtolower($samesite));
+			$samesite = ucfirst(strtolower((string) $samesite));
 			in_array($samesite, array('Lax', 'Strict', 'None'), TRUE) OR $samesite = 'Lax';
 		}
 		else
@@ -598,7 +598,7 @@ class CI_Input {
 	 */
 	public function valid_ip($ip, $which = '')
 	{
-		switch (strtolower($which))
+		switch (strtolower((string) $which))
 		{
 			case 'ipv4':
 				$which = FILTER_FLAG_IPV4;
@@ -817,7 +817,7 @@ class CI_Input {
 				if (sscanf($key, 'HTTP_%s', $header) === 1)
 				{
 					// take SOME_HEADER and turn it into Some-Header
-					$header = str_replace('_', ' ', strtolower($header));
+					$header = str_replace('_', ' ', strtolower((string) $header));
 					$header = str_replace(' ', '-', ucwords($header));
 
 					$this->headers[$header] = $_SERVER[$key];
@@ -848,11 +848,11 @@ class CI_Input {
 			empty($this->headers) && $this->request_headers();
 			foreach ($this->headers as $key => $value)
 			{
-				$headers[strtolower($key)] = $value;
+				$headers[strtolower((string) $key)] = $value;
 			}
 		}
 
-		$index = strtolower($index);
+		$index = strtolower((string) $index);
 
 		if ( ! isset($headers[$index]))
 		{
@@ -875,7 +875,7 @@ class CI_Input {
 	 */
 	public function is_ajax_request()
 	{
-		return ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+		return ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 	}
 
 	// --------------------------------------------------------------------

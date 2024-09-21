@@ -697,7 +697,7 @@ class CI_Javascript {
 	 */
 	protected function _open_script($src = '')
 	{
-		return '<script type="text/javascript" charset="'.strtolower($this->CI->config->item('charset')).'"'
+		return '<script type="text/javascript" charset="'.strtolower((string) $this->CI->config->item('charset')).'"'
 			.($src === '' ? '>' : ' src="'.$src.'">');
 	}
 
