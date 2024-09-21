@@ -1,7 +1,9 @@
-# CodeIgniter v3.2.0 - vendor packages build
+# CodeIgniter v3.2.x - vendor packages build
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
 [![Total Downloads](https://img.shields.io/packagist/dt/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
+[![Daily Downloads](https://img.shields.io/packagist/dd/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
 [![License](https://img.shields.io/packagist/l/nguyenanhung/codeigniter-framework.svg?style=flat-square)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
 [![PHP Version Require](https://img.shields.io/packagist/dependency-v/nguyenanhung/codeigniter-framework/php)](https://packagist.org/packages/nguyenanhung/codeigniter-framework)
 
