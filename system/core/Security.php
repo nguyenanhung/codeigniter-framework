@@ -220,8 +220,14 @@ class CI_Security
 	 */
 	public function csrf_verify()
 	{
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == ''){
+			$requestMethod = strtoupper((string) $_SERVER['REQUEST_METHOD']);
+		} else {
+			$requestMethod = '';
+		}
+
 		// If it's not a POST request we will set the CSRF cookie
-		if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST') {
+		if ($requestMethod !== 'POST') {
 			return $this->csrf_set_cookie();
 		}
 
