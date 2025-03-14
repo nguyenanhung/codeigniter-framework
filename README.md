@@ -388,7 +388,7 @@ class TestModule extends HungNG_CI_Base_Module
 - More detailed information about this helper
   set [https://github.com/nguyenanhung/codeigniter-basic-helper](https://github.com/nguyenanhung/codeigniter-basic-helper)
 
-## Liên hệ
+## Contact Information
 
 | Name        | Email                | Skype            | Facebook      | Website                  |
 |-------------|----------------------|------------------|---------------|--------------------------|
