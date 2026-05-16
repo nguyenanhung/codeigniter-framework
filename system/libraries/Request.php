@@ -704,7 +704,7 @@ class CI_Request
 	 */
 	public function close()
 	{
-		if (is_resource($this->curl)) {
+		if (is_resource($this->curl) && PHP_VERSION_ID < 80000) {
 			curl_close($this->curl);
 		}
 
