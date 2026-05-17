@@ -416,16 +416,17 @@ class CI_Session {
 			$bits_per_character = (int) ini_get('session.hash_bits_per_character');
 			$sid_length         = (int) ceil($bits / $bits_per_character);
 		}
-		else
-		{
+		elseif (PHP_VERSION_ID < 80400) {
 			$bits_per_character = (int) ini_get('session.sid_bits_per_character');
-			$sid_length         = (int) ini_get('session.sid_length');
-			if (($bits = $sid_length * $bits_per_character) < 160)
-			{
+			$sid_length = (int) ini_get('session.sid_length');
+			if (($bits = $sid_length * $bits_per_character) < 160) {
 				// Add as many more characters as necessary to reach at least 160 bits
 				$sid_length += (int) ceil((160 % $bits) / $bits_per_character);
 				ini_set('session.sid_length', $sid_length);
 			}
+		} else {
+			$bits_per_character = 4;
+			$sid_length = 32;
 		}
 
 		// Yes, 4,5,6 are the only known possible values as of 2016-10-27
